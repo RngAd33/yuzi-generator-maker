@@ -46,7 +46,7 @@ public class Meta {
             private String fieldName;
             private String type;
             private String description;
-            private Boolean defaultValue;
+            private Object defaultValue;  // 使用Object类型避免类型冲突问题
             private String abbr;
         }
     }
