@@ -23,11 +23,11 @@ public class Meta {
         private String inputRootPath;
         private String outputRootPath;
         private String type;
-        private List<Files> files;
+        private List<FileInfo> files;
 
         @NoArgsConstructor
         @Data
-        public static class Files {
+        public static class FileInfo {
             private String inputPath;
             private String outputPath;
             private String type;
@@ -38,11 +38,11 @@ public class Meta {
     @NoArgsConstructor
     @Data
     public static class ModelConfig {
-        private List<Models> models;
+        private List<ModelInfo> models;
 
         @NoArgsConstructor
         @Data
-        public static class Models {
+        public static class ModelInfo {
             private String fieldName;
             private String type;
             private String description;
