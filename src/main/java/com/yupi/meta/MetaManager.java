@@ -4,7 +4,7 @@ import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.json.JSONUtil;
 
 /**
- * 单例模式
+ * 以单例模式创建、获取meta
  */
 public class MetaManager {
 
