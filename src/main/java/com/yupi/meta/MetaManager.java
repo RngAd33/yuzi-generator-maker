@@ -16,7 +16,7 @@ public class MetaManager {
 
     /**
      * 获取meta
-     * @retutn
+     * @return meta
      */
     public static Meta getMetaObject() {
         // 双检锁机制
@@ -31,7 +31,7 @@ public class MetaManager {
 
     /**
      * 初始化meta
-     * @return
+     * @return newMeta
      */
     private static Meta initMeta() {
         String metaJson = ResourceUtil.readUtf8Str("meta.json");
