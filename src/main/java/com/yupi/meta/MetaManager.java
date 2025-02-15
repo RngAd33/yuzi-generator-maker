@@ -12,7 +12,7 @@ public class MetaManager {
 
     private MetaManager() {}  // 私有构造函数，防止外部实例化破坏单例模式
 
-    // private final static Meta meta = initMeta();   // 饿汉式单例模式
+    // private final static Meta meta = initMeta();   // 饿汉式单例模式（本项目暂不采用）
 
     /**
      * 获取meta
