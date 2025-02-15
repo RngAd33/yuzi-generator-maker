@@ -10,6 +10,9 @@ import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * 调用测试，生成文件
+ */
 public class MainGenerator {
     public static void main(String[] args) throws IOException, TemplateException {
         // 生成模型
