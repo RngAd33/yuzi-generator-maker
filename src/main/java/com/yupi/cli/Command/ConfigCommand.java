@@ -10,6 +10,8 @@ public class ConfigCommand implements Runnable {
 
     @Override
     public void run() {
+        // 实现 config 命令的逻辑
+        System.out.println("查看参数信息");
 
         // Hutool反射工具类
         Field[] fields = ReflectUtil.getFields(DataModel.class);
