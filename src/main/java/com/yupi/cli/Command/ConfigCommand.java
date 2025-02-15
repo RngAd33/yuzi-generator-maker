@@ -8,7 +8,6 @@ import picocli.CommandLine.Command;
 @Command(name = "config", description = "查看参数配置信息", mixinStandardHelpOptions = true)
 public class ConfigCommand implements Runnable {
 
-    @Override
     public void run() {
         // 实现 config 命令的逻辑
         System.out.println("查看参数信息");
@@ -23,5 +22,4 @@ public class ConfigCommand implements Runnable {
             System.out.println("--------------------------");
         }
     }
-
 }
