@@ -32,7 +32,7 @@ public class MainGenerator {
 
         // Java包输出路径
         String outputBasePackage = meta.getBasePackage();
-        String outputBasePackagePath = StrUtil.join("/", StrUtil.split(outputBasePackage, "."));   // '.'化'/'
+        String outputBasePackagePath = StrUtil.join("/", StrUtil.split(outputBasePackage, "."));   // '.' -> '/'
         String outputBaseJavaPackagePath = outputPath + File.separator + "src/main/java/" + outputBasePackagePath;   // 完整路径
 
         // model.DataModel
