@@ -10,7 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-public class DynamicFileGenerator {
+public class DynamicGenerator {
     public static void doGenerate(String inputPath, String outputPath, Object model) throws IOException, TemplateException {
 
         // new 出 Configuration 对象，参数为 FreeMarker 版本号

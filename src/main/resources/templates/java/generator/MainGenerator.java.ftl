@@ -5,7 +5,7 @@ import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
 
-public class MainFileGenerator {
+public class MainGenerator {
     public static void doGenerate(Object model) throws IOException, TemplateException {
 
         String inputRootPath = "${fileConfig.inputRootPath}";
