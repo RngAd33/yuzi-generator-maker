@@ -16,8 +16,8 @@ public class MainFileGenerator {
         String outputPath;
 
         <#list fileConfig.files as fileInfo>
-        inputPath = new File(inputRootPath, ${fileInfo.inputPath}).getAbsolutePath;
-        outputPath = new File(outputRootPath, ${fileINfo.outputPath}).getAbsolutePath;
+        inputPath = new File(inputRootPath, "${fileInfo.inputPath}").getAbsolutePath;
+        outputPath = new File(outputRootPath, "${fileINfo.outputPath}").getAbsolutePath;
 
         <#if fileInfo.generateType == "static">
             // 复制静态文件

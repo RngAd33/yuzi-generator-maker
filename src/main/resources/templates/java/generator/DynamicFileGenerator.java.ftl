@@ -11,20 +11,6 @@ import java.io.IOException;
 import java.io.Writer;
 
 public class DynamicFileGenerator {
-
-    public static void main(String[] args) throws IOException, TemplateException {
-        String projectPath = System.getProperty("user.dir");
-        String inputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
-        String outputPath = projectPath + File.separator + "MainTemplate.java";
-
-        DataModel dataModel = new DataModel();
-        dataModel.setLoop(false);
-        dataModel.setAuthor("RngAd33");
-        dataModel.setOutputText("输出结果");
-
-        doGenerate(inputPath, outputPath, dataModel);
-    }
-
     public static void doGenerate(String inputPath, String outputPath, Object model) throws IOException, TemplateException {
 
         // new 出 Configuration 对象，参数为 FreeMarker 版本号
@@ -47,13 +33,11 @@ public class DynamicFileGenerator {
             FileUtil.touch(outputPath);
         }
 
-        // 指定生成的文件
+        // 生成
         Writer out = new FileWriter(outputPath);
-
-        // 生成文件
         template.process(model, out);
 
-        // 生成文件后别忘了关闭哦
+        // 关闭
         out.close();
     }
 }
