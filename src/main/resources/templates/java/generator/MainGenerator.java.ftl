@@ -20,10 +20,10 @@ public class MainGenerator {
             outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
 
         <#if fileInfo.generateType == "static">
-            StaticFileGenerator.copyFilesByHutool(inputPath, outputPath);
+            StaticGenerator.copyFilesByHutool(inputPath, outputPath);
 
         <#else>
-            DynamicFileGenerator.doGenerate(inputPath, outputPath, model);
+            DynamicGenerator.doGenerate(inputPath, outputPath, model);
         </#if>
         </#list>
     }
