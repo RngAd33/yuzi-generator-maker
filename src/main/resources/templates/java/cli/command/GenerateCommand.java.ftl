@@ -16,10 +16,8 @@ import picocli.CommandLine.Option;
 public class GenerateCommand implements Callable {
 
 <#list modelConfig.models as modelInfo>
-
     @Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}", </#if>"--${modelInfo.fieldName}"}, arity = "0..1", <#if modelInfo.description??>description = "${modelInfo.description}", </#if>echo = true, interactive = true)
     private ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> = ${modelInfo.defaultValue?c}</#if>;
-
 </#list>
 
 @Override
