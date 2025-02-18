@@ -32,7 +32,7 @@ public class JarGenerator {
         if (exitCode != 0) {
             System.out.println("错误发生，请尽快排查！");
         } else {
-            System.out.println("命令执行完毕！");
+            System.out.println("打包完成！");
         }
     }
 
