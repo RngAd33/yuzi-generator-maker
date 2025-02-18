@@ -14,7 +14,7 @@ import java.io.IOException;
  * 调用测试，生成文件
  */
 public class MainGenerator {
-    public static void main(String[] args) throws IOException, TemplateException {
+    public static void main(String[] args) throws IOException, TemplateException, InterruptedException {
         // 生成模型
         Meta meta = MetaManager.getMetaObject();
         System.out.println(meta);
@@ -75,9 +75,17 @@ public class MainGenerator {
         outputFilePath = outputBaseJavaPackagePath + "/generator/StaticGenerator.java";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
+        // pom.xml
+        inputFilePath = inputResourcePath + File.separator + "templates/pom.xml.ftl";
+        outputFilePath = outputBaseJavaPackagePath + "/pom.xml";
+        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
         // Main
         inputFilePath = inputResourcePath + File.separator + "templates/java/Main.java.ftl";
         outputFilePath = outputBaseJavaPackagePath + "/Main.java";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
+        // 构建Jar包
+        JarGenerator.doGenerate(outputPath);
     }
 }

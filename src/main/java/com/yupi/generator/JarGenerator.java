@@ -30,10 +30,14 @@ public class JarGenerator {
 
         // 等待命令执行完成
         int exitCode = process.waitFor();
-        System.out.println("命令执行完毕！退出码：" + exitCode);
+        if (exitCode != 0) {
+            System.out.println("出现错误，请尽快排查！");
+        } else {
+            System.out.println("命令执行完毕！");
+        }
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        doGenerate("E:/document/资料/计算机/A小金库/Java/yuzi-generator/yuzi-generator-maker/");
+        doGenerate("E:/document/资料/计算机/A小金库/Java/yuzi-generator/yuzi-generator-maker/generated");
     }
 }
