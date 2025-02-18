@@ -22,7 +22,7 @@ public class ScriptGenerator {
         */
         stringBuilder.append("@echo off").append("\n");
         stringBuilder.append(String.format("java -jar %s %%*", jarPath)).append('\n');
-        FileUtil.writeBytes(stringBuilder.toString().getBytes(StandardCharsets.UTF_8), outputPath);
+        FileUtil.writeBytes(stringBuilder.toString().getBytes(StandardCharsets.UTF_8), outputPath + ".bat");
 
         /* Linux 脚本
             #!/bin/bash
@@ -36,7 +36,7 @@ public class ScriptGenerator {
         try {
             Set<PosixFilePermission> permissions =  PosixFilePermissions.fromString("rwxrwxrwx");
             Files.setPosixFilePermissions(Paths.get(outputPath), permissions);
-        } catch (IOException e) {}   // 不对异常做任何处理，防止Windows环境下报错
+        } catch (Exception e) {}   // 不对异常做任何处理，防止Windows环境下报错
     }
 
     public static void main(String[] args) {
