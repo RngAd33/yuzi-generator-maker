@@ -31,7 +31,7 @@ public class JarGenerator {
         // 等待命令执行完成
         int exitCode = process.waitFor();
         if (exitCode != 0) {
-            System.out.println("出现错误，请尽快排查！");
+            System.out.println("错误发生，请尽快排查！");
         } else {
             System.out.println("命令执行完毕！");
         }
