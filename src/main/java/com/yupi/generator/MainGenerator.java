@@ -9,6 +9,7 @@ import com.yupi.meta.MetaManager;
 import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
+import java.lang.InterruptedException;
 
 /**
  * 调用测试，生成文件
@@ -75,14 +76,14 @@ public class MainGenerator {
         outputFilePath = outputBaseJavaPackagePath + "/generator/StaticGenerator.java";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
-        // pom.xml
-        inputFilePath = inputResourcePath + File.separator + "templates/pom.xml.ftl";
-        outputFilePath = outputBaseJavaPackagePath + "/pom.xml";
-        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
-
         // Main
         inputFilePath = inputResourcePath + File.separator + "templates/java/Main.java.ftl";
         outputFilePath = outputBaseJavaPackagePath + "/Main.java";
+        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
+        // pom.xml
+        inputFilePath = inputResourcePath + File.separator + "templates/pom.xml.ftl";
+        outputFilePath = outputPath + "/pom.xml";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
         // 构建Jar包

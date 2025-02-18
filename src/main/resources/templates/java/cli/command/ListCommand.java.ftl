@@ -10,7 +10,7 @@ public class ListCommand implements Runnable {
 
     public void run() {
         // 输入路径
-        String inputPath = ${fileConfig.inputRootPath};
+        String inputPath = "${fileConfig.inputRootPath}";
         List<File> files = FileUtil.loopFiles(inputPath);
 
         for (File file : files) {
