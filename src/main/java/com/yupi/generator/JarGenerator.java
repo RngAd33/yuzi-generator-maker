@@ -23,7 +23,6 @@ public class JarGenerator {
         InputStream inputStream = process.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
-
         while ((line = reader.readLine()) != null) {
             System.out.println(line);
         }
@@ -38,6 +37,6 @@ public class JarGenerator {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        doGenerate("E:/document/资料/计算机/A小金库/Java/yuzi-generator/yuzi-generator-maker/generated");
+        doGenerate("E:/document/资料/计算机/A小金库/Java/yuzi-generator/yuzi-generator-maker/generated/acm-template-pro-generator");
     }
 }
