@@ -13,21 +13,20 @@ public class JarGenerator {
         String mavenCommand = winMavenCommand;
         // String mavenCommand = otherMavenCommand;
 
-        // 此处必须拆分！！！
-        ProcessBuilder processBuilder = new ProcessBuilder(mavenCommand.split(" "));
-        processBuilder.directory(new File(projectDir));
+        ProcessBuilder processBuilder = new ProcessBuilder(mavenCommand.split(" "));   // 用空格拆分命令
+        processBuilder.directory(new File(projectDir));   // 指定路径
 
         Process process = processBuilder.start();
 
         // 读取命令的输出
-        InputStream inputStream = process.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        InputStream inputStream = process.getInputStream();   // 获取输入流
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));   // 缓冲区读取器
         String line;
         while ((line = reader.readLine()) != null) {
             System.out.println(line);
         }
 
-        // 等待命令执行完成
+        // 等待命令执行完成并返回状态
         int exitCode = process.waitFor();
         if (exitCode != 0) {
             System.out.println("————！！！错误发生，请尽快排查！！！————");
