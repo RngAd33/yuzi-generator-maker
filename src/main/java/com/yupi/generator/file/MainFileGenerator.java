@@ -28,7 +28,7 @@ public class MainFileGenerator {
 
 
         /* 动态生成文件 */
-        // 此处路径已写死，需要通过设置元信息优化
+        // 此处路径已写死，需要通过设置元信息meta优化
         String dynamicInputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
         String dynamicOutputPath = projectPath + File.separator + "acm-template/src/com/yupi/acm/MainTemplate.java";
         DynamicFileGenerator.doGenerate(dynamicInputPath, dynamicOutputPath, model);
