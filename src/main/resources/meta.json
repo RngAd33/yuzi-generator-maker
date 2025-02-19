@@ -6,8 +6,9 @@
   "author": "yupi",
   "createTime": "2024-02-24",
   "fileConfig": {
-    "inputRootPath": "E:/document/资料/计算机/A小金库/Java/yuzi-generator/yuzi-generator-demo-projects/acm-template-pro",
+    "inputRootPath": ".source/acm-template-pro",
     "outputRootPath": "generated",
+    "sourceRootPath": "E:/document/资料/计算机/A小金库/Java/yuzi-generator/yuzi-generator-demo-projects/acm-template-pro",
     "type": "dir",
     "files": [
       {
