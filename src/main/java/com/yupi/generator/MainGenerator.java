@@ -37,6 +37,7 @@ public class MainGenerator {
         ClassPathResource classPathResource = new ClassPathResource("");
         String inputResourcePath = classPathResource.getAbsolutePath();
 
+        // todo 兹认为以下代码可进行循环优化
         // Java包输出路径
         String outputBasePackage = meta.getBasePackage();
         String outputBasePackagePath = StrUtil.join("/", StrUtil.split(outputBasePackage, "."));   // '.' -> '/'
