@@ -106,5 +106,18 @@ public class MainGenerator {
         String jarPath = "target/" + jarName;
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
 
+        /* 生成精简版程序（不要target目录）*/
+        String distOutputPath = outputPath + "-dist";
+        // - 拷贝jar包
+        String targetAbsolutePath = distOutputPath + File.separator + "target";
+        FileUtil.mkdir(targetAbsolutePath);
+        String jarAbsolutePath = targetAbsolutePath + File.separator + jarPath;
+        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
+        // - 拷贝脚本文件
+        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        // - 拷贝模板文件
+        FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
+
     }
 }
