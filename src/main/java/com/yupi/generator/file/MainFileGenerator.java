@@ -18,7 +18,7 @@ public class MainFileGenerator {
         File parentFile = new File(projectPath).getParentFile();
 
         // 输入路径：ACM 示例代码模板目录
-        String inputPath = new File(parentFile, "yuzi-generator-demo-projects/acm-template").getAbsolutePath();
+        String inputPath = new File(parentFile, "yuzi-generator-demo-projects/acm-template-pro").getAbsolutePath();
 
         // 输出路径：直接输出到项目的根目录
         String outputPath = projectPath;

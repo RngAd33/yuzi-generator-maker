@@ -23,7 +23,7 @@ public class MainGenerator {
 
         // 输出的根路径
         String projectPath = System.getProperty("user.dir");
-        String outputPath = projectPath + File.separator + "generated";   // -> ./generated
+        String outputPath = projectPath + File.separator + "generated/acm-template-pro-generator";   // -> ./generated
         if (FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
@@ -106,17 +106,17 @@ public class MainGenerator {
         String jarPath = "target/" + jarName;
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
 
-        /* 生成精简版程序（不要target目录）*/
+        /* 生成精简版程序（仅保留jar包和模板）*/
         String distOutputPath = outputPath + "-dist";
         // - 拷贝jar包
         String targetAbsolutePath = distOutputPath + File.separator + "target";
         FileUtil.mkdir(targetAbsolutePath);
-        String jarAbsolutePath = targetAbsolutePath + File.separator + jarPath;
+        String jarAbsolutePath = outputPath + File.separator + jarPath;
         FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
         // - 拷贝脚本文件
         FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
         FileUtil.copy(shellOutputFilePath, distOutputPath, true);
-        // - 拷贝模板文件
+        // - 拷贝原始模板文件
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
 
     }
