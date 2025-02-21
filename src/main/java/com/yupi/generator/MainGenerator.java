@@ -23,7 +23,7 @@ public class MainGenerator {
 
         // 输出的根路径
         String projectPath = System.getProperty("user.dir");
-        String outputPath = projectPath + File.separator + "generated/acm-template-pro-generator";   // -> ./generated
+        String outputPath = projectPath + File.separator + "generated/acm-template-pro-generator";
         if (FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
