@@ -16,6 +16,7 @@ import java.lang.InterruptedException;
  */
 public class MainGenerator {
     public static void main(String[] args) throws IOException, TemplateException, InterruptedException {
+
         // 生成模型
         Meta meta = MetaManager.getMetaObject();
         System.out.println(meta);

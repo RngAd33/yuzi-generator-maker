@@ -28,6 +28,7 @@ public class ScriptGenerator {
             #!/bin/bash
             java -jar yuzi-generator-basic-1.0-SNAPSHOT-jar-with-dependencies.jar "$@"
         */
+        stringBuilder = new StringBuilder();
         stringBuilder.append("#!/bin/bash").append('\n');
         stringBuilder.append(String.format("java -jar %s \"$@\"", jarPath)).append('\n');
         FileUtil.writeBytes(stringBuilder.toString().getBytes(StandardCharsets.UTF_8), outputPath);
