@@ -17,7 +17,7 @@ import java.lang.InterruptedException;
 public class MainGenerator {
     public static void main(String[] args) throws IOException, TemplateException, InterruptedException {
 
-        // 生成模型
+        // 解析meta，生成模型
         Meta meta = MetaManager.getMetaObject();
         System.out.println(meta);
 
@@ -41,7 +41,7 @@ public class MainGenerator {
         // Java包输出路径
         String outputBasePackage = meta.getBasePackage();
         String outputBasePackagePath = StrUtil.join("/", StrUtil.split(outputBasePackage, "."));   // '.' -> '/'
-        String outputBaseJavaPackagePath = outputPath + File.separator + "src/main/java/" + outputBasePackagePath;   // 完整路径
+        String outputBaseJavaPackagePath = outputPath + File.separator + "src/main/java/" + outputBasePackagePath;   // 绝对路径
 
         // model.DataModel
         String inputFilePath = inputResourcePath + File.separator + "templates/java/model/DataModel.java.ftl";
