@@ -3,7 +3,7 @@
   "description": "ACM 示例模板生成器",
   "basePackage": "com.yupi",
   "version": "1.0",
-  "author": "yupi",
+  "author": "RngAd33",
   "createTime": "2024-02-24",
   "fileConfig": {
     "inputRootPath": ".source/acm-template-pro",
@@ -44,7 +44,7 @@
         "fieldName": "author",
         "type": "String",
         "description": "作者注释",
-        "defaultValue": "yupi",
+        "defaultValue": "RngAd33",
         "abbr": "a"
       },
       {
