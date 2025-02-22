@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 元信息校验
- * 降低圈复杂度，需要减少嵌套解构，尽早结束程序
+ ** 降低圈复杂度，需要减少嵌套解构，尽早结束程序 **
  */
 public class MetaValidator {
     public static void doValidAndFill(Meta meta) {
