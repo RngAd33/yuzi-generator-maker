@@ -59,7 +59,7 @@ public class MetaValidator {
             String sourceRootPath = fileConfig.getSourceRootPath();
             if (StrUtil.isBlank(sourceRootPath))
             {
-                throw new MetaException("——！未填写sourceRootPath！——");
+                throw new MetaException("——！未填写 sourceRootPath！——");
             }
 
             // inputRootPath（.source + sourceRootPath 的最后一个层级路径）
@@ -91,7 +91,7 @@ public class MetaValidator {
                     // -inputPath（必填）
                     String inputPath = fileInfo.getInputPath();
                     if (StrUtil.isEmpty(inputPath)) {
-                        throw new MetaException("——！未填写inputPath！——");
+                        throw new MetaException("——！未填写 inputPath！——");
                     }
 
                     // -outputPath（默认等于inputPath）
@@ -127,7 +127,19 @@ public class MetaValidator {
         Meta.ModelConfig modelConfig = meta.getModelConfig();
         if (modelConfig == null) {
             List<Meta.ModelConfig.ModelInfo> modelInfoList = modelConfig.getModels();
+            if (CollectionUtil.isNotEmpty(modelInfoList)) {
+                for (Meta.ModelConfig.ModelInfo modelInfo : modelInfoList) {
+                    String fieldName = modelInfo.getFieldName();
+                    if (StrUtil.isBlank(fieldName)) {
+                        throw new MetaException("——！未填写 fieldName！——");
+                    }
 
+                    String modelInfoType = modelInfo.getType();
+                    if (StrUtil.isEmpty(modelInfoType)) {
+                        modelInfo.setType("String");
+                    }
+                }
+            }
         }
     }
 }
