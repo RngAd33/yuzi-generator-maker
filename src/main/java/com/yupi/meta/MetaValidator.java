@@ -20,6 +20,21 @@ public class MetaValidator {
 
     /* 基础信息校验 */
     private static void validAndFillMetaRoot(Meta meta) {
+        String name = StrUtil.blankToDefault(meta.getName(), "acm-template-pro-generator");
+        String description = StrUtil.emptyToDefault(meta.getDescription(), "ACM 示例模板生成器");
+        String basePackage = StrUtil.blankToDefault(meta.getBasePackage(), "com.yupi");
+        String version = StrUtil.emptyToDefault(meta.getVersion(), "1.0");
+        String author = StrUtil.emptyToDefault(meta.getAuthor(), "RngAd33");
+        String createTime = StrUtil.emptyToDefault(meta.getCreateTime(), "2024-02-24");
+        meta.setName(name);
+        meta.setDescription(description);
+        meta.setBasePackage(basePackage);
+        meta.setVersion(version);
+        meta.setAuthor(author);
+        meta.setCreateTime(createTime);
+    }
+    /* 以上为简化版本
+    private static void validAndFillMetaRoot(Meta meta) {
         String name = meta.getName();
         if (StrUtil.isBlank(name)) {
             name = "acm-template-pro-generator";
@@ -56,6 +71,7 @@ public class MetaValidator {
             meta.setCreateTime(createTime);
         }
     }
+    */
 
     /* fileConfig 校验 */
     private static void validAndFillFileConfig(Meta meta) {
