@@ -37,12 +37,12 @@ public class MainGenerator {
         ClassPathResource classPathResource = new ClassPathResource("");
         String inputResourcePath = classPathResource.getAbsolutePath();
 
-        // todo 兹认为以下代码可进行循环优化
         // Java包输出路径
         String outputBasePackage = meta.getBasePackage();
         String outputBasePackagePath = StrUtil.join("/", StrUtil.split(outputBasePackage, "."));   // '.' -> '/'
         String outputBaseJavaPackagePath = outputPath + File.separator + "src/main/java/" + outputBasePackagePath;   // 绝对路径
 
+        // todo 兹认为以下代码可进行循环优化
         // model.DataModel
         String inputFilePath = inputResourcePath + File.separator + "templates/java/model/DataModel.java.ftl";
         String outputFilePath = outputBaseJavaPackagePath + "/model/DataModel.java";
