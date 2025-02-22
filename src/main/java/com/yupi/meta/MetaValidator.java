@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class MetaValidator {
     public static void doValidAndFill(Meta meta) {
-        validAndFillBasicConfig(meta);
+        validAndFillMetaRoot(meta);
         validAndFillFileConfig(meta);
         validAndFillModelConfig(meta);
     }
 
-    private static void validAndFillBasicConfig(Meta meta) {
-        /* 基础信息校验 */
+    /* 基础信息校验 */
+    private static void validAndFillMetaRoot(Meta meta) {
         String name = meta.getName();
         if (StrUtil.isBlank(name)) {
             name = "acm-template-pro-generator";
@@ -57,8 +57,8 @@ public class MetaValidator {
         }
     }
 
+    /* fileConfig 校验 */
     private static void validAndFillFileConfig(Meta meta) {
-        /* fileConfig 校验 */
         Meta.FileConfig fileConfig = meta.getFileConfig();
         if (fileConfig == null) {
             return;
@@ -132,8 +132,8 @@ public class MetaValidator {
         }
     }
 
+    /* modelConfig 校验 */
     private static void validAndFillModelConfig(Meta meta) {
-        /* modelConfig 校验 */
         Meta.ModelConfig modelConfig = meta.getModelConfig();
         if (modelConfig == null) {
             return;
