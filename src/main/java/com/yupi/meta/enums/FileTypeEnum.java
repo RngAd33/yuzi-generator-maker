@@ -1,6 +1,6 @@
 package com.yupi.meta.enums;
 
-public class FileTypeEnum {
+public enum FileTypeEnum {
     DIR("目录", "dir"),
         File("文件", "file");
 
