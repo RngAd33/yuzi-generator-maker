@@ -1,14 +1,15 @@
 package com.yupi.meta.enums;
 
-public enum FileTypeEnum {
-    DIR("目录", "dir"),
-    File("文件", "file");
+public enum FileGenerateTypeEnum {
+
+    DYNAMIC("动态", "dynamic"),
+    STATIC("静态", "static");
 
     private final String text;
 
     private final String value;
 
-    FileTypeEnum(String text, String value) {
+    FileGenerateTypeEnum(String text, String value) {
         this.text = text;
         this.value = value;
     }

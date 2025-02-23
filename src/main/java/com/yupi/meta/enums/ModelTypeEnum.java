@@ -1,14 +1,18 @@
 package com.yupi.meta.enums;
 
-public enum FileTypeEnum {
-    DIR("目录", "dir"),
-    File("文件", "file");
+/**
+ * 文件生成枚举
+ */
+public enum ModelTypeEnum {
+
+    STRING("字符串类型", "string"),
+    BOOLEAN("布尔类型", "boolean");
 
     private final String text;
 
     private final String value;
 
-    FileTypeEnum(String text, String value) {
+    ModelTypeEnum(String text, String value) {
         this.text = text;
         this.value = value;
     }
