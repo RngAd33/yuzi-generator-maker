@@ -130,9 +130,9 @@ public class MetaValidator {
             String type = fileInfo.getType();
             if (StrUtil.isBlank(type)) {
                 if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))) {
-                    fileInfo.setType("dir");   // 没有文件后缀
+                    fileInfo.setType("dir");   // 元文件后缀
                 } else {
-                    fileInfo.setType("file");   // 有文件后缀
+                    fileInfo.setType("file");   // 文件后缀
                 }
             }
 
