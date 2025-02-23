@@ -1,6 +1,10 @@
 package com.yupi.meta.enums;
 
+/**
+ * 文件类型枚举
+ */
 public enum FileTypeEnum {
+
     DIR("目录", "dir"),
     File("文件", "file");
 

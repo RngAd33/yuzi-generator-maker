@@ -1,7 +1,7 @@
 package com.yupi.meta.enums;
 
 /**
- * 文件生成枚举
+ * 模型类型枚举
  */
 public enum ModelTypeEnum {
 

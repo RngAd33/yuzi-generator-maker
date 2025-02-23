@@ -3,6 +3,10 @@ package com.yupi.meta;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.yupi.meta.enums.FileGenerateTypeEnum;
+import com.yupi.meta.enums.FileTypeEnum;
+import com.yupi.meta.enums.ModelTypeEnum;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
@@ -103,7 +107,7 @@ public class MetaValidator {
 
         // fileConfigType（默认为 dir）
         String fileConfigType = fileConfig.getType();
-        String defaultType = "dir";
+        String defaultType = FileTypeEnum.DIR.value();
         if (StrUtil.isEmpty(fileConfigType)) {
             fileConfig.setType(defaultType);
         }
@@ -130,9 +134,9 @@ public class MetaValidator {
             String type = fileInfo.getType();
             if (StrUtil.isBlank(type)) {
                 if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))) {
-                    fileInfo.setType("dir");   // 元文件后缀
+                    fileInfo.setType(FileTypeEnum.DIR.value());   // 元文件后缀
                 } else {
-                    fileInfo.setType("file");   // 文件后缀
+                    fileInfo.setType(FileTypeEnum.File.value());   // 文件后缀
                 }
             }
 
@@ -140,9 +144,9 @@ public class MetaValidator {
             String generateType = fileInfo.getGenerateType();
             if (StrUtil.isEmpty(generateType)) {
                 if (inputPath.endsWith(".ftl")) {
-                    fileInfo.setGenerateType("dynamic");   // 动态模板
+                    fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.value());   // 动态模板
                 } else {
-                    fileInfo.setGenerateType("static");   // 静态模板
+                    fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.value());   // 静态模板
                 }
             }
         }
@@ -164,9 +168,10 @@ public class MetaValidator {
                 throw new MetaException("——！未填写 fieldName！——");
             }
 
+            // 模型配置
             String modelInfoType = modelInfo.getType();
             if (StrUtil.isEmpty(modelInfoType)) {
-                modelInfo.setType("String");
+                modelInfo.setType(ModelTypeEnum.STRING.value());
             }
         }
     }

@@ -1,5 +1,8 @@
 package com.yupi.meta.enums;
 
+/**
+ * 文件生成类型枚举
+ */
 public enum FileGenerateTypeEnum {
 
     DYNAMIC("动态", "dynamic"),
