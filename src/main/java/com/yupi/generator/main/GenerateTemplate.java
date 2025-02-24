@@ -38,13 +38,29 @@ public abstract class GenerateTemplate {
         buildJar(outputPath);
 
         // 4. 封装脚本
+        Result result = buildScript(outputPath, meta);
+
+        // 5. 生成精简版程序
+        generateDistCode(outputPath, result.jarPath, result.shellOutputFilePath, sourceCopyDestPath);
+    }
+
+    private static Result buildScript(String outputPath, Meta meta) {
         String shellOutputFilePath = outputPath + File.separator + "generator";
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
+        Result result = new Result(shellOutputFilePath, jarPath);
+        return result;
+    }
 
-        // 5. 生成精简版程序
-        generateDistCode(outputPath, jarPath, shellOutputFilePath, sourceCopyDestPath);
+    private static class Result {
+        public final String shellOutputFilePath;
+        public final String jarPath;
+
+        public Result(String shellOutputFilePath, String jarPath) {
+            this.shellOutputFilePath = shellOutputFilePath;
+            this.jarPath = jarPath;
+        }
     }
 
     /**
