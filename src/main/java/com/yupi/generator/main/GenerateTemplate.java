@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 抽取方法
+ * 抽取 MainGenerator中的方法
  */
 public abstract class GenerateTemplate {
     public static void doGenerate() throws TemplateException, IOException, InterruptedException {
