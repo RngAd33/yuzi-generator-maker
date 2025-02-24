@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 定义程序流程
+ * 采用模板方法模式，定义程序流程
  */
 public abstract class GenerateTemplate {
 
@@ -24,7 +24,7 @@ public abstract class GenerateTemplate {
      * @throws IOException
      * @throws InterruptedException
      */
-    protected void doGenerate() throws TemplateException, IOException, InterruptedException {
+    public void doGenerate() throws TemplateException, IOException, InterruptedException {
         // 解析meta，生成模型
         Meta meta = MetaManager.getMetaObject();
         System.out.println(meta);

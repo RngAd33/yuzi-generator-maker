@@ -1,15 +1,16 @@
 package com.yupi;
 
-// import com.yupi.cli.CommandExecutor;
+import com.yupi.generator.main.MainGenerator;
+import freemarker.template.TemplateException;
+import java.io.IOException;
 
 /**
  * 全局调用入口
  */
 public class Main {
-    public static void main(String[] args) {
-        // args = new String[]{"generate", "-l", "-a", "-o"};  // 测试语句
-        // CommandExecutor commandExecutor = new CommandExecutor();
-        // commandExecutor.doExecute(args);
 
+    public static void main(String[] args) throws TemplateException, IOException, InterruptedException {
+        MainGenerator mainGenerator = new MainGenerator();
+        mainGenerator.doGenerate();
     }
 }
