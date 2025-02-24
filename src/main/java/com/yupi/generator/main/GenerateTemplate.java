@@ -9,10 +9,12 @@ import com.yupi.generator.file.DynamicFileGenerator;
 import com.yupi.meta.Meta;
 import com.yupi.meta.MetaManager;
 import freemarker.template.TemplateException;
-
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * 抽取方法
+ */
 public abstract class GenerateTemplate {
     public static void doGenerate() throws TemplateException, IOException, InterruptedException {
         // 解析meta，生成模型
@@ -26,11 +28,42 @@ public abstract class GenerateTemplate {
             FileUtil.mkdir(outputPath);
         }
 
-        // 复制原始文件，从原始模板路径到生成的代码包中
-        String sourceRootPath = meta.getFileConfig().getSourceRootPath();
-        String sourceCopyDestPath = outputPath + File.separator + ".source";
-        FileUtil.copy(sourceRootPath, sourceCopyDestPath, false);
+        String sourceCopyDestPath = copySource(meta, outputPath);
 
+        generateCode(meta, outputPath);
+
+        // 构建Jar包
+        JarGenerator.doGenerate(outputPath);
+
+        // 封装脚本
+        String shellOutputFilePath = outputPath + File.separator + "generator";
+        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
+        String jarPath = "target/" + jarName;
+        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
+
+        /* 生成精简版程序（仅保留jar包和模板）*/
+        String distOutputPath = outputPath + "-dist";
+        // - 拷贝jar包
+        String targetAbsolutePath = distOutputPath + File.separator + "target";
+        FileUtil.mkdir(targetAbsolutePath);
+        String jarAbsolutePath = outputPath + File.separator + jarPath;
+        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
+        // - 拷贝脚本文件
+        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        // - 拷贝原始模板文件
+        FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
+    }
+
+    /**
+     * 代码生成
+     *
+     * @param meta
+     * @param outputPath
+     * @throws IOException
+     * @throws TemplateException
+     */
+    private static void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
         // 读取resources目录
         ClassPathResource classPathResource = new ClassPathResource("");
         String inputResourcePath = classPathResource.getAbsolutePath();
@@ -95,28 +128,20 @@ public abstract class GenerateTemplate {
         inputFilePath = inputResourcePath + File.separator + "templates/README.md.ftl";
         outputFilePath = outputPath + "/README.md";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+    }
 
-        // 构建Jar包
-        JarGenerator.doGenerate(outputPath);
-
-        // 封装脚本
-        String shellOutputFilePath = outputPath + File.separator + "generator";
-        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
-        String jarPath = "target/" + jarName;
-        ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
-
-        /* 生成精简版程序（仅保留jar包和模板）*/
-        String distOutputPath = outputPath + "-dist";
-        // - 拷贝jar包
-        String targetAbsolutePath = distOutputPath + File.separator + "target";
-        FileUtil.mkdir(targetAbsolutePath);
-        String jarAbsolutePath = outputPath + File.separator + jarPath;
-        FileUtil.copy(jarAbsolutePath, targetAbsolutePath, true);
-        // - 拷贝脚本文件
-        FileUtil.copy(shellOutputFilePath + ".bat", distOutputPath, true);
-        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
-        // - 拷贝原始模板文件
-        FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
+    /**
+     * 复制原始文件，从原始模板路径到生成的代码包中
+     *
+     * @param meta
+     * @param outputPath
+     * @return
+     */
+    private static String copySource(Meta meta, String outputPath) {
+        String sourceRootPath = meta.getFileConfig().getSourceRootPath();
+        String sourceCopyDestPath = outputPath + File.separator + ".source";
+        FileUtil.copy(sourceRootPath, sourceCopyDestPath, false);
+        return sourceCopyDestPath;
     }
 
 }
