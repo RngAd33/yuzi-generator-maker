@@ -52,6 +52,7 @@ public abstract class GenerateTemplate {
         buildDist(outputPath, result.jarPath, result.shellOutputFilePath, sourceCopyDestPath);
     }
 
+    // 封装脚本
     private static Result buildScript(String outputPath, Meta meta) {
         String shellOutputFilePath = outputPath + File.separator + "generator";
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
