@@ -28,20 +28,45 @@ public abstract class GenerateTemplate {
             FileUtil.mkdir(outputPath);
         }
 
+        // 1. 复制原始文件
         String sourceCopyDestPath = copySource(meta, outputPath);
 
+        // 2. 代码生成
         generateCode(meta, outputPath);
 
-        // 构建Jar包
-        JarGenerator.doGenerate(outputPath);
+        // 3. 构建Jar包
+        buildJar(outputPath);
 
-        // 封装脚本
+        // 4. 封装脚本
         String shellOutputFilePath = outputPath + File.separator + "generator";
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
 
-        /* 生成精简版程序（仅保留jar包和模板）*/
+        // 5. 生成精简版程序
+        generateDistCode(outputPath, jarPath, shellOutputFilePath, sourceCopyDestPath);
+    }
+
+    /**
+     * 构建Jar包
+     *
+     * @param outputPath
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private static void buildJar(String outputPath) throws IOException, InterruptedException {
+        JarGenerator.doGenerate(outputPath);
+    }
+
+    /**
+     * 生成精简版程序（仅保留jar包和模板）
+     *
+     * @param outputPath
+     * @param jarPath
+     * @param shellOutputFilePath
+     * @param sourceCopyDestPath
+     */
+    private static void generateDistCode(String outputPath, String jarPath, String shellOutputFilePath, String sourceCopyDestPath) {
         String distOutputPath = outputPath + "-dist";
         // - 拷贝jar包
         String targetAbsolutePath = distOutputPath + File.separator + "target";
