@@ -18,7 +18,7 @@ import java.io.IOException;
 public abstract class GenerateTemplate {
 
     /**
-     * 抽取 MainGenerator中的方法
+     * 抽取 MainGenerator 中的方法
      *
      * @throws TemplateException
      * @throws IOException
@@ -46,6 +46,7 @@ public abstract class GenerateTemplate {
         buildJar(outputPath);
 
         // 4. 封装脚本
+        // todo 不够优雅
         Result result = buildScript(outputPath, meta);
 
         // 5. 生成精简版程序
@@ -76,11 +77,15 @@ public abstract class GenerateTemplate {
      * 构建Jar包
      *
      * @param outputPath
+     * @return jarPath
      * @throws IOException
      * @throws InterruptedException
      */
     private static void buildJar(String outputPath) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
+        String jarName = ;
+        String jarPath = "target" + jarName;
+        return jarPath;
     }
 
     /**
@@ -123,7 +128,6 @@ public abstract class GenerateTemplate {
         String outputBasePackagePath = StrUtil.join("/", StrUtil.split(outputBasePackage, "."));   // '.' -> '/'
         String outputBaseJavaPackagePath = outputPath + File.separator + "src/main/java/" + outputBasePackagePath;   // 绝对路径
 
-        // todo 兹认为以下代码可进行循环优化
         // model.DataModel
         String inputFilePath = inputResourcePath + File.separator + "templates/java/model/DataModel.java.ftl";
         String outputFilePath = outputBaseJavaPackagePath + "/model/DataModel.java";
