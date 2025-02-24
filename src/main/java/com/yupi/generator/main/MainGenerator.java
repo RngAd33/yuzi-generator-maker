@@ -1,8 +1,10 @@
-package com.yupi.generator;
+package com.yupi.generator.main;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
+import com.yupi.generator.JarGenerator;
+import com.yupi.generator.ScriptGenerator;
 import com.yupi.generator.file.DynamicFileGenerator;
 import com.yupi.meta.Meta;
 import com.yupi.meta.MetaManager;
