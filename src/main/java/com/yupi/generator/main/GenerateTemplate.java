@@ -43,48 +43,34 @@ public abstract class GenerateTemplate {
         generateCode(meta, outputPath);
 
         // 3. 构建Jar包
-        buildJar(outputPath);
+        String jarPath = buildJar(meta, outputPath);
 
         // 4. 封装脚本
-        // todo 不够优雅
-        Result result = buildScript(outputPath, meta);
+        String shellOutputFilePath = buildScript(outputPath, jarPath);
 
         // 5. 生成精简版程序
-        buildDist(outputPath, result.jarPath, result.shellOutputFilePath, sourceCopyDestPath);
+        buildDist(outputPath, jarPath, shellOutputFilePath, sourceCopyDestPath);
     }
 
     // 封装脚本
-    private static Result buildScript(String outputPath, Meta meta) {
+    private static String buildScript(String outputPath, String jarPath) {
         String shellOutputFilePath = outputPath + File.separator + "generator";
-        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
-        String jarPath = "target/" + jarName;
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
-        Result result = new Result(shellOutputFilePath, jarPath);
-        return result;
-    }
-
-    private static class Result {
-        public final String shellOutputFilePath;
-        public final String jarPath;
-
-        public Result(String shellOutputFilePath, String jarPath) {
-            this.shellOutputFilePath = shellOutputFilePath;
-            this.jarPath = jarPath;
-        }
+        return shellOutputFilePath;
     }
 
     /**
      * 构建Jar包
      *
      * @param outputPath
-     * @return jarPath
+     * @return 返回jar包的相对路径
      * @throws IOException
      * @throws InterruptedException
      */
-    private static void buildJar(String outputPath) throws IOException, InterruptedException {
+    private static String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
-        String jarName = ;
-        String jarPath = "target" + jarName;
+        String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
+        String jarPath = "target/" + jarName;
         return jarPath;
     }
 
