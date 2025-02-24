@@ -183,5 +183,4 @@ public abstract class GenerateTemplate {
         FileUtil.copy(sourceRootPath, sourceCopyDestPath, false);
         return sourceCopyDestPath;
     }
-
 }
