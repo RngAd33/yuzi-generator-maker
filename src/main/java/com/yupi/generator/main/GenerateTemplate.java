@@ -24,7 +24,7 @@ public abstract class GenerateTemplate {
      * @throws IOException
      * @throws InterruptedException
      */
-    public static void doGenerate() throws TemplateException, IOException, InterruptedException {
+    protected void doGenerate() throws TemplateException, IOException, InterruptedException {
         // 解析meta，生成模型
         Meta meta = MetaManager.getMetaObject();
         System.out.println(meta);
@@ -53,7 +53,7 @@ public abstract class GenerateTemplate {
     }
 
     // 封装脚本
-    private static String buildScript(String outputPath, String jarPath) {
+    protected String buildScript(String outputPath, String jarPath) {
         String shellOutputFilePath = outputPath + File.separator + "generator";
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
         return shellOutputFilePath;
@@ -67,7 +67,7 @@ public abstract class GenerateTemplate {
      * @throws IOException
      * @throws InterruptedException
      */
-    private static String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
+    protected String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         String jarPath = "target/" + jarName;
@@ -82,7 +82,7 @@ public abstract class GenerateTemplate {
      * @param shellOutputFilePath
      * @param sourceCopyDestPath
      */
-    private static void buildDist(String outputPath, String jarPath, String shellOutputFilePath, String sourceCopyDestPath) {
+    protected void buildDist(String outputPath, String jarPath, String shellOutputFilePath, String sourceCopyDestPath) {
         String distOutputPath = outputPath + "-dist";
         // - 拷贝jar包
         String targetAbsolutePath = distOutputPath + File.separator + "target";
@@ -104,7 +104,7 @@ public abstract class GenerateTemplate {
      * @throws IOException
      * @throws TemplateException
      */
-    private static void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
+    protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
         // 读取resources目录
         ClassPathResource classPathResource = new ClassPathResource("");
         String inputResourcePath = classPathResource.getAbsolutePath();
@@ -177,7 +177,7 @@ public abstract class GenerateTemplate {
      * @param outputPath
      * @return
      */
-    private static String copySource(Meta meta, String outputPath) {
+    protected String copySource(Meta meta, String outputPath) {
         String sourceRootPath = meta.getFileConfig().getSourceRootPath();
         String sourceCopyDestPath = outputPath + File.separator + ".source";
         FileUtil.copy(sourceRootPath, sourceCopyDestPath, false);
