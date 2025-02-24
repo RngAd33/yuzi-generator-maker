@@ -13,9 +13,17 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * 抽取 MainGenerator中的方法
+ * 定义程序流程
  */
 public abstract class GenerateTemplate {
+
+    /**
+     * 抽取 MainGenerator中的方法
+     *
+     * @throws TemplateException
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static void doGenerate() throws TemplateException, IOException, InterruptedException {
         // 解析meta，生成模型
         Meta meta = MetaManager.getMetaObject();
@@ -41,7 +49,7 @@ public abstract class GenerateTemplate {
         Result result = buildScript(outputPath, meta);
 
         // 5. 生成精简版程序
-        generateDistCode(outputPath, result.jarPath, result.shellOutputFilePath, sourceCopyDestPath);
+        buildDist(outputPath, result.jarPath, result.shellOutputFilePath, sourceCopyDestPath);
     }
 
     private static Result buildScript(String outputPath, Meta meta) {
@@ -82,7 +90,7 @@ public abstract class GenerateTemplate {
      * @param shellOutputFilePath
      * @param sourceCopyDestPath
      */
-    private static void generateDistCode(String outputPath, String jarPath, String shellOutputFilePath, String sourceCopyDestPath) {
+    private static void buildDist(String outputPath, String jarPath, String shellOutputFilePath, String sourceCopyDestPath) {
         String distOutputPath = outputPath + "-dist";
         // - 拷贝jar包
         String targetAbsolutePath = distOutputPath + File.separator + "target";
