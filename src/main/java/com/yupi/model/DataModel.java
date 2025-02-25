@@ -2,6 +2,9 @@ package com.yupi.model;
 
 import lombok.Data;
 
+/**
+ * 数据模型
+ */
 @Data
 public class DataModel {
     /**
