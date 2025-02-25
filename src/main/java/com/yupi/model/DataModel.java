@@ -10,16 +10,21 @@ public class DataModel {
     /**
      * 是否生成循环（开关）
      */
-    private boolean loop;
+    public boolean loop;
 
     /**
      * 作者注释
      */
-    private String author = "RngAd33";
+    public String author = "RngAd33";
 
     /**
      * 输出信息
      */
-    private String outputText = "输出结果";
+    public String outputText = "输出结果";
+
+    /**
+     * 是否生成 .gitignore 文件
+     */
+    public boolean needGit = true ;
 
 }
