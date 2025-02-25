@@ -60,13 +60,6 @@
         "description": "是否生成 .gitignore 文件",
         "defaultValue": true,
         "abbr": "g"
-      },
-      {
-        "fieldName": "",
-        "type": "boolean",
-        "description": "是否",
-        "defaultValue": true,
-        "abbr": ""
       }
     ]
   }
