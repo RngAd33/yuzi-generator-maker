@@ -44,13 +44,6 @@
   "modelConfig": {
     "models": [
       {
-        "fieldName": "loop",
-        "type": "boolean",
-        "description": "是否生成循环",
-        "defaultValue": false,
-        "abbr": "l"
-      },
-      {
         "fieldName": "author",
         "type": "String",
         "description": "作者注释",
@@ -63,6 +56,13 @@
         "description": "输出信息",
         "defaultValue": "sum = ",
         "abbr": "o"
+      },
+      {
+        "fieldName": "loop",
+        "type": "boolean",
+        "description": "是否生成循环",
+        "defaultValue": false,
+        "abbr": "l"
       },
       {
         "fieldName": "needGit",
