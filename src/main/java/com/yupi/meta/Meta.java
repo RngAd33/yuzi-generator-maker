@@ -36,6 +36,7 @@ public class Meta {
             private String type;
             private String condition;
             private String generateType;
+            private List<FileInfo> files;
         }
     }
 
