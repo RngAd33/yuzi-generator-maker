@@ -7,13 +7,13 @@ import java.io.IOException;
 
 // 定义宏
 <#macro generateFile indent fileInfo>
-    ${indent}inputPath = new File(inputRootPath, "${fileInfo.inputPath}").getAbsolutePath();
-    ${indent}outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
-    <#if fileInfo.generateType == "static">
-        ${indent}StaticGenerator.copyFilesByHutool(inputPath, outputPath);
-    <#else>
-        ${indent}DynamicGenerator.doGenerate(inputPath, outputPath, model);
-    </#if>
+${indent}inputPath = new File(inputRootPath, "${fileInfo.inputPath}").getAbsolutePath();
+${indent}outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
+<#if fileInfo.generateType == "static">
+${indent}StaticGenerator.copyFilesByHutool(inputPath, outputPath);
+<#else>
+${indent}DynamicGenerator.doGenerate(inputPath, outputPath, model);
+</#if>
 </#macro>
 
 /**
@@ -42,23 +42,22 @@ public class MainGenerator {
         <#if fileInfo.groupKey??>
         // groupKey = ${fileInfo.groupKey}
         <#if fileInfo.condition??>
-            if(${fileInfo.condition}) {
-            <#list fileInfo.files as fileInfo>
-                <@generateFile fileInfo=fileInfo indent="           " />
-            </#list>
-            }
+        if(${fileInfo.condition}) {
+        <#list fileInfo.files as fileInfo>
+        <@generateFile fileInfo=fileInfo indent="           " />
+        </#list>
+        }
         <#else>
-            <#list fileInfo.files as fileInfo>
-                <@generateFile fileInfo=fileInfo indent="       " />
-            </#list>
+        <#list fileInfo.files as fileInfo><@generateFile fileInfo=fileInfo indent="       " />
+        </#list>
         </#if>
     <#else>
         <#if fileInfo.condition??>
-            if(${fileInfo.condition}) {
-            <@generateFile fileInfo=fileInfo indent="           " />
-            }
+        if(${fileInfo.condition}) {
+        <@generateFile fileInfo=fileInfo indent="           " />
+        }
         <#else>
-            <@generateFile fileInfo=fileInfo indent="       " />
+        <@generateFile fileInfo=fileInfo indent="       " />
         </#if>
         </#if>
     </#list>
