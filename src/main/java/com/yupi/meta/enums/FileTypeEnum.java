@@ -6,7 +6,8 @@ package com.yupi.meta.enums;
 public enum FileTypeEnum {
 
     DIR("目录", "dir"),
-    File("文件", "file");
+    FILE("文件", "file"),
+    GROUP("文件组", "group");
 
     private final String text;
 
@@ -17,11 +18,11 @@ public enum FileTypeEnum {
         this.value = value;
     }
 
-    private String text() {
+    private String getText() {
         return text;
     }
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 }

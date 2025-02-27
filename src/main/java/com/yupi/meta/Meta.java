@@ -31,7 +31,10 @@ public class Meta {
         public static class FileInfo {
             private String inputPath;
             private String outputPath;
+            private String groupKey;
+            private String groupName;
             private String type;
+            private String condition;
             private String generateType;
         }
     }
@@ -47,7 +50,7 @@ public class Meta {
             private String fieldName;
             private String type;
             private String description;
-            private Object defaultValue;  // 使用Object类型避免类型冲突问题
+            private Object defaultValue;  // 默认值，使用Object类型避免类型冲突问题
             private String abbr;
         }
     }

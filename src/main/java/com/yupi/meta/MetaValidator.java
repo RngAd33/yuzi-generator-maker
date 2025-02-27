@@ -107,7 +107,7 @@ public class MetaValidator {
 
         // fileConfigType（默认为 dir）
         String fileConfigType = fileConfig.getType();
-        String defaultType = FileTypeEnum.DIR.value();
+        String defaultType = FileTypeEnum.DIR.getValue();
         if (StrUtil.isEmpty(fileConfigType)) {
             fileConfig.setType(defaultType);
         }
@@ -118,9 +118,15 @@ public class MetaValidator {
             return;
         }
         for (Meta.FileConfig.FileInfo fileInfo : fileInfoList) {
+            // group 不校验
+            String type = fileInfo.getType();
+            if (FileTypeEnum.GROUP.getValue().equals(type)) {
+                continue;
+            }
+
             // -inputPath（必填）
             String inputPath = fileInfo.getInputPath();
-            if (StrUtil.isEmpty(inputPath)) {
+            if (StrUtil.isBlank(inputPath)) {
                 throw new MetaException("——！未填写 inputPath！——");
             }
 
@@ -131,12 +137,12 @@ public class MetaValidator {
             }
 
             // -type（默认 inputPath 有文件后缀为 file，否则为 dir）
-            String type = fileInfo.getType();
+            type = fileInfo.getType();
             if (StrUtil.isBlank(type)) {
                 if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))) {
-                    fileInfo.setType(FileTypeEnum.DIR.value());   // 元文件后缀
+                    fileInfo.setType(FileTypeEnum.DIR.getValue());   // 元文件后缀
                 } else {
-                    fileInfo.setType(FileTypeEnum.File.value());   // 文件后缀
+                    fileInfo.setType(FileTypeEnum.FILE.getValue());   // 文件后缀
                 }
             }
 
