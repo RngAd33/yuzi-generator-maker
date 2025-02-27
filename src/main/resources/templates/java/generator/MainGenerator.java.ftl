@@ -53,6 +53,7 @@ public class MainGenerator {
 
         </#if>
         </#if>
+        </#if>
     </#list>
     }
 }
