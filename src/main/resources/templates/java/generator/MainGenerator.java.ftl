@@ -23,7 +23,7 @@ public class MainGenerator {
         String inputPath;
         String outputPath;
 
-    <#list modelConfig.models as fileInfo>
+    <#list modelConfig.models as modelInfo>
         ${modelInfo.type} ${modelInfo.fieldName} = model.${modelInfo.fieldName};
     </#list>
 
