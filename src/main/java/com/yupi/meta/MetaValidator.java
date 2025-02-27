@@ -118,7 +118,7 @@ public class MetaValidator {
             return;
         }
         for (Meta.FileConfig.FileInfo fileInfo : fileInfoList) {
-            // group 不校验
+            // 不对文件组group校验
             String type = fileInfo.getType();
             if (FileTypeEnum.GROUP.getValue().equals(type)) {
                 continue;
