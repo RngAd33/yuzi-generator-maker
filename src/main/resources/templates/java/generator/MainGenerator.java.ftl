@@ -28,8 +28,11 @@ public class MainGenerator {
     </#list>
 
     <#list fileConfig.files as fileInfo>
+        <#if fileInfo.groupKey??>
+        // groupKey = ${fileInfo.groupKey}
         <#if fileInfo.condition??>
         if (${fileInfo.condition}) {
+            <#list fileInfo.files as fileInfo>
             inputPath = new File(inputRootPath, "${fileInfo.inputPath}").getAbsolutePath();
             outputPath = new File(outputRootPath, "${fileInfo.inputPath}").getAbsolutePath();
             <#if fileInfo.generateType == "static">
@@ -37,6 +40,7 @@ public class MainGenerator {
             <#else>
             DynamicGenerator.doGenerate(inputPath, outputPath, model);
             </#if>
+            </#list>
         }
         <#else>
         inputPath = new File(inputRootPath, "${fileInfo.inputPath}").getAbsolutePath();
