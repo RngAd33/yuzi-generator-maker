@@ -9,12 +9,20 @@ import java.io.IOException;
  * 核心生成器
  */
 public class MainGenerator {
-    public static void doGenerate(Object model) throws IOException, TemplateException {
 
+    /**
+     * 生成
+     *
+     * @param model 数据模型
+     * @throws TemplateException
+     * @throws IOException
+     */
+    public static void doGenerate(DataModel model) throws TemplateException, IOException {
         String inputRootPath = "${fileConfig.inputRootPath}";
         String outputRootPath = "${fileConfig.outputRootPath}";
         String inputPath;
         String outputPath;
+
     <#list modelConfig.models as fileInfo>
         ${modelInfo.type} ${modelInfo.fieldName} = model.${modelInfo.fieldName};
     </#list>
