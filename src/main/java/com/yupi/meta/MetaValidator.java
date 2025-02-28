@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * 元信息校验
+ *  meta校验
  ** 降低圈复杂度，需要减少嵌套解构，尽早结束程序 **
  ** 尽可能避免硬编码和魔法值，使用常量类可以更加灵活规范 **
  */
@@ -169,6 +169,13 @@ public class MetaValidator {
             return;
         }
         for (Meta.ModelConfig.ModelInfo modelInfo : modelInfoList) {
+            // 不对文件组group校验
+            String groupKey = modelInfo.getGroupKey();
+            if (StrUtil.isNotEmpty(groupKey)) {
+                continue;
+            }
+
+            // fieldName（必填）
             String fieldName = modelInfo.getFieldName();
             if (StrUtil.isBlank(fieldName)) {
                 throw new MetaException("——！未填写 fieldName！——");
