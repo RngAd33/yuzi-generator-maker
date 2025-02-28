@@ -51,20 +51,6 @@
   "modelConfig": {
     "models": [
       {
-        "fieldName": "author",
-        "type": "String",
-        "description": "作者注释",
-        "defaultValue": "RngAd33",
-        "abbr": "a"
-      },
-      {
-        "fieldName": "outputText",
-        "type": "String",
-        "description": "输出信息",
-        "defaultValue": "sum = ",
-        "abbr": "o"
-      },
-      {
         "fieldName": "loop",
         "type": "boolean",
         "description": "是否生成循环",
@@ -77,6 +63,28 @@
         "description": "是否生成 .gitignore 文件",
         "defaultValue": true,
         "abbr": "g"
+      },
+      {
+        "groupKey": "mainTemplate",
+        "groupName": "核心模板",
+        "type": "MainTemplate",
+        "description": "用于生成核心模板文件",
+        "models": [
+          {
+            "fieldName": "author",
+            "type": "String",
+            "description": "作者注释",
+            "defaultValue": "RngAd33",
+            "abbr": "a"
+          },
+          {
+            "fieldName": "outputText",
+            "type": "String",
+            "description": "输出信息",
+            "defaultValue": "sum = ",
+            "abbr": "o"
+          }
+        ]
       }
     ]
   }
