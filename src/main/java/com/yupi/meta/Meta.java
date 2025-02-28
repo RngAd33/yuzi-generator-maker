@@ -72,6 +72,7 @@ public class Meta {
             private Object defaultValue;  // 默认值，使用Object类型避免类型冲突问题
             private String abbr;
             private List<ModelInfo> models;
+            private String condition;
         }
     }
 }
