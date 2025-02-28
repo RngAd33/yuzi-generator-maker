@@ -73,6 +73,7 @@ public class Meta {
             private String abbr;
             private List<ModelInfo> models;
             private String condition;
+            private String allArgsStr;   // 中间参数，用于记录该分组下拼接的字符串
         }
     }
 }
