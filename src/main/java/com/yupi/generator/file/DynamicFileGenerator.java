@@ -2,6 +2,7 @@ package com.yupi.generator.file;
 
 import cn.hutool.core.io.FileUtil;
 import com.yupi.model.DataModel;
+import com.yupi.model.MainTemplate;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -21,15 +22,17 @@ public class DynamicFileGenerator {
         String outputPath = projectPath + File.separator + "MainTemplate.java";
 
         DataModel dataModel = new DataModel();
+        MainTemplate mainTemplate = new MainTemplate();
         dataModel.setLoop(false);
-        dataModel.setAuthor("RngAd33");
-        dataModel.setOutputText("输出结果");
+        mainTemplate.setAuthor("RngAd33");
+        mainTemplate.setOutputText("输出结果");
 
         doGenerate(inputPath, outputPath, dataModel);
     }
 
     /**
      * 方法封装：生成文件
+     *
      * @param inputPath 模板文件输入路径
      * @param outputPath 输出路径
      * @param model 数据模型

@@ -1,6 +1,7 @@
 package com.yupi.generator.file;
 
 import com.yupi.model.DataModel;
+import com.yupi.model.MainTemplate;
 import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
@@ -38,9 +39,10 @@ public class MainFileGenerator {
 
         // 生成数据模型
         DataModel dataModel = new DataModel();
+        MainTemplate mainTemplate = new MainTemplate();
         dataModel.setLoop(false);
-        dataModel.setAuthor("RngAd33");
-        dataModel.setOutputText("输出结果");
+        mainTemplate.setAuthor("RngAd33");
+        mainTemplate.setOutputText("输出结果");
 
         doGenerate(dataModel);
     }
