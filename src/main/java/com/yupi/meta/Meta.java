@@ -15,7 +15,7 @@ public class Meta {
     private String author;
     private String createTime;
     private FileConfig fileConfig;
-    private GroupConfig groupConfig;
+    // private GroupConfig groupConfig;
     private ModelConfig modelConfig;
 
     @NoArgsConstructor
@@ -41,6 +41,7 @@ public class Meta {
         }
     }
 
+    /*
     @NoArgsConstructor
     @Data
     public static class GroupConfig {
@@ -53,6 +54,7 @@ public class Meta {
             private String condition;
         }
     }
+    */
 
     @NoArgsConstructor
     @Data
