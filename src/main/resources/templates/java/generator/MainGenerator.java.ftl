@@ -5,7 +5,6 @@ import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
 
-// 定义宏
 <#macro generateFile indent fileInfo>
 ${indent}inputPath = new File(inputRootPath, "${fileInfo.inputPath}").getAbsolutePath();
 ${indent}outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
