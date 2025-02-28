@@ -2,7 +2,7 @@ package com.yupi.generator.file;
 
 import cn.hutool.core.io.FileUtil;
 import com.yupi.model.DataModel;
-import com.yupi.model.MainTemplate;
+import com.yupi.model.DataModel.MainTemplate;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

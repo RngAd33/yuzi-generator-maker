@@ -16,11 +16,28 @@ public class DataModel {
     /**
      * 是否生成 .gitignore 文件
      */
-    public boolean needGit = true ;
+    public boolean needGit = true;
 
     /**
      * 核心模板
      */
-    public MainTemplate mainTemplate;
+    public MainTemplate mainTemplate = new MainTemplate();
 
+    /**
+     * 生成核心模板
+     */
+    @Data
+    public static class MainTemplate {
+
+        /**
+         * 作者注释
+         */
+        public String author = "RngAd33";
+
+        /**
+         * 输出信息
+         */
+        public String outputText = "输出结果";
+
+    }
 }
