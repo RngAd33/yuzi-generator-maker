@@ -18,4 +18,9 @@ public class DataModel {
      */
     public boolean needGit = true ;
 
+    /**
+     * 核心模板
+     */
+    public MainTemplate mainTemplate;
+
 }
