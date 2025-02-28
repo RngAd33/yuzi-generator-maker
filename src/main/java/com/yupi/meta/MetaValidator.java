@@ -170,7 +170,7 @@ public class MetaValidator {
             return;
         }
         for (Meta.ModelConfig.ModelInfo modelInfo : modelInfoList) {
-            // 不对文件组group校验
+            // 不对模型组group校验
             String groupKey = modelInfo.getGroupKey();
             if (StrUtil.isNotEmpty(groupKey)) {
                 // 生成中间参数
