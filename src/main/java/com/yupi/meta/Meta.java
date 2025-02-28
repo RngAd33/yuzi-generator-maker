@@ -15,6 +15,7 @@ public class Meta {
     private String author;
     private String createTime;
     private FileConfig fileConfig;
+    private GroupConfig groupConfig;
     private ModelConfig modelConfig;
 
     @NoArgsConstructor
@@ -42,6 +43,17 @@ public class Meta {
 
     @NoArgsConstructor
     @Data
+    public static class GroupConfig {
+        private List<GroupInfo> groups;
+
+        public static class GroupInfo {
+            private String name;
+            private String condition;
+        }
+    }
+
+    @NoArgsConstructor
+    @Data
     public static class ModelConfig {
         private List<ModelInfo> models;
 
@@ -49,10 +61,13 @@ public class Meta {
         @Data
         public static class ModelInfo {
             private String fieldName;
+            private String groupKey;
+            private String groupName;
             private String type;
             private String description;
             private Object defaultValue;  // 默认值，使用Object类型避免类型冲突问题
             private String abbr;
+            private List<ModelInfo> models;
         }
     }
 }
