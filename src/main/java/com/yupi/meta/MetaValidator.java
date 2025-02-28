@@ -119,8 +119,8 @@ public class MetaValidator {
         }
         for (Meta.FileConfig.FileInfo fileInfo : fileInfoList) {
             // 不对文件组group校验
-            String type = fileInfo.getType();
-            if (FileTypeEnum.GROUP.getValue().equals(type)) {
+            String groupKey = fileInfo.getGroupKey();
+            if (StrUtil.isNotEmpty(groupKey)) {
                 continue;
             }
 
@@ -137,7 +137,7 @@ public class MetaValidator {
             }
 
             // -type（默认 inputPath 有文件后缀为 file，否则为 dir）
-            type = fileInfo.getType();
+            String type = fileInfo.getType();
             if (StrUtil.isBlank(type)) {
                 if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))) {
                     fileInfo.setType(FileTypeEnum.DIR.getValue());   // 元文件后缀
