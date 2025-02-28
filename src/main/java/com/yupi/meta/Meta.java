@@ -46,6 +46,8 @@ public class Meta {
     public static class GroupConfig {
         private List<GroupInfo> groups;
 
+        @NoArgsConstructor
+        @Data
         public static class GroupInfo {
             private String name;
             private String condition;
