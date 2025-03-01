@@ -165,6 +165,7 @@ public class MetaValidator {
         if (modelConfig == null) {
             return;
         }
+        // ModelConfig 默认值
         List<Meta.ModelConfig.ModelInfo> modelInfoList = modelConfig.getModels();
         if (!CollectionUtil.isNotEmpty(modelInfoList)) {
             return;
