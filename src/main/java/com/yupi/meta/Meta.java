@@ -57,6 +57,7 @@ public class Meta {
             private Object defaultValue;   // 默认值，使用Object类型避免类型冲突问题
             private List<ModelInfo> models;
             private String condition;
+
             private String allArgsStr;   // 中间参数，用于记录该分组下拼接的字符串
         }
     }
