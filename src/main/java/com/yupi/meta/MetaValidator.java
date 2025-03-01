@@ -151,9 +151,9 @@ public class MetaValidator {
             String generateType = fileInfo.getGenerateType();
             if (StrUtil.isEmpty(generateType)) {
                 if (inputPath.endsWith(".ftl")) {
-                    fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.value());   // 动态模板
+                    fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());   // 动态模板
                 } else {
-                    fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.value());   // 静态模板
+                    fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());   // 静态模板
                 }
             }
         }
@@ -192,7 +192,7 @@ public class MetaValidator {
             // 模型配置
             String modelInfoType = modelInfo.getType();
             if (StrUtil.isEmpty(modelInfoType)) {
-                modelInfo.setType(ModelTypeEnum.STRING.value());
+                modelInfo.setType(ModelTypeEnum.STRING.getValue());
             }
         }
     }

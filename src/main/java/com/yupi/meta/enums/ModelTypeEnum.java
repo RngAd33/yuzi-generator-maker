@@ -17,11 +17,11 @@ public enum ModelTypeEnum {
         this.value = value;
     }
 
-    private String text() {
+    private String getText() {
         return text;
     }
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 }

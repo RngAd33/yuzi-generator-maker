@@ -52,8 +52,15 @@ public abstract class GenerateTemplate {
         buildDist(outputPath, jarPath, shellOutputFilePath, sourceCopyDestPath);
     }
 
-    // 封装脚本
-    protected String buildScript(String outputPath, String jarPath) {
+    /**
+     * 封装脚本
+     *
+     * @param outputPath
+     * @param jarPath
+     * @return
+     * @throws IOException
+     */
+    protected String buildScript(String outputPath, String jarPath) throws IOException{
         String shellOutputFilePath = outputPath + File.separator + "generator";
         ScriptGenerator.doGenerate(shellOutputFilePath, jarPath);
         return shellOutputFilePath;
@@ -168,7 +175,7 @@ public abstract class GenerateTemplate {
         inputFilePath = inputResourcePath + File.separator + "templates/README.md.ftl";
         outputFilePath = outputPath + "/README.md";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
-         */
+        */
     }
 
     /**
