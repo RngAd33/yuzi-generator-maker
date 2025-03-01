@@ -13,29 +13,23 @@
 执行项目根目录下的脚本文件：
 ```
 generator <命令> <选项参数>
-                ```
+```
 
 示例命令：
 ```
-        generator generate <#list modelConfig.models as modelInfo>
-            <#if modelInfo.abbr??>
-                -${modelInfo.abbr}
-            <#else>
-                -default
-            </#if>
-        </#list>
+generator generate <#list modelConfig.models as modelInfo>-${modelInfo.abbr!"default"}</#list>
 ```
 
 ## 参数说明
 <#list modelConfig.models as modelInfo>
-${modelInfo?index + 1}）${modelInfo.fieldName}
+${modelInfo?index + 1}）${modelInfo.fieldName!"默认字段名"}
 
-类型：${modelInfo.type}
+类型：${modelInfo.type!"未知类型"}
 
-描述：${modelInfo.description}
+描述：${modelInfo.description!"无描述"}
 
-默认值：${modelInfo.defaultValue?c}
+默认值：${(modelInfo.defaultValue?string("true", "false"))!"无默认值"}
 
-缩写： -${modelInfo.abbr}
+缩写： -${modelInfo.abbr!"default"}
 
 </#list>
