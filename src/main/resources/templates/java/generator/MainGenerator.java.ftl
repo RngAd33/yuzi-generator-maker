@@ -38,7 +38,7 @@ public class MainGenerator {
     <#-- 有分组 -->
     <#if modelInfo.groupKey??>
         <#list modelInfo.models as subModelInfo>
-            ${subModelInfo.type} ${subModelInfo.fieldName} = model.${modelInfo.groupKey}.${subModelInfo.fieldName};
+        ${subModelInfo.type} ${subModelInfo.fieldName} = model.${modelInfo.groupKey}.${subModelInfo.fieldName};
         </#list>
     <#else>
         ${modelInfo.type} ${modelInfo.fieldName} = model.${modelInfo.fieldName};

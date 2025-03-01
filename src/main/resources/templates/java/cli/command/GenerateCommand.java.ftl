@@ -79,4 +79,4 @@ public class GenerateCommand implements Callable<Integer> {
     MainGenerator.doGenerate(dataModel);
     return 0;
     }
-    }
+}

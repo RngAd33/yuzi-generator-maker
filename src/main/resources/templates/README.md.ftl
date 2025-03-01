@@ -17,7 +17,13 @@ generator <命令> <选项参数>
 
 示例命令：
 ```
-generator generate <#list modelConfig.models as modelInfo>-${modelInfo.abbr} </#list>
+        generator generate <#list modelConfig.models as modelInfo>
+            <#if modelInfo.abbr??>
+                -${modelInfo.abbr}
+            <#else>
+                -default
+            </#if>
+        </#list>
 ```
 
 ## 参数说明
