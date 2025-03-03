@@ -57,8 +57,8 @@ public abstract class GenerateTemplate {
      *
      * @param outputPath
      * @param jarPath
-     * @return
      * @throws IOException
+     * @return
      */
     protected String buildScript(String outputPath, String jarPath) throws IOException{
         String shellOutputFilePath = outputPath + File.separator + "generator";
