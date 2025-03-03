@@ -174,7 +174,7 @@ public class MetaValidator {
             // 不对模型组group校验
             String groupKey = modelInfo.getGroupKey();
             if (StrUtil.isNotEmpty(groupKey)) {
-                // 生成中间参数
+                // 生成中间参数 "--author" and "--outputText"
                 List<Meta.ModelConfig.ModelInfo> subModelInfoList = modelInfo.getModels();
                 String allArgsStr = modelInfo.getModels().stream()
                         .map(subModelInfo -> String.format("\"--%s\"", subModelInfo.getFieldName()))
