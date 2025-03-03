@@ -41,8 +41,8 @@ public class GenerateCommand implements Callable<Integer> {
 
     <#list modelInfo.models as subModelInfo>
         <@generateOption indent="        " modelInfo=subModelInfo />
-    </#list>
 
+    </#list>
         @Override
         public void run() {
         <#list modelInfo.models as subModelInfo>
