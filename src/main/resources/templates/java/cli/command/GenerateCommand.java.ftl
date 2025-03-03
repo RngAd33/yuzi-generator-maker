@@ -25,10 +25,10 @@ ${indent}commandLine.execute(${modelInfo.allArgsStr});
 @Command(name = "generate", description = "生成代码", mixinStandardHelpOptions = true)
 @Data
 public class GenerateCommand implements Callable<Integer> {
-    <#list modelConfig.models as modelInfo>
+    <#list modelConfig.models as modelInfo></#list>
 
     <#-- 有分组 -->
-        <#if modelInfo.groupKey??>
+    <#if modelInfo.groupKey??>
     /**
      * ${modelInfo.groupName}
      */
