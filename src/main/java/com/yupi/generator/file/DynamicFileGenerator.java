@@ -76,5 +76,4 @@ public class DynamicFileGenerator {
         // 生成文件后别忘了关闭哦
         out.close();
     }
-
 }
