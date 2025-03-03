@@ -70,9 +70,9 @@ public abstract class GenerateTemplate {
      * 构建Jar包
      *
      * @param outputPath
-     * @return 返回jar包的相对路径
      * @throws IOException
      * @throws InterruptedException
+     * @return 返回jar包的相对路径
      */
     protected String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
@@ -146,11 +146,6 @@ public abstract class GenerateTemplate {
         outputFilePath = outputBaseJavaPackagePath + "/cli/CommandExecutor.java";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
-        // Main
-        inputFilePath = inputResourcePath + File.separator + "templates/java/Main.java.ftl";
-        outputFilePath = outputBaseJavaPackagePath + "/Main.java";
-        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
-
         // generator.MainGenerator
         inputFilePath = inputResourcePath + File.separator + "templates/java/generator/MainGenerator.java.ftl";
         outputFilePath = outputBaseJavaPackagePath + "/generator/MainGenerator.java";
@@ -164,6 +159,11 @@ public abstract class GenerateTemplate {
         // generator.StaticGenerator
         inputFilePath = inputResourcePath + File.separator + "templates/java/generator/StaticGenerator.java.ftl";
         outputFilePath = outputBaseJavaPackagePath + "/generator/StaticGenerator.java";
+        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+
+        // Main
+        inputFilePath = inputResourcePath + File.separator + "templates/java/Main.java.ftl";
+        outputFilePath = outputBaseJavaPackagePath + "/Main.java";
         DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
 
         // pom.xml
