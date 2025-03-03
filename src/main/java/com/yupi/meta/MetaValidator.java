@@ -23,61 +23,6 @@ public class MetaValidator {
         validAndFillModelConfig(meta);
     }
 
-    /* 基础信息校验 */
-    private static void validAndFillMetaRoot(Meta meta) {
-        String name = StrUtil.blankToDefault(meta.getName(), "acm-template-pro-generator");
-        String description = StrUtil.emptyToDefault(meta.getDescription(), "ACM 示例模板生成器");
-        String basePackage = StrUtil.blankToDefault(meta.getBasePackage(), "com.yupi");
-        String version = StrUtil.emptyToDefault(meta.getVersion(), "1.0");
-        String author = StrUtil.emptyToDefault(meta.getAuthor(), "RngAd33");
-        String createTime = StrUtil.emptyToDefault(meta.getCreateTime(), "2024-02-24");
-        meta.setName(name);
-        meta.setDescription(description);
-        meta.setBasePackage(basePackage);
-        meta.setVersion(version);
-        meta.setAuthor(author);
-        meta.setCreateTime(createTime);
-    }
-    /* 以上为简化版本
-    private static void validAndFillMetaRoot(Meta meta) {
-        String name = meta.getName();
-        if (StrUtil.isBlank(name)) {
-            name = "acm-template-pro-generator";
-            meta.setName(name);
-        }
-
-        String description = meta.getDescription();
-        if (StrUtil.isEmpty(description)) {
-            description = "ACM 示例模板生成器";
-            meta.setDescription(description);
-        }
-
-        String basePackage = meta.getBasePackage();
-        if (StrUtil.isBlank(basePackage)){
-            basePackage = "com.yupi";
-            meta.setBasePackage(basePackage);
-        }
-
-        String version = meta.getVersion();
-        if (StrUtil.isEmpty(version)) {
-            version = "1.0";
-            meta.setVersion(version);
-        }
-
-        String author = meta.getAuthor();
-        if (StrUtil.isEmpty(author)) {
-            author = "RngAd33";
-            meta.setAuthor(author);
-        }
-
-        String createTime = meta.getCreateTime();
-        if (StrUtil.isEmpty(createTime)) {
-            createTime = "2024-02-24";
-            meta.setCreateTime(createTime);
-        }
-    }
-    */
-
     /* fileConfig 校验 */
     private static void validAndFillFileConfig(Meta meta) {
         Meta.FileConfig fileConfig = meta.getFileConfig();
@@ -196,4 +141,59 @@ public class MetaValidator {
             }
         }
     }
+
+    /* 基础信息校验 */
+    private static void validAndFillMetaRoot(Meta meta) {
+        String name = StrUtil.blankToDefault(meta.getName(), "acm-template-pro-generator");
+        String description = StrUtil.emptyToDefault(meta.getDescription(), "ACM 示例模板生成器");
+        String basePackage = StrUtil.blankToDefault(meta.getBasePackage(), "com.yupi");
+        String version = StrUtil.emptyToDefault(meta.getVersion(), "1.0");
+        String author = StrUtil.emptyToDefault(meta.getAuthor(), "RngAd33");
+        String createTime = StrUtil.emptyToDefault(meta.getCreateTime(), "2024-02-24");
+        meta.setName(name);
+        meta.setDescription(description);
+        meta.setBasePackage(basePackage);
+        meta.setVersion(version);
+        meta.setAuthor(author);
+        meta.setCreateTime(createTime);
+    }
+    /* 以上为简化版本
+    private static void validAndFillMetaRoot(Meta meta) {
+        String name = meta.getName();
+        if (StrUtil.isBlank(name)) {
+            name = "acm-template-pro-generator";
+            meta.setName(name);
+        }
+
+        String description = meta.getDescription();
+        if (StrUtil.isEmpty(description)) {
+            description = "ACM 示例模板生成器";
+            meta.setDescription(description);
+        }
+
+        String basePackage = meta.getBasePackage();
+        if (StrUtil.isBlank(basePackage)){
+            basePackage = "com.yupi";
+            meta.setBasePackage(basePackage);
+        }
+
+        String version = meta.getVersion();
+        if (StrUtil.isEmpty(version)) {
+            version = "1.0";
+            meta.setVersion(version);
+        }
+
+        String author = meta.getAuthor();
+        if (StrUtil.isEmpty(author)) {
+            author = "RngAd33";
+            meta.setAuthor(author);
+        }
+
+        String createTime = meta.getCreateTime();
+        if (StrUtil.isEmpty(createTime)) {
+            createTime = "2024-02-24";
+            meta.setCreateTime(createTime);
+        }
+    }
+    */
 }
