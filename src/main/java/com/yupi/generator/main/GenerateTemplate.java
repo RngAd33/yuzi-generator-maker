@@ -18,7 +18,7 @@ import java.io.IOException;
 public abstract class GenerateTemplate {
 
     /**
-     * 抽取 MainGenerator 中的方法
+     *  从 MainGenerator 中抽取的方法
      *
      * @throws TemplateException
      * @throws IOException
