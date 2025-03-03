@@ -14,7 +14,7 @@ import java.io.Writer;
  * 动态文件生成
  */
 public class DynamicFileGenerator {
-
+    /*
     public static void main(String[] args) throws IOException, TemplateException {
         String projectPath = System.getProperty("user.dir");
         String inputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
@@ -27,6 +27,7 @@ public class DynamicFileGenerator {
 
         doGenerate(inputPath, outputPath, dataModel);
     }
+    */
 
     /**
      * 方法封装：生成文件

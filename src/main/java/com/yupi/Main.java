@@ -13,5 +13,4 @@ public class Main {
         MainGenerator mainGenerator = new MainGenerator();
         mainGenerator.doGenerate();
     }
-
 }
