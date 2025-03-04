@@ -7,14 +7,11 @@ public class JarGenerator {
     public static void doGenerate(String projectDir) throws IOException, InterruptedException {
 
         System.out.println("正在打包……");
-        // 清理以前的构建并打包
-        // 注意：不同操作系统执行的命令不同
+        // 清理以前的构建并打包（请注意：不同操作系统执行的命令不同）
         String winMavenCommand = "mvn.cmd clean package -DskipTests=true";
         String otherMavenCommand = "mvn clean package -DskipTests=true";
-        String mavenCommand = winMavenCommand;
-        // String mavenCommand = otherMavenCommand;
 
-        ProcessBuilder processBuilder = new ProcessBuilder(mavenCommand.split(" "));   // 用空格拆分命令
+        ProcessBuilder processBuilder = new ProcessBuilder(winMavenCommand.split(" "));   // 必须用空格拆分命令
         processBuilder.directory(new File(projectDir));   // 指定路径
 
         Process process = processBuilder.start();
