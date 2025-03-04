@@ -6,7 +6,8 @@ package com.yupi.meta.enums;
 public enum ModelTypeEnum {
 
     STRING("字符串类型", "string"),
-    BOOLEAN("布尔类型", "boolean");
+    BOOLEAN("布尔类型", "boolean"),
+    GROUP("模型组", "group");
 
     private final String text;
 
