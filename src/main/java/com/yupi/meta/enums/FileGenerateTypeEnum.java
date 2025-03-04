@@ -1,8 +1,11 @@
 package com.yupi.meta.enums;
 
+import lombok.Getter;
+
 /**
  * 文件生成类型枚举
  */
+@Getter
 public enum FileGenerateTypeEnum {
 
     DYNAMIC("动态", "dynamic"),
@@ -17,11 +20,4 @@ public enum FileGenerateTypeEnum {
         this.value = value;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public String getValue() {
-        return value;
-    }
 }

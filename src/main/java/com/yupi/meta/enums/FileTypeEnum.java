@@ -1,8 +1,11 @@
 package com.yupi.meta.enums;
 
+import lombok.Getter;
+
 /**
  * 文件类型枚举
  */
+@Getter
 public enum FileTypeEnum {
 
     DIR("目录", "dir"),
@@ -18,11 +21,4 @@ public enum FileTypeEnum {
         this.value = value;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public String getValue() {
-        return value;
-    }
 }

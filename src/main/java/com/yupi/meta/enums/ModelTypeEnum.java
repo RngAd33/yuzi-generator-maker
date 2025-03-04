@@ -1,8 +1,11 @@
 package com.yupi.meta.enums;
 
+import lombok.Getter;
+
 /**
  * 模型类型枚举
  */
+@Getter
 public enum ModelTypeEnum {
 
     STRING("字符串", "string"),
@@ -18,11 +21,4 @@ public enum ModelTypeEnum {
         this.value = value;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public String getValue() {
-        return value;
-    }
 }
