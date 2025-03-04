@@ -17,7 +17,7 @@ public enum FileGenerateTypeEnum {
         this.value = value;
     }
 
-    private String getText() {
+    public String getText() {
         return text;
     }
 
