@@ -72,12 +72,12 @@ public abstract class GenerateTemplate {
      * @param outputPath
      * @throws IOException
      * @throws InterruptedException
-     * @return 返回jar包的相对路径
+     * @return jarPath 返回jar包的相对路径
      */
     protected String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
-        String jarPath = "target/" + jarName;
+        String jarPath = "target" + File.separator + jarName;
         return jarPath;
     }
 
