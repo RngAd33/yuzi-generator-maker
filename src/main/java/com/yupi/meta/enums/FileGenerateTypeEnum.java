@@ -27,5 +27,4 @@ public enum FileGenerateTypeEnum {
     public String getValue() {
         return value;
     }
-
 }
