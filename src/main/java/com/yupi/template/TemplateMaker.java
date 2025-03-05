@@ -8,6 +8,7 @@ import com.yupi.meta.Meta;
 import com.yupi.meta.enums.FileGenerateTypeEnum;
 import com.yupi.meta.enums.FileTypeEnum;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +18,9 @@ import java.util.List;
 public class TemplateMaker {
 
     public static void main(String[] args) {
-
-        // 一、输入信息
-        // 1. 项目基本信息
-        String name = "acm-template-pro";
-        String description = "ACM示例模板生成器";
-
-        // 2. 输入文件信息
+        // 指定原始项目路径
         String projectPath = System.getProperty("user.dir");
-        String sourceRootPath = new File(projectPath).getParent() + File.separator + "yuzi-generator-demo-projects/acm-template-pro";
-        String fileInputPath = "src/com/yupi/acm/MainTemplate.java";
-        String fileOutputPath = fileInputPath + ".ftl";
+        String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
 
         // 复制目录
         long id = IdUtil.getSnowflakeNextId();
@@ -36,7 +29,17 @@ public class TemplateMaker {
         if (!FileUtil.exist(templatePath)) {
             FileUtil.mkdir(templatePath);
         }
-        FileUtil.copy(sourceRootPath, templatePath, true);
+        FileUtil.copy(originProjectPath, templatePath, true);
+
+        // 一、输入信息
+        // 1. 项目基本信息
+        String name = "acm-template-pro-generator";
+        String description = "ACM示例模板生成器";
+
+        // 2. 输入文件信息
+        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
+        String fileInputPath = "src/com/yupi/acm/MainTemplate.java";
+        String fileOutputPath = fileInputPath + ".ftl";
 
         // 3. 输入模型参数
         Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
