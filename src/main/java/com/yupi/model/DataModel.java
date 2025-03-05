@@ -24,7 +24,7 @@ public class DataModel {
     public MainTemplate mainTemplate = new MainTemplate();
 
     /**
-     * 生成核心模板
+     * 生成核心模板文件
      */
     @Data
     public static class MainTemplate {
@@ -37,7 +37,7 @@ public class DataModel {
         /**
          * 输出信息
          */
-        public String outputText = "输出结果";
+        public String outputText = "sum = ";
 
     }
 }

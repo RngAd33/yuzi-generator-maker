@@ -20,4 +20,12 @@ public enum FileGenerateTypeEnum {
         this.value = value;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
 }

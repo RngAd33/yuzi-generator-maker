@@ -1,7 +1,7 @@
 package com.yupi.meta;
 
 /**
- * 元信息异常
+ * 元信息异常类
  */
 public class MetaException extends RuntimeException {
 
