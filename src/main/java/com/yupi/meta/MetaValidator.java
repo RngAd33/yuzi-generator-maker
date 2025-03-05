@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *  meta校验
+ * meta校验
+ *
  ** 降低圈复杂度，需要减少嵌套解构，尽早结束程序 **
  ** 尽可能避免硬编码和魔法值，使用常量类可以更加灵活规范 **
  */
