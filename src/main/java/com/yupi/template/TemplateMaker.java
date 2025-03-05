@@ -1,6 +1,7 @@
 package com.yupi.template;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.yupi.meta.Meta;
@@ -28,6 +29,14 @@ public class TemplateMaker {
         String fileInputPath = "src/com/yupi/acm/MainTemplate.java";
         String fileOutputPath = fileInputPath + ".ftl";
 
+        // 复制目录
+        long id = IdUtil.getSnowflakeNextId();
+        String temDirPath = projectPath + File.separator + ".temp";
+        String templatePath = temDirPath + File.separator + id;
+        if (!FileUtil.exist(templatePath)) {
+            FileUtil.mkdir(templatePath);
+        }
+        FileUtil.copy(sourceRootPath, templatePath, true);
 
         // 3. 输入模型参数
         Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
