@@ -102,10 +102,11 @@ public class TemplateMaker {
             /* 追加配置 */
             // 1. 追加配置参数
             List<Meta.FileConfig.FileInfo> fileInfoList =  oldMeta.getFileConfig().getFiles();
+            fileInfoList.add(fileInfo);
+            List<Meta.ModelConfig.ModelInfo> modelInfoList = oldMeta.getModelConfig().getModels();
+            modelInfoList.add(modelInfo);
 
-            oldMeta.getFileConfig().setFiles(null);
-
-            // 2. 输出元信息文件
+            // 2. 更新元信息文件
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
 
         } else{
@@ -114,7 +115,7 @@ public class TemplateMaker {
             meta.setName(name);
             meta.setDescription(description);
 
-            // (1) fileConfig
+            // (1) FileConfig
             Meta.FileConfig fileConfig = new Meta.FileConfig();
             meta.setFileConfig(fileConfig);
             fileConfig.setSourceRootPath(sourceRootPath);
@@ -122,7 +123,7 @@ public class TemplateMaker {
             fileConfig.setFiles(fileInfoList);
             fileInfoList.add(fileInfo);
 
-            // (2) modelConfig
+            // (2) ModelConfig
             Meta.ModelConfig modelConfig = new Meta.ModelConfig();
             meta.setModelConfig(modelConfig);
             List<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
