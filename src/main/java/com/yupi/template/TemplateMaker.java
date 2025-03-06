@@ -68,13 +68,21 @@ public class TemplateMaker {
 
         // 二、使用字符串替换，生成模板文件
         String fileInputAbsolutePath = sourceRootPath + File.separator + fileInputPath;
-        String fileContent = FileUtil.readUtf8String(fileInputAbsolutePath);
+        String fileOutputAbsolutePath = sourceRootPath + File.separator + fileOutputPath;
+        String fileContent;
+
+        /* 若模板文件已存在，即不是第一次制作，则在原有模板的基础上再挖坑 */
+        if (FileUtil.exist(fileOutputAbsolutePath)) {
+            fileContent = FileUtil.readUtf8String(fileOutputAbsolutePath);
+        } else {
+            fileContent = FileUtil.readUtf8String(fileInputAbsolutePath);
+        }
+
         String replacement = String.format("${%s}", modelInfo.getFieldName());
         String newFileContent = StrUtil.replace(fileContent, "Sum = ", replacement);
 
         // 输出模板文件
-        String fileOutputAbsoluteFilePath = sourceRootPath + File.separator + fileOutputPath;
-        FileUtil.writeUtf8String(newFileContent, fileOutputAbsoluteFilePath);
+        FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
 
         // 三、生成配置文件
         String metaOutputPath = sourceRootPath + File.separator + "meta.json";
