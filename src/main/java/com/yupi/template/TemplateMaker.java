@@ -109,36 +109,33 @@ public class TemplateMaker {
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
 
         } else{
+            // 1. 构造配置参数
+            Meta meta = new Meta();
+            meta.setName(name);
+            meta.setDescription(description);
 
+            // (1) fileConfig
+            Meta.FileConfig fileConfig = new Meta.FileConfig();
+            meta.setFileConfig(fileConfig);
+            fileConfig.setSourceRootPath(sourceRootPath);
+            List<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
+            fileConfig.setFiles(fileInfoList);
+            fileInfoList.add(fileInfo);
+
+            // (2) modelConfig
+            Meta.ModelConfig modelConfig = new Meta.ModelConfig();
+            meta.setModelConfig(modelConfig);
+            List<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
+            modelConfig.setModels(modelInfoList);
+            modelInfoList.add(modelInfo);
+
+            // 2. 输出元信息文件
+            FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(meta), metaOutputPath);
         }
-
-        // 1. 构造配置参数
-        Meta meta = new Meta();
-        meta.setName(name);
-        meta.setDescription(description);
-        // fileConfig
-        Meta.FileConfig fileConfig = new Meta.FileConfig();
-        meta.setFileConfig(fileConfig);
-        fileConfig.setSourceRootPath(sourceRootPath);
-        List<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
-        fileConfig.setFiles(fileInfoList);
-
-
-        fileInfoList.add(fileInfo);
-        // (3) modelConfig
-        Meta.ModelConfig modelConfig = new Meta.ModelConfig();
-        meta.setModelConfig(modelConfig);
-        List<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
-        modelConfig.setModels(modelInfoList);
-        modelInfoList.add(modelInfo);
-
-        // 2. 输出元信息文件
-        FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(meta), metaOutputPath);
-
         return id;
     }
 
     public static void main(String[] args) {
-        TemplateMaker.makeTemplate(458918415641656545L);
+        TemplateMaker.makeTemplate(1897511829895282688L);
     }
 }
