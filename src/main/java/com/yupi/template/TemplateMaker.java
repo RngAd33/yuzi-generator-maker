@@ -30,19 +30,13 @@ public class TemplateMaker {
             id = IdUtil.getSnowflakeNextId();
         }
 
-        // 业务逻辑……
-
-        return id;
-    }
-
-    public static void main(String[] args) {
         // 〇、创建隔离工作空间以完成文件的生成和处理
         // 1. 指定原始项目路径
         String projectPath = System.getProperty("user.dir");
         String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
 
         // 2. 复制目录（创建独立空间）
-        long id = IdUtil.getSnowflakeNextId();   // 时间戳命名，防重复
+        id = IdUtil.getSnowflakeNextId();   // 时间戳命名，防重复
         String temDirPath = projectPath + File.separator + ".temp";
         String templatePath = temDirPath + File.separator + id;
         /* 目录不存在？创建目录！ */
@@ -141,6 +135,10 @@ public class TemplateMaker {
         // 2. 输出元信息文件
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(meta), metaOutputPath);
 
+        return id;
     }
 
+    public static void main(String[] args) {
+        TemplateMaker.makeTemplate(458918415641656545L);
+    }
 }
