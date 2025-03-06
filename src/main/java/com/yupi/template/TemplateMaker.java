@@ -22,7 +22,7 @@ public class TemplateMaker {
         String projectPath = System.getProperty("user.dir");
         String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
 
-        // 复制目录
+        // 复制目录，创建隔离工作空间完成文件的生成和处理
         long id = IdUtil.getSnowflakeNextId();   // 时间戳命名，防重复
         String temDirPath = projectPath + File.separator + ".temp";
         String templatePath = temDirPath + File.separator + id;
