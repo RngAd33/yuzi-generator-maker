@@ -23,9 +23,10 @@ public class TemplateMaker {
         String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
 
         // 复制目录
-        long id = IdUtil.getSnowflakeNextId();
+        long id = IdUtil.getSnowflakeNextId();   // 时间戳命名，防重复
         String temDirPath = projectPath + File.separator + ".temp";
         String templatePath = temDirPath + File.separator + id;
+        /* 目录不存在就创建目录 */
         if (!FileUtil.exist(templatePath)) {
             FileUtil.mkdir(templatePath);
         }
