@@ -11,6 +11,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 元信息模板制作工具
@@ -136,7 +137,17 @@ public class TemplateMaker {
         return id;
     }
 
+    public static List<Meta.FileConfig.FileInfo> distinctFile(List<Meta.FileConfig.FileInfo> fileInfoList) {
+        List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(
+                fileInfoList.stream()
+                        .collect(
+                                Collectors.toMap(Meta.FileConfig.FileInfo::getInputPath, o ->o, (e, r) -> r)
+                        ).values()
+        );
+        return newFileInfoList;
+    }
+
     public static void main(String[] args) {
-        TemplateMaker.makeTemplate(1897511829895282688L);
+        TemplateMaker.makeTemplate(1897511829895282688L);   // 临时参数
     }
 }
