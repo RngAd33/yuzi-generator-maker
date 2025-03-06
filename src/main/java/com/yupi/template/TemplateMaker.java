@@ -17,25 +17,43 @@ import java.util.List;
  */
 public class TemplateMaker {
 
+    /**
+     * 抽象方法
+     *
+     * @param id
+     * @return
+     */
+    private static long makeTemplate(Long id) {
+
+        // 没有id？生成一个！
+        if (id == null) {
+            id = IdUtil.getSnowflakeNextId();
+        }
+
+        return id;
+    }
+
     public static void main(String[] args) {
-        // 指定原始项目路径
+        // 〇、创建隔离工作空间以完成文件的生成和处理
+        // 1. 指定原始项目路径
         String projectPath = System.getProperty("user.dir");
         String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
 
-        // 复制目录，创建隔离工作空间完成文件的生成和处理
+        // 2. 复制目录（创建独立空间）
         long id = IdUtil.getSnowflakeNextId();   // 时间戳命名，防重复
         String temDirPath = projectPath + File.separator + ".temp";
         String templatePath = temDirPath + File.separator + id;
-        /* 目录不存在就创建目录 */
+        /* 目录不存在？创建目录！ */
         if (!FileUtil.exist(templatePath)) {
             FileUtil.mkdir(templatePath);
+            FileUtil.copy(originProjectPath, templatePath, true);
         }
         FileUtil.copy(originProjectPath, templatePath, true);
 
         // 一、输入信息
         // 1. 项目基本信息
         String name = "acm-template-pro-generator";
-        String description = "ACM示例模板生成器";
+        String description = "ACM 示例模板生成器";
 
         // 2. 输入文件信息
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
