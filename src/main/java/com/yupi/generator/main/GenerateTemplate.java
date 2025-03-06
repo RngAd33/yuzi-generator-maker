@@ -179,7 +179,7 @@ public abstract class GenerateTemplate {
         // .gitignore
         inputFilePath = inputResourcePath + File.separator + "templates/.gitignore.ftl";
         outputFilePath = outputPath + File.separator + "/.gitignore";
-        DynamicFileGenerator.doGenerate(inputFilePath, outputFilePath, meta);
+        FileUtil.copy(inputFilePath, outputFilePath, true);
     }
 
     /**
