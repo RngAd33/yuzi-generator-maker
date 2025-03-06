@@ -30,6 +30,8 @@ public class TemplateMaker {
             id = IdUtil.getSnowflakeNextId();
         }
 
+        // 业务逻辑……
+
         return id;
     }
 
@@ -56,7 +58,12 @@ public class TemplateMaker {
         String description = "ACM 示例模板生成器";
 
         // 2. 输入文件信息
+        // 要挖坑的项目目录
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
+        /* 请注意：在 Windows 系统下，需要对路径进行转义 */
+        sourceRootPath = sourceRootPath.replace("\\\\", "/");
+
+        // 要挖坑的文件
         String fileInputPath = "src/com/yupi/acm/MainTemplate.java";
         String fileOutputPath = fileInputPath + ".ftl";
 
@@ -84,25 +91,45 @@ public class TemplateMaker {
         // 输出模板文件
         FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
 
-        // 三、生成配置文件
-        String metaOutputPath = sourceRootPath + File.separator + "meta.json";
-
-        // 1. 构造配置参数
-        Meta meta = new Meta();
-        meta.setName(name);
-        meta.setDescription(description);
-        // (1) fileConfig
-        Meta.FileConfig fileConfig = new Meta.FileConfig();
-        meta.setFileConfig(fileConfig);
-        fileConfig.setSourceRootPath(sourceRootPath);
-        List<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
-        fileConfig.setFiles(fileInfoList);
-        // (2) fileInfo
+        // 文件配置信息（fileInfo）
         Meta.FileConfig.FileInfo fileInfo = new Meta.FileConfig.FileInfo();
         fileInfo.setInputPath(fileInputPath);
         fileInfo.setOutputPath(fileOutputPath);
         fileInfo.setType(FileTypeEnum.FILE.getValue());
         fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
+
+        // 三、生成配置文件
+        String metaOutputPath = sourceRootPath + File.separator + "meta.json";
+
+        // 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
+        if (FileUtil.exist(metaOutputPath))
+        {
+            Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
+            /* 追加配置 */
+            // 1. 追加配置参数
+            List<Meta.FileConfig.FileInfo> fileInfoList =  oldMeta.getFileConfig().getFiles();
+
+            oldMeta.getFileConfig().setFiles(null);
+
+            // 2. 输出元信息文件
+            FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
+
+        } else{
+
+        }
+
+        // 1. 构造配置参数
+        Meta meta = new Meta();
+        meta.setName(name);
+        meta.setDescription(description);
+        // fileConfig
+        Meta.FileConfig fileConfig = new Meta.FileConfig();
+        meta.setFileConfig(fileConfig);
+        fileConfig.setSourceRootPath(sourceRootPath);
+        List<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
+        fileConfig.setFiles(fileInfoList);
+
+
         fileInfoList.add(fileInfo);
         // (3) modelConfig
         Meta.ModelConfig modelConfig = new Meta.ModelConfig();
