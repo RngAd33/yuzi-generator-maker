@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class TemplateMaker {
 
     /**
-     * 模板制作方法
+     * 模板制作
      *
      * @param id 时间戳命名
      * @return
