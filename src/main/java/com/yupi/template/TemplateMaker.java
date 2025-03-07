@@ -107,14 +107,14 @@ public class TemplateMaker {
             List<Meta.ModelConfig.ModelInfo> modelInfoList = oldMeta.getModelConfig().getModels();
             modelInfoList.add(modelInfo);
 
-            // 2. 配置去重
+            // 2. 调用方法，配置去重
             oldMeta.getFileConfig().setFiles(distinctFile(fileInfoList));
             oldMeta.getModelConfig().setModels(distinctModel(modelInfoList));
 
-            // 3. 更新元信息文件
+            // 3. 更新 meta 文件
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
 
-        } else{
+        } else {
             // 1. 构造配置参数
             Meta meta = new Meta();
             meta.setName(name);
