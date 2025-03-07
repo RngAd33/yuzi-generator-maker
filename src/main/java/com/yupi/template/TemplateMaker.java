@@ -21,7 +21,7 @@ public class TemplateMaker {
     /**
      * 抽象方法
      *
-     * @param id
+     * @param id 时间戳命名
      * @return
      */
     private static long makeTemplate(Long id) {
@@ -137,6 +137,12 @@ public class TemplateMaker {
         return id;
     }
 
+    /**
+     * 文件去重
+     *
+     * @param fileInfoList
+     * @return
+     */
     public static List<Meta.FileConfig.FileInfo> distinctFile(List<Meta.FileConfig.FileInfo> fileInfoList) {
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(
                 fileInfoList.stream()
@@ -148,6 +154,6 @@ public class TemplateMaker {
     }
 
     public static void main(String[] args) {
-        TemplateMaker.makeTemplate(1897511829895282688L);   // 临时参数
+        TemplateMaker.makeTemplate(1897511829895282688L);   // 临时参数 id
     }
 }
