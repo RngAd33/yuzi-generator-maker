@@ -29,18 +29,23 @@ public class TemplateMaker {
         String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
         String fileInputPath = "src/com/yupi/acm/MainTemplate.java";
 
-        // 输入模型参数（第一次）
+        /* 输入模型参数（第一次）
         Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
         modelInfo.setFieldName("outputText");
         modelInfo.setType("String");
         modelInfo.setDefaultValue("sum = ");
+        */
 
         // 输入模型参数（第二次）
+        Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
+        modelInfo.setFieldName("className");
+        modelInfo.setType("String");
 
+        // 替换变量（第一次）
+        // String searchStr = "Sum = ";
 
-        // 替换变量
-        String searchStr = "Sum = ";
-
+        // 替换变量（第二次）
+        String searchStr = "MainTemplate";
         TemplateMaker.makeTemplate(newMeta, originProjectPath, fileInputPath, modelInfo, searchStr, 1897511829895282688L);
     }
 
@@ -63,7 +68,6 @@ public class TemplateMaker {
         }
 
         // 〇、创建隔离工作空间以完成文件的生成和处理
-
         // 2. 复制目录（创建独立空间）
         id = IdUtil.getSnowflakeNextId();   // 时间戳命名，防重复
         String projectPath = System.getProperty("user.dir");
