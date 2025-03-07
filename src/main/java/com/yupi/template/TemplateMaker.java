@@ -18,13 +18,44 @@ import java.util.stream.Collectors;
  */
 public class TemplateMaker {
 
+    public static void main(String[] args) {
+        // 构造配置参数
+        Meta newMeta = new Meta();
+        newMeta.setName("acm-template-pro-generator");
+        newMeta.setDescription("ACM 示例模板生成器");
+
+        // 指定原始项目路径
+        String projectPath = System.getProperty("user.dir");
+        String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
+        String fileInputPath = "src/com/yupi/acm/MainTemplate.java";
+
+        // 输入模型参数（第一次）
+        Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
+        modelInfo.setFieldName("outputText");
+        modelInfo.setType("String");
+        modelInfo.setDefaultValue("sum = ");
+
+        // 输入模型参数（第二次）
+
+
+        // 替换变量
+        String searchStr = "Sum = ";
+
+        TemplateMaker.makeTemplate(newMeta, originProjectPath, fileInputPath, modelInfo, searchStr, 1897511829895282688L);
+    }
+
     /**
      * 模板制作
      *
-     * @param id 时间戳命名
+     * @param newMeta
+     * @param originProjectPath
+     * @param fileInputPath
+     * @param modelInfo
+     * @param searchStr
+     * @param id
      * @return
      */
-    private static long makeTemplate(Long id) {
+    private static long makeTemplate(Meta newMeta, String originProjectPath, String fileInputPath, Meta.ModelConfig.ModelInfo modelInfo, String searchStr, Long id) {
 
         // 没有id？生成一个！
         if (id == null) {
@@ -32,12 +63,10 @@ public class TemplateMaker {
         }
 
         // 〇、创建隔离工作空间以完成文件的生成和处理
-        // 1. 指定原始项目路径
-        String projectPath = System.getProperty("user.dir");
-        String originProjectPath = FileUtil.getAbsolutePath(new File(projectPath).getParentFile() + File.separator + "yuzi-generator-demo-projects/acm-template-pro");
 
         // 2. 复制目录（创建独立空间）
         id = IdUtil.getSnowflakeNextId();   // 时间戳命名，防重复
+        String projectPath = System.getProperty("user.dir");
         String temDirPath = projectPath + File.separator + ".temp";
         String templatePath = temDirPath + File.separator + id;
         /* 目录不存在？创建目录！ */
@@ -47,11 +76,6 @@ public class TemplateMaker {
         }
         FileUtil.copy(originProjectPath, templatePath, true);
 
-        // 一、输入信息
-        // 1. 项目基本信息
-        String name = "acm-template-pro-generator";
-        String description = "ACM 示例模板生成器";
-
         // 2. 输入文件信息
         // 要挖坑的项目目录
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
@@ -59,14 +83,7 @@ public class TemplateMaker {
         sourceRootPath = sourceRootPath.replace("\\\\", "/");
 
         // 要挖坑的文件
-        String fileInputPath = "src/com/yupi/acm/MainTemplate.java";
         String fileOutputPath = fileInputPath + ".ftl";
-
-        // 3. 输入模型参数
-        Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
-        modelInfo.setFieldName("outputText");
-        modelInfo.setType("String");
-        modelInfo.setDefaultValue("sum = ");
 
         // 二、使用字符串替换，生成模板文件
         String fileInputAbsolutePath = sourceRootPath + File.separator + fileInputPath;
@@ -81,7 +98,7 @@ public class TemplateMaker {
         }
 
         String replacement = String.format("${%s}", modelInfo.getFieldName());
-        String newFileContent = StrUtil.replace(fileContent, "Sum = ", replacement);
+        String newFileContent = StrUtil.replace(fileContent, searchStr, replacement);
 
         // 输出模板文件
         FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
@@ -115,14 +132,9 @@ public class TemplateMaker {
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
 
         } else {
-            // 构造配置参数
-            Meta meta = new Meta();
-            meta.setName(name);
-            meta.setDescription(description);
-
             // 1. FileConfig
             Meta.FileConfig fileConfig = new Meta.FileConfig();
-            meta.setFileConfig(fileConfig);
+            newMeta.setFileConfig(fileConfig);
             fileConfig.setSourceRootPath(sourceRootPath);
             List<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
             fileConfig.setFiles(fileInfoList);
@@ -130,13 +142,13 @@ public class TemplateMaker {
 
             // 2. ModelConfig
             Meta.ModelConfig modelConfig = new Meta.ModelConfig();
-            meta.setModelConfig(modelConfig);
+            newMeta.setModelConfig(modelConfig);
             List<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
             modelConfig.setModels(modelInfoList);
             modelInfoList.add(modelInfo);
 
             // 输出元信息文件
-            FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(meta), metaOutputPath);
+            FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
         }
         return id;
     }
@@ -171,9 +183,5 @@ public class TemplateMaker {
                         ).values()
         );
         return newModelInfoList;
-    }
-
-    public static void main(String[] args) {
-        TemplateMaker.makeTemplate(1897511829895282688L);   // 临时参数 id
     }
 }
