@@ -148,9 +148,25 @@ public class TemplateMaker {
                 fileInfoList.stream()
                         .collect(
                                 Collectors.toMap(Meta.FileConfig.FileInfo::getInputPath, o ->o, (e, r) -> r)
-                        ).values()
+                        ).values()   // (exist, replacement) -> replacement
         );
         return newFileInfoList;
+    }
+
+    /**
+     * 模型去重
+     *
+     * @param modelInfoList
+     * @return
+     */
+    public static List<Meta.ModelConfig.ModelInfo> distinctModel(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
+        List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>(
+                modelInfoList.stream()
+                        .collect(
+                                Collectors.toMap(Meta.ModelConfig.ModelInfo::getFieldName, o -> o, (e, r) -> r)
+                        ).values()
+        );
+        return newModelInfoList;
     }
 
     public static void main(String[] args) {
