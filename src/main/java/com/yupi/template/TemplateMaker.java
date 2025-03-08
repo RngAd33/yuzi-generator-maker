@@ -48,9 +48,9 @@ public class TemplateMaker {
         // 替换变量（第一次）
         // String searchStr = "Sum = ";
         // 替换变量（第二次）
-        String searchStr = "MainTemplate";
+        String searchStr = "BaseResponse";
 
-        long id = makeTemplate(meta, originProjectPath, fileInputPathList, modelInfo, searchStr, null);
+        long id = makeTemplate(meta, originProjectPath, fileInputPathList, modelInfo, searchStr, 1898351249921880064L);
         System.out.println(id);   // 当你看到这个被执行时，表示一切安好
     }
 
@@ -147,7 +147,6 @@ public class TemplateMaker {
 
         // 输出元信息文件
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
-
         return id;
     }
 
