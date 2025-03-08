@@ -112,18 +112,17 @@ public class TemplateMaker {
         // 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
         if (FileUtil.exist(metaOutputPath)) {
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
-            // 1. 追加配置参数
+            // 追加配置参数
             List<Meta.FileConfig.FileInfo> fileInfoList =  oldMeta.getFileConfig().getFiles();
             fileInfoList.addAll(newFileInfoList);
-
             List<Meta.ModelConfig.ModelInfo> modelInfoList = oldMeta.getModelConfig().getModels();
             modelInfoList.add(modelInfo);
 
-            // 2. 调用方法，配置去重
+            // 配置去重
             oldMeta.getFileConfig().setFiles(distinctFile(fileInfoList));
             oldMeta.getModelConfig().setModels(distinctModel(modelInfoList));
 
-            // 3. 更新 meta 文件
+            // 更新 meta 文件
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
 
         } else {
@@ -141,10 +140,10 @@ public class TemplateMaker {
             List<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
             modelConfig.setModels(modelInfoList);
             modelInfoList.add(modelInfo);
-
-            // 输出元信息文件
-            FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
         }
+
+        // 输出元信息文件
+        FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
 
         return id;
     }
