@@ -55,7 +55,7 @@ public class TemplateMaker {
     }
 
     /**
-     * 模板制作
+     * 制作模板
      *
      * @param newMeta
      * @param originProjectPath
@@ -74,8 +74,8 @@ public class TemplateMaker {
 
         // 复制目录（创建隔离工作空间以完成文件的生成和处理）
         String projectPath = System.getProperty("user.dir");
-        String temDirPath = projectPath + File.separator + ".temp";
-        String templatePath = temDirPath + File.separator + id;
+        String tempDirPath = projectPath + File.separator + ".temp";
+        String templatePath = tempDirPath + File.separator + id;
 
         /* 目录不存在，即首次制作，创建目录 */
         if (!FileUtil.exist(templatePath)) {
@@ -152,7 +152,7 @@ public class TemplateMaker {
     }
 
     /**
-     * 制作模板文件
+     * 制作文件模板
      *
      * @param modelInfo
      * @param searchStr
