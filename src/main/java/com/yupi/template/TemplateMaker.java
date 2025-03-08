@@ -49,7 +49,7 @@ public class TemplateMaker {
         String searchStr = "MainTemplate";
 
         long id = TemplateMaker.makeTemplate(meta, originProjectPath, fileInputPathList, modelInfo, searchStr, null);
-        System.out.println(id);
+        System.out.println(id);   // 当你看到这个被执行时，表示一切安好
     }
 
     /**
@@ -94,7 +94,7 @@ public class TemplateMaker {
             String fileInputAbsolutePath = sourceRootPath + File.separator + fileInputPath;
             // 如果是目录就遍历
             if (FileUtil.isDirectory(fileInputAbsolutePath)) {
-                List<File> fileList =  FileUtil.loopFiles(fileInputAbsolutePath);
+                List<File> fileList = FileUtil.loopFiles(fileInputAbsolutePath);
                 for (File file : fileList) {
                     Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(modelInfo, searchStr, sourceRootPath, file);
                     newFileInfoList.add(fileInfo);
@@ -106,14 +106,12 @@ public class TemplateMaker {
             }
         }
 
-
         // 生成配置文件
         String metaOutputPath = sourceRootPath + File.separator + "meta.json";
 
         // 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
         if (FileUtil.exist(metaOutputPath)) {
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
-            /* 追加配置 */
             // 1. 追加配置参数
             List<Meta.FileConfig.FileInfo> fileInfoList =  oldMeta.getFileConfig().getFiles();
             fileInfoList.addAll(newFileInfoList);
@@ -147,6 +145,7 @@ public class TemplateMaker {
             // 输出元信息文件
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
         }
+
         return id;
     }
 
@@ -193,6 +192,7 @@ public class TemplateMaker {
             fileInfo.setOutputPath(fileInputPath);   // 输入路径 = 输出路径
             fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
         } else {
+            // 已挖坑，动态生成
             fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
             FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
         }
