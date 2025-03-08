@@ -1,5 +1,7 @@
 package com.yupi.template;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -48,7 +50,7 @@ public class TemplateMaker {
         // 替换变量（第二次）
         String searchStr = "MainTemplate";
 
-        long id = TemplateMaker.makeTemplate(meta, originProjectPath, fileInputPathList, modelInfo, searchStr, null);
+        long id = makeTemplate(meta, originProjectPath, fileInputPathList, modelInfo, searchStr, null);
         System.out.println(id);   // 当你看到这个被执行时，表示一切安好
     }
 
@@ -112,20 +114,21 @@ public class TemplateMaker {
         // 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
         if (FileUtil.exist(metaOutputPath)) {
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
+            BeanUtil.copyProperties(newMeta, oldMeta, CopyOptions.create().ignoreNullValue());
+            newMeta = oldMeta;
+
             // 追加配置参数
-            List<Meta.FileConfig.FileInfo> fileInfoList =  oldMeta.getFileConfig().getFiles();
+            List<Meta.FileConfig.FileInfo> fileInfoList =  newMeta.getFileConfig().getFiles();
             fileInfoList.addAll(newFileInfoList);
-            List<Meta.ModelConfig.ModelInfo> modelInfoList = oldMeta.getModelConfig().getModels();
+            List<Meta.ModelConfig.ModelInfo> modelInfoList = newMeta.getModelConfig().getModels();
             modelInfoList.add(modelInfo);
 
             // 配置去重
-            oldMeta.getFileConfig().setFiles(distinctFile(fileInfoList));
-            oldMeta.getModelConfig().setModels(distinctModel(modelInfoList));
-
-            // 更新 meta 文件
-            FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
+            newMeta.getFileConfig().setFiles(distinctFiles(fileInfoList));
+            newMeta.getModelConfig().setModels(distinctModels(modelInfoList));
 
         } else {
+            // 构造配置参数
             // 1. FileConfig
             Meta.FileConfig fileConfig = new Meta.FileConfig();
             newMeta.setFileConfig(fileConfig);
@@ -205,7 +208,7 @@ public class TemplateMaker {
      * @param fileInfoList
      * @return
      */
-    public static List<Meta.FileConfig.FileInfo> distinctFile(List<Meta.FileConfig.FileInfo> fileInfoList) {
+    public static List<Meta.FileConfig.FileInfo> distinctFiles(List<Meta.FileConfig.FileInfo> fileInfoList) {
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(
                 fileInfoList.stream()
                         .collect(
@@ -221,7 +224,7 @@ public class TemplateMaker {
      * @param modelInfoList
      * @return
      */
-    public static List<Meta.ModelConfig.ModelInfo> distinctModel(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
+    public static List<Meta.ModelConfig.ModelInfo> distinctModels(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
         List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>(
                 modelInfoList.stream()
                         .collect(
