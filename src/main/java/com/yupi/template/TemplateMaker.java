@@ -74,7 +74,7 @@ public class TemplateMaker {
         fileInfoConfig2.setPath(fileInputPath2);
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
 
-        long id = makeTemplate(meta, originProjectPath, fileInputPathList, modelInfo, searchStr, 1898351249921880064L);
+        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, modelInfo, searchStr, 1898351249921880064L);
         System.out.println(id);   // 当你看到这个被执行时，表示初步安好
     }
 
