@@ -9,6 +9,11 @@ import cn.hutool.json.JSONUtil;
 import com.yupi.meta.Meta;
 import com.yupi.meta.enums.FileGenerateTypeEnum;
 import com.yupi.meta.enums.FileTypeEnum;
+import com.yupi.template.enums.FileFilterRangeEnum;
+import com.yupi.template.enums.FileFilterRuleEnum;
+import com.yupi.template.model.FileFilterConfig;
+import com.yupi.template.model.TemplateMakerFileConfig;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -51,8 +56,25 @@ public class TemplateMaker {
         // 替换变量（第二次）
         String searchStr = "BaseResponse";
 
+        // 文件过滤配置
+        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig1.setPath(fileInputPath1);
+        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
+        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
+                .range(FileFilterRangeEnum.FILE_NAME.getValue())
+                .rule(FileFilterRuleEnum.CONTAINS.getValue())
+                .value("base")
+                .build();
+        fileFilterConfigList.add(fileFilterConfig);
+        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
+
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig2.setPath(fileInputPath2);
+        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
+
         long id = makeTemplate(meta, originProjectPath, fileInputPathList, modelInfo, searchStr, 1898351249921880064L);
-        System.out.println(id);   // 当你看到这个被执行时，表示一切安好
+        System.out.println(id);   // 当你看到这个被执行时，表示初步安好
     }
 
     /**
