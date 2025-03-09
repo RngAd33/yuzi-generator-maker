@@ -58,6 +58,7 @@ public class TemplateMaker {
 
         // 文件过滤配置
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
+        // common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
         List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
@@ -68,7 +69,7 @@ public class TemplateMaker {
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
-
+        // controller
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig2.setPath(fileInputPath2);
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
