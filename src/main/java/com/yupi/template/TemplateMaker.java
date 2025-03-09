@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class TemplateMaker {
 
     public static void main(String[] args) {
+
         // 构造配置参数
         Meta meta = new Meta();
         meta.setName("acm-template-pro-generator");
