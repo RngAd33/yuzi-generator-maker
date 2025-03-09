@@ -58,7 +58,7 @@ public class TemplateMaker {
 
         // 文件过滤配置
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
-        // common
+        // 1. common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
         List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
@@ -69,7 +69,7 @@ public class TemplateMaker {
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
-        // controller
+        // 2. controller
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig2.setPath(fileInputPath2);
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
@@ -108,18 +108,16 @@ public class TemplateMaker {
         }
 
         // 一、输入文件信息
-        // 要挖坑的项目目录
-        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
-        /* 请注意：在 Windows 系统下，需要对路径进行转义 */
-        sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");
+        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();   // 要挖坑的项目目录
+        sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");   /* 请注意：在 Windows 系统下，需要对路径进行转义 */
 
         // 二、生成文件模板
-        // 遍历输入的文件
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
+        // 判断输入文件的类型
         for (String fileInputPath : fileInputPathList) {
             String fileInputAbsolutePath = sourceRootPath + File.separator + fileInputPath;
-            // 如果是目录就遍历
             if (FileUtil.isDirectory(fileInputAbsolutePath)) {
+                // 输入的是目录
                 List<File> fileList = FileUtil.loopFiles(fileInputAbsolutePath);
                 for (File file : fileList) {
                     Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(modelInfo, searchStr, sourceRootPath, file);
@@ -160,7 +158,6 @@ public class TemplateMaker {
             List<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
             fileConfig.setFiles(fileInfoList);
             fileInfoList.addAll(newFileInfoList);
-
             // 2. ModelConfig
             Meta.ModelConfig modelConfig = new Meta.ModelConfig();
             newMeta.setModelConfig(modelConfig);
@@ -184,6 +181,7 @@ public class TemplateMaker {
      * @return
      */
     private static Meta.FileConfig.FileInfo makeFileTemplate(Meta.ModelConfig.ModelInfo modelInfo, String searchStr, String sourceRootPath, File inputFile) {
+
         // 要挖坑的文件的绝对路径
         /* 请注意：在 Windows 系统下，需要对路径进行转义 */
         String fileInputAbsolutePath = inputFile.getAbsolutePath().replaceAll("\\\\", "/");
