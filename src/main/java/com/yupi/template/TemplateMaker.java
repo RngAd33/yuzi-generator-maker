@@ -65,7 +65,7 @@ public class TemplateMaker {
         FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
                 .range(FileFilterRangeEnum.FILE_NAME.getValue())
                 .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("base")
+                .value("Base")
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
@@ -108,18 +108,42 @@ public class TemplateMaker {
         }
 
         // 一、输入文件信息
-        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();   // 要挖坑的项目目录
+        // 要挖坑的项目目录（绝对路径）
+        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");   /* 请注意：在 Windows 系统下，需要对路径进行转义 */
         List<TemplateMakerFileConfig.FileInfoConfig> fileConfigInfoList = templateMakerFileConfig.getFiles();
 
         // 二、生成文件模板
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
-        // 判断输入文件的类型
+        for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
+            String fileInputPath = fileInfoConfig.getPath();
+
+            // 如果填的是相对路径，则转化为绝对路径
+            if (!fileInputPath.startsWith(sourceRootPath)) {
+                fileInputPath = sourceRootPath + File.separator + fileInputPath;
+            }
+
+            // 获取过滤之后的文件列表（此处不会存在目录）
+            List<File> fileList = FileFilter.doFilter(fileInputPath, fileInfoConfig.getFilterConfigList());
+            for (File file : fileList) {
+                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(modelInfo, searchStr, sourceRootPath, file);
+                newFileInfoList.add(fileInfo);
+            }
+        }
+
+        /*
+        List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
         for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
             String fileInputPath = fileInfoConfig.getPath();
             String fileInputAbsolutePath = sourceRootPath + File.separator + fileInputPath;
             // 传入绝对路径
             List<File> fileList = FileFilter.doFilter(fileInputAbsolutePath, fileInfoConfig.getFilterConfigList());
+            for (File file : fileList) {
+                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(modelInfo, searchStr, sourceRootPath, file);
+                newFileInfoList.add(fileInfo);
+            }
+
+            // 判断输入文件的类型
             if (FileUtil.isDirectory(fileInputAbsolutePath)) {
                 // 输入的是目录
                 fileList = FileUtil.loopFiles(fileInputAbsolutePath);
@@ -132,7 +156,7 @@ public class TemplateMaker {
                 Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(modelInfo, searchStr, sourceRootPath, new File(fileInputAbsolutePath));
                 newFileInfoList.add(fileInfo);
             }
-        }
+        */
 
         // 生成配置文件
         String metaOutputPath = sourceRootPath + File.separator + "meta.json";
