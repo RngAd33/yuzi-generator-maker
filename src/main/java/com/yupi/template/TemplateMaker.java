@@ -83,13 +83,13 @@ public class TemplateMaker {
      *
      * @param newMeta
      * @param originProjectPath
-     * @param fileInputPathList
+     * @param templateMakerFileConfig
      * @param modelInfo
      * @param searchStr
      * @param id
      * @return
      */
-    private static long makeTemplate(Meta newMeta, String originProjectPath, List<String> fileInputPathList, Meta.ModelConfig.ModelInfo modelInfo, String searchStr, Long id) {
+    private static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, Meta.ModelConfig.ModelInfo modelInfo, String searchStr, Long id) {
 
         // 没有id？生成一个！
         if (id == null) {
@@ -110,15 +110,19 @@ public class TemplateMaker {
         // 一、输入文件信息
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();   // 要挖坑的项目目录
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");   /* 请注意：在 Windows 系统下，需要对路径进行转义 */
+        List<TemplateMakerFileConfig.FileInfoConfig> fileConfigInfoList = templateMakerFileConfig.getFiles();
 
         // 二、生成文件模板
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
         // 判断输入文件的类型
-        for (String fileInputPath : fileInputPathList) {
+        for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
+            String fileInputPath = fileInfoConfig.getPath();
             String fileInputAbsolutePath = sourceRootPath + File.separator + fileInputPath;
+            // 传入绝对路径
+            List<File> fileList = FileFilter.doFilter(fileInputAbsolutePath, fileInfoConfig.getFilterConfigList());
             if (FileUtil.isDirectory(fileInputAbsolutePath)) {
                 // 输入的是目录
-                List<File> fileList = FileUtil.loopFiles(fileInputAbsolutePath);
+                fileList = FileUtil.loopFiles(fileInputAbsolutePath);
                 for (File file : fileList) {
                     Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(modelInfo, searchStr, sourceRootPath, file);
                     newFileInfoList.add(fileInfo);
