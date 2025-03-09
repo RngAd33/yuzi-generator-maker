@@ -7,11 +7,26 @@ import com.yupi.template.enums.FileFilterRuleEnum;
 import com.yupi.template.model.FileFilterConfig;
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 文件过滤器
  */
 public class FileFilter {
+
+    /**
+     * 对某个文件或目录进行过滤
+     *
+     * @param filePath
+     * @param fileFilterConfigList
+     * @return 文件列表
+     */
+    public static List<File> doFilter(String filePath, List<FileFilterConfig> fileFilterConfigList) {
+        List<File> fileList = FileUtil.loopFiles(filePath);
+        return fileList.stream()
+                .filter(file -> doSingleFileFilter(fileFilterConfigList, file))
+                .collect(Collectors.toList());
+    }
 
     /**
      * 单个文件过滤
@@ -66,7 +81,6 @@ public class FileFilter {
                     result = content.equals(value); break;
                 default:
             }
-
         }
         return result;
     }
