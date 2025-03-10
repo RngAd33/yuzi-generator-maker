@@ -13,7 +13,6 @@ import com.yupi.template.enums.FileFilterRangeEnum;
 import com.yupi.template.enums.FileFilterRuleEnum;
 import com.yupi.template.model.FileFilterConfig;
 import com.yupi.template.model.TemplateMakerFileConfig;
-
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -63,6 +62,7 @@ public class TemplateMaker {
         fileInfoConfig1.setPath(fileInputPath1);
         List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
         FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
+                // 此处目前过滤文件名带有"Base"的文件
                 .range(FileFilterRangeEnum.FILE_NAME.getValue())
                 .rule(FileFilterRuleEnum.CONTAINS.getValue())
                 .value("Base")

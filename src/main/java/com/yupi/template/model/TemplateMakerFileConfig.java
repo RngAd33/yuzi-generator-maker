@@ -16,5 +16,18 @@ public class TemplateMakerFileConfig {
         private String path;
 
         private List<FileFilterConfig> filterConfigList;
+
+    }
+
+    @NoArgsConstructor
+    @Data
+    public static class GroupConfig {
+
+        private String groupKey;
+
+        private String groupName;
+
+        private String condition;
+
     }
 }
