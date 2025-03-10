@@ -25,6 +25,11 @@ import java.util.stream.Collectors;
  */
 public class TemplateMaker {
 
+    /**
+     * 主函数，所有的配置方法均在此调用
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         // 构造配置参数
@@ -39,7 +44,8 @@ public class TemplateMaker {
         String fileInputPath2 = "src/main/java/com/yupi/project/controller";
         List<String> fileInputPathList = Arrays.asList(fileInputPath1, fileInputPath2);
 
-        /* 输入模型参数（第一次）
+        /*
+        // 输入模型参数（第一次）
         Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
         modelInfo.setFieldName("outputText");
         modelInfo.setType("String");
@@ -74,8 +80,15 @@ public class TemplateMaker {
         fileInfoConfig2.setPath(fileInputPath2);
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
 
+        // 文件分组配置
+        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
+        fileGroupConfig.setGroupKey("key");
+        fileGroupConfig.setGroupName("测试分组");
+        fileGroupConfig.setCondition("outputText");
+        templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
+
         long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, modelInfo, searchStr, 1898351249921880064L);
-        System.out.println(id);   // 当你看到这个被执行时，表示初步安好
+        System.out.println(id);
     }
 
     /**
@@ -156,8 +169,9 @@ public class TemplateMaker {
                 newFileInfoList.add(fileInfo);
             }
         */
-        // 如果是文件组
+        /* 文件分组 */
         TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = templateMakerFileConfig.getFileGroupConfig();
+        // 如果是文件组
         if (fileGroupConfig != null) {
             String groupKey = fileGroupConfig.getGroupKey();
             String groupName = fileGroupConfig.getGroupName();
@@ -178,7 +192,6 @@ public class TemplateMaker {
 
         // 三、生成配置文件
         String metaOutputPath = sourceRootPath + File.separator + "meta.json";
-
         // 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
         if (FileUtil.exist(metaOutputPath)) {
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
