@@ -118,7 +118,7 @@ public class TemplateMaker {
         for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
             String fileInputPath = fileInfoConfig.getPath();
 
-            // 如果填的是相对路径，则转化为绝对路径
+            // 如果填的是相对路径，则转化为绝对路径后传入
             if (!fileInputPath.startsWith(sourceRootPath)) {
                 fileInputPath = sourceRootPath + File.separator + fileInputPath;
             }
@@ -130,7 +130,6 @@ public class TemplateMaker {
                 newFileInfoList.add(fileInfo);
             }
         }
-
         /*
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
         for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
@@ -157,8 +156,27 @@ public class TemplateMaker {
                 newFileInfoList.add(fileInfo);
             }
         */
+        // 如果是文件组
+        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = templateMakerFileConfig.getFileGroupConfig();
+        if (fileGroupConfig != null) {
+            String groupKey = fileGroupConfig.getGroupKey();
+            String groupName = fileGroupConfig.getGroupName();
+            String condition = fileGroupConfig.getCondition();
 
-        // 生成配置文件
+            // 新增分组配置
+            Meta.FileConfig.FileInfo fileGroupInfo = new Meta.FileConfig.FileInfo();
+            fileGroupInfo.setType(FileTypeEnum.GROUP.getValue());
+            fileGroupInfo.setGroupKey(groupKey);
+            fileGroupInfo.setGroupName(groupName);
+            fileGroupInfo.setCondition(condition);
+
+            // 文件全部放到一个组内
+            fileGroupInfo.setFiles(newFileInfoList);
+            newFileInfoList = new ArrayList<>();
+            newFileInfoList.add(fileGroupInfo);
+        }
+
+        // 三、生成配置文件
         String metaOutputPath = sourceRootPath + File.separator + "meta.json";
 
         // 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
@@ -194,7 +212,7 @@ public class TemplateMaker {
             modelInfoList.add(modelInfo);
         }
 
-        // 输出元信息文件
+        // 四、输出元信息文件
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
         return id;
     }
