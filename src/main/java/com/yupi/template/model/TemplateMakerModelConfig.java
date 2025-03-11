@@ -1,6 +1,5 @@
 package com.yupi.template.model;
 
-import com.yupi.meta.Meta;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 @Data
 public class TemplateMakerModelConfig {
 
-    private List<Meta.ModelConfig.ModelInfo> models;
+    private List<ModelInfoConfig> models;
 
     private ModelGroupConfig modelGroupConfig;
 
