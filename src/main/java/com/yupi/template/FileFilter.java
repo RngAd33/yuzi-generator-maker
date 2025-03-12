@@ -84,5 +84,4 @@ public class FileFilter {
         }
         return result;
     }
-
 }

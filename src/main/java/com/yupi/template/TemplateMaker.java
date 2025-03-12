@@ -44,32 +44,6 @@ public class TemplateMaker {
         String fileInputPath2 = "src/main/resources/application.yml";
         List<String> fileInputPathList = Arrays.asList(fileInputPath1, fileInputPath2);
 
-        // 文件参数配置
-        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
-        // - 文件配置
-        // 1. common
-        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
-        fileInfoConfig1.setPath(fileInputPath1);
-        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
-        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
-                // 此处目前过滤文件名带有"Base"的文件
-                .range(FileFilterRangeEnum.FILE_NAME.getValue())
-                .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("Base")
-                .build();
-        fileFilterConfigList.add(fileFilterConfig);
-        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
-        // 2. application.yml
-        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
-        fileInfoConfig2.setPath(fileInputPath2);
-        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
-        // - 文件组配置
-        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
-        fileGroupConfig.setGroupKey("key");
-        fileGroupConfig.setGroupName("测试分组");
-        fileGroupConfig.setCondition("outputText");
-        templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
-
         // 模型参数配置
         TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
         // - 模型配置
@@ -98,6 +72,32 @@ public class TemplateMaker {
         // String searchStr = "Sum = ";
         // 替换变量（第二次）
         String searchStr = "BaseResponse";
+
+        // 文件过滤
+        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
+        // - 文件配置
+        // 1. common
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig1.setPath(fileInputPath1);
+        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
+        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
+                // 此处目前过滤文件名带有"Base"的文件
+                .range(FileFilterRangeEnum.FILE_NAME.getValue())
+                .rule(FileFilterRuleEnum.CONTAINS.getValue())
+                .value("Base")
+                .build();
+        fileFilterConfigList.add(fileFilterConfig);
+        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
+        // 2. application.yml
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig2.setPath(fileInputPath2);
+        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
+        // - 文件组配置
+        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
+        fileGroupConfig.setGroupKey("key");
+        fileGroupConfig.setGroupName("测试分组");
+        fileGroupConfig.setCondition("outputText");
+        templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
 
         long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
         System.out.println(id);
