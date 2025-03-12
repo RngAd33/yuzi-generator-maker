@@ -101,7 +101,7 @@ public class TemplateMaker {
     }
 
     /**
-     * 制作模板
+     * 模板制作
      *
      * @param newMeta
      * @param originProjectPath
@@ -129,7 +129,7 @@ public class TemplateMaker {
         }
 
         // 一、输入文件信息
-        // 要挖坑的项目目录（绝对路径）
+        // - 要挖坑的项目目录（绝对路径）
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");   /* 请注意：在 Windows 系统下，需要对路径进行转义 */
         List<TemplateMakerFileConfig.FileInfoConfig> fileConfigInfoList = templateMakerFileConfig.getFiles();
@@ -138,13 +138,11 @@ public class TemplateMaker {
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
         for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
             String fileInputPath = fileInfoConfig.getPath();
-
-            // 如果填的是相对路径，则转化为绝对路径后传入
+            // - 如果填的是相对路径，则转化为绝对路径后传入
             if (!fileInputPath.startsWith(sourceRootPath)) {
                 fileInputPath = sourceRootPath + File.separator + fileInputPath;
             }
-
-            // 获取过滤之后的文件列表（此处不会存在目录）
+            // - 获取过滤之后的文件列表（此处不会存在目录）
             List<File> fileList = FileFilter.doFilter(fileInputPath, fileInfoConfig.getFilterConfigList());
             for (File file : fileList) {
                 Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
@@ -154,19 +152,17 @@ public class TemplateMaker {
 
         /* 文件分组 */
         TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = templateMakerFileConfig.getFileGroupConfig();
-        // 如果是文件组
+        // - 如果是文件组
         if (fileGroupConfig != null) {
             String groupKey = fileGroupConfig.getGroupKey();
             String groupName = fileGroupConfig.getGroupName();
             String condition = fileGroupConfig.getCondition();
-
             // - 新增分组配置
             Meta.FileConfig.FileInfo fileGroupInfo = new Meta.FileConfig.FileInfo();
             fileGroupInfo.setType(FileTypeEnum.GROUP.getValue());
             fileGroupInfo.setGroupKey(groupKey);
             fileGroupInfo.setGroupName(groupName);
             fileGroupInfo.setCondition(condition);
-
             // - 文件全部放到一个组内
             fileGroupInfo.setFiles(newFileInfoList);
             newFileInfoList = new ArrayList<>();
@@ -196,7 +192,6 @@ public class TemplateMaker {
             modelGroupInfo.setCondition(condition);
             modelGroupInfo.setGroupKey(groupKey);
             modelGroupInfo.setGroupName(groupName);
-
             // - 模型全部放到一个组内
             modelGroupInfo.setModels(inputModelInfoList);
             newModelInfoList.add(modelGroupInfo);
