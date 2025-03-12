@@ -34,8 +34,8 @@ public class TemplateMaker {
 
         // 构造 meta 配置参数
         Meta meta = new Meta();
-        meta.setName("acm-template-pro-generator");
-        meta.setDescription("ACM 示例模板生成器");
+        meta.setName("Spring-Boot-generator");
+        meta.setDescription("SpringBoot 示例模板生成器");
 
         // 指定原始项目路径
         String projectPath = System.getProperty("user.dir");
@@ -55,16 +55,16 @@ public class TemplateMaker {
         modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3309/yuzi-generator_db");
         // 2. username
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
-        modelInfoConfig1.setFieldName("username");
-        modelInfoConfig1.setType("String");
-        modelInfoConfig1.setDefaultValue("root");
-        modelInfoConfig1.setReplaceText("root");
+        modelInfoConfig2.setFieldName("username");
+        modelInfoConfig2.setType("String");
+        modelInfoConfig2.setDefaultValue("root");
+        modelInfoConfig2.setReplaceText("root");
         // - 模型组配置
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
         modelGroupConfig.setGroupKey("MySQL");
         modelGroupConfig.setGroupName("数据库配置");
         templateMakerModelConfig.setModelGroupConfig(modelGroupConfig);
-        //
+        // - 将模型信息写入组
         List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
         templateMakerModelConfig.setModels(modelInfoConfigList);
 
