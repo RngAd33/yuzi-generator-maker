@@ -293,20 +293,21 @@ public class TemplateMaker {
         fileInfo.setInputPath(fileInputPath);
         fileInfo.setOutputPath(fileOutputPath);
         fileInfo.setType(FileTypeEnum.FILE.getValue());
-        fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
+        fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());   // 默认动态生成
 
-        // 如果和原来一致，即没有挖坑，则静态生成
+        // 判断文件内容是否改动
         boolean contentEquals = newFileContent.equals(fileContent);
         if (!hasTemplateFile) {
             if (contentEquals) {
-                fileInfo.setOutputPath(fileInputPath);   // 输入路径 = 输出路径
+                // 和原来一致，即没有挖坑，则静态生成
+                fileInfo.setOutputPath(fileInputPath);   // 输出路径 = 输入路径
                 fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
             } else {
-                // - 已挖坑，动态生成
+                // - 已挖坑，生成模板文件
                 FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
             }
         } else if (!contentEquals) {
-            // - 有模板文件，且增加了新坑，生成模板文件‘
+            // - 有模板文件，且增加了新坑，生成模板文件
             FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
         }
 
