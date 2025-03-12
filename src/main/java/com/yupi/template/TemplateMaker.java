@@ -263,8 +263,8 @@ public class TemplateMaker {
 
         // 若模板文件已存在，即不是第一次制作，则在原有模板的基础上再挖坑
         String fileContent;
-        boolean hasTemplatFile = FileUtil.exist(fileOutputAbsolutePath);
-        if (hasTemplatFile) {
+        boolean hasTemplateFile = FileUtil.exist(fileOutputAbsolutePath);
+        if (hasTemplateFile) {
             fileContent = FileUtil.readUtf8String(fileOutputAbsolutePath);
         } else {
             fileContent = FileUtil.readUtf8String(fileInputAbsolutePath);
@@ -297,7 +297,7 @@ public class TemplateMaker {
 
         // 如果和原来一致，即没有挖坑，则静态生成
         boolean contentEquals = newFileContent.equals(fileContent);
-        if (!hasTemplatFile) {
+        if (!hasTemplateFile) {
             if (contentEquals) {
                 fileInfo.setOutputPath(fileInputPath);   // 输入路径 = 输出路径
                 fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
