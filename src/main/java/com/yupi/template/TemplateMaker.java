@@ -54,7 +54,7 @@ public class TemplateMaker {
         modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3309/yuzi-generator_db");
         // 2. username
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
-        modelInfoConfig2.setFieldName("UserName");
+        modelInfoConfig2.setFieldName("username");
         modelInfoConfig2.setType("String");
         modelInfoConfig2.setDefaultValue("root");
         modelInfoConfig2.setReplaceText("RngAd33");
