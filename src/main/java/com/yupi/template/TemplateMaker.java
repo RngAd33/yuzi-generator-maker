@@ -54,10 +54,10 @@ public class TemplateMaker {
         modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3309/yuzi-generator_db");
         // 2. username
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
-        modelInfoConfig2.setFieldName("username");
+        modelInfoConfig2.setFieldName("UserName");
         modelInfoConfig2.setType("String");
         modelInfoConfig2.setDefaultValue("root");
-        modelInfoConfig2.setReplaceText("root");
+        modelInfoConfig2.setReplaceText("RngAd33");
         // - 模型组配置
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
         modelGroupConfig.setGroupKey("MySQL");
@@ -67,9 +67,7 @@ public class TemplateMaker {
         List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
         templateMakerModelConfig.setModels(modelInfoConfigList);
 
-        // 替换变量（第一次）
-        // String searchStr = "Sum = ";
-        // 替换变量（第二次）
+        // 替换变量
         String searchStr = "BaseResponse";
 
         // 文件过滤
