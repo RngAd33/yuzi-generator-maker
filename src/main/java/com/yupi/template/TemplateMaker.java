@@ -163,14 +163,14 @@ public class TemplateMaker {
             String groupName = fileGroupConfig.getGroupName();
             String condition = fileGroupConfig.getCondition();
 
-            // 新增分组配置
+            // - 新增分组配置
             Meta.FileConfig.FileInfo fileGroupInfo = new Meta.FileConfig.FileInfo();
             fileGroupInfo.setType(FileTypeEnum.GROUP.getValue());
             fileGroupInfo.setGroupKey(groupKey);
             fileGroupInfo.setGroupName(groupName);
             fileGroupInfo.setCondition(condition);
 
-            // 文件全部放到一个组内
+            // - 文件全部放到一个组内
             fileGroupInfo.setFiles(newFileInfoList);
             newFileInfoList = new ArrayList<>();
             newFileInfoList.add(fileGroupInfo);
@@ -178,7 +178,7 @@ public class TemplateMaker {
 
         /* 处理模型信息 */
         List<TemplateMakerModelConfig.ModelInfoConfig> models = templateMakerModelConfig.getModels();
-        // 转化为可接受的 ModelInfo 对象
+        // - 转化为可接受的 ModelInfo 对象
         List<Meta.ModelConfig.ModelInfo> inputModelInfoList = models.stream()
                 .map(modelInfoConfig -> {
                     Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
@@ -186,10 +186,10 @@ public class TemplateMaker {
                     return modelInfo;
         }).collect(Collectors.toList());
 
-        // 本次新增的模型配置列表
+        // - 本次新增的模型配置列表
         List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>();
 
-        // 如果是模型组
+        // - 如果是模型组
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = templateMakerModelConfig.getModelGroupConfig();
         if (modelGroupConfig != null) {
             String condition = modelGroupConfig.getCondition();
@@ -200,34 +200,34 @@ public class TemplateMaker {
             modelGroupInfo.setGroupKey(groupKey);
             modelGroupInfo.setGroupName(groupName);
 
-            // 模型全部放到一个组内
+            // - 模型全部放到一个组内
             modelGroupInfo.setModels(inputModelInfoList);
             newModelInfoList.add(modelGroupInfo);
         } else {
-            // 不分组，添加所有模型信息到列表
+            // - 不分组，添加所有模型信息到列表
             newModelInfoList.addAll(inputModelInfoList);
         }
 
         // 三、生成配置文件
         String metaOutputPath = sourceRootPath + File.separator + "meta.json";
-        // 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
+        // - 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
         if (FileUtil.exist(metaOutputPath)) {
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
             BeanUtil.copyProperties(newMeta, oldMeta, CopyOptions.create().ignoreNullValue());
             newMeta = oldMeta;
 
-            // 追加配置参数
+            // - 追加配置参数
             List<Meta.FileConfig.FileInfo> fileInfoList =  newMeta.getFileConfig().getFiles();
             fileInfoList.addAll(newFileInfoList);
             List<Meta.ModelConfig.ModelInfo> modelInfoList = newMeta.getModelConfig().getModels();
             modelInfoList.addAll(newModelInfoList);
 
-            // 配置去重
+            // - 配置去重
             newMeta.getFileConfig().setFiles(distinctFiles(fileInfoList));
             newMeta.getModelConfig().setModels(distinctModels(modelInfoList));
 
         } else {
-            // 构造配置参数
+            // - 构造配置参数
             // 1. FileConfig
             Meta.FileConfig fileConfig = new Meta.FileConfig();
             newMeta.setFileConfig(fileConfig);
@@ -284,15 +284,15 @@ public class TemplateMaker {
         String replacement;
         for (TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig : templateMakerModelConfig.getModels()) {
             if (modelGroupConfig == null) {
-                // 不是分组
+                // - 不是分组
                 replacement = String.format("${%s}", modelInfoConfig.getFieldName());
             } else {
-                // 是分组
+                // - 是分组
                 String groupKey = modelGroupConfig.getGroupKey();
                 /* 请注意：挖坑要多一个层级 */
                 replacement = String.format("${%s, %s}", groupKey, modelInfoConfig.getFieldName());
             }
-            // 多次替换
+            // - 多次替换
             newFileContent = StrUtil.replace(newFileContent, modelInfoConfig.getReplaceText(), replacement);
         }
 
@@ -310,11 +310,11 @@ public class TemplateMaker {
                 fileInfo.setOutputPath(fileInputPath);   // 输入路径 = 输出路径
                 fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
             } else {
-                // 已挖坑，动态生成
+                // - 已挖坑，动态生成
                 FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
             }
         } else if (!contentEquals) {
-            // 有模板文件，且增加了新坑，生成模板文件‘
+            // - 有模板文件，且增加了新坑，生成模板文件‘
             FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
         }
 
