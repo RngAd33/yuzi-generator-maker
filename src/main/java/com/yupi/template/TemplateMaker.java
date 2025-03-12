@@ -114,7 +114,7 @@ public class TemplateMaker {
      * @param id
      * @return
      */
-    private static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, Long id) {
+    public static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, Long id) {
 
         // 没有id？生成一个！
         if (id == null) {
@@ -272,7 +272,8 @@ public class TemplateMaker {
 
         // 若模板文件已存在，即不是第一次制作，则在原有模板的基础上再挖坑
         String fileContent;
-        if (FileUtil.exist(fileOutputAbsolutePath)) {
+        boolean hasTemplatFile = FileUtil.exist(fileOutputAbsolutePath);
+        if (hasTemplatFile) {
             fileContent = FileUtil.readUtf8String(fileOutputAbsolutePath);
         } else {
             fileContent = FileUtil.readUtf8String(fileInputAbsolutePath);
@@ -301,14 +302,20 @@ public class TemplateMaker {
         fileInfo.setInputPath(fileInputPath);
         fileInfo.setOutputPath(fileOutputPath);
         fileInfo.setType(FileTypeEnum.FILE.getValue());
+        fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
 
         // 如果和原来一致，即没有挖坑，则静态生成
-        if (newFileContent.equals(fileContent)) {
-            fileInfo.setOutputPath(fileInputPath);   // 输入路径 = 输出路径
-            fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
-        } else {
-            // 已挖坑，动态生成
-            fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
+        boolean contentEquals = newFileContent.equals(fileContent);
+        if (!hasTemplatFile) {
+            if (contentEquals) {
+                fileInfo.setOutputPath(fileInputPath);   // 输入路径 = 输出路径
+                fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
+            } else {
+                // 已挖坑，动态生成
+                FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
+            }
+        } else if (!contentEquals) {
+            // 有模板文件，且增加了新坑，生成模板文件‘
             FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
         }
 
@@ -321,7 +328,7 @@ public class TemplateMaker {
      * @param fileInfoList
      * @return
      */
-    public static List<Meta.FileConfig.FileInfo> distinctFiles(List<Meta.FileConfig.FileInfo> fileInfoList) {
+    private static List<Meta.FileConfig.FileInfo> distinctFiles(List<Meta.FileConfig.FileInfo> fileInfoList) {
 
         // 策略：同分组内文件 merge. 不同分组保留
         // 1. 有分组的，以组为单位划分
@@ -377,7 +384,7 @@ public class TemplateMaker {
      * @param modelInfoList
      * @return
      */
-    public static List<Meta.ModelConfig.ModelInfo> distinctModels(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
+    private static List<Meta.ModelConfig.ModelInfo> distinctModels(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
 
         // 策略：同分组内文件 merge. 不同分组保留
         // 1. 有分组的，以组为单位划分
