@@ -44,38 +44,9 @@ public class TemplateMaker {
         String fileInputPath2 = "src/main/resources/application.yml";
         List<String> fileInputPathList = Arrays.asList(fileInputPath1, fileInputPath2);
 
-        // 模型参数配置
-        TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
-
-        // - 模型组配置
-        TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
-        modelGroupConfig.setGroupKey("MySQL");
-        modelGroupConfig.setGroupName("数据库配置");
-        templateMakerModelConfig.setModelGroupConfig(modelGroupConfig);
-
-        // - 模型配置
-        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig1 = new TemplateMakerModelConfig.ModelInfoConfig();
-        modelInfoConfig1.setFieldName("url");
-        modelInfoConfig1.setType("String");
-        modelInfoConfig1.setDefaultValue("jdbc:mysql://localhost:3309/yuzi-generator_db");
-        modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3309/yuzi-generator_db");
-
-        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
-        modelInfoConfig1.setFieldName("username");
-        modelInfoConfig1.setType("String");
-        modelInfoConfig1.setDefaultValue("root");
-        modelInfoConfig1.setReplaceText("root");
-
-        List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
-        templateMakerModelConfig.setModels(modelInfoConfigList);
-
-        // 替换变量（第一次）
-        // String searchStr = "Sum = ";
-        // 替换变量（第二次）
-        String searchStr = "BaseResponse";
-
-        // 文件过滤
+        // 文件参数配置
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
+        // - 文件配置
         // 1. common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
@@ -88,17 +59,45 @@ public class TemplateMaker {
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
-        // 2. controller
+        // 2. application.yml
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig2.setPath(fileInputPath2);
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
-
-        // 文件分组配置
+        // - 文件组配置
         TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
         fileGroupConfig.setGroupKey("key");
         fileGroupConfig.setGroupName("测试分组");
         fileGroupConfig.setCondition("outputText");
         templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
+
+        // 模型参数配置
+        TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
+        // - 模型配置
+        // 1. url
+        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig1 = new TemplateMakerModelConfig.ModelInfoConfig();
+        modelInfoConfig1.setFieldName("url");
+        modelInfoConfig1.setType("String");
+        modelInfoConfig1.setDefaultValue("jdbc:mysql://localhost:3309/yuzi-generator_db");
+        modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3309/yuzi-generator_db");
+        // 2. username
+        TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
+        modelInfoConfig1.setFieldName("username");
+        modelInfoConfig1.setType("String");
+        modelInfoConfig1.setDefaultValue("root");
+        modelInfoConfig1.setReplaceText("root");
+        // - 模型组配置
+        TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
+        modelGroupConfig.setGroupKey("MySQL");
+        modelGroupConfig.setGroupName("数据库配置");
+        templateMakerModelConfig.setModelGroupConfig(modelGroupConfig);
+        //
+        List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
+        templateMakerModelConfig.setModels(modelInfoConfigList);
+
+        // 替换变量（第一次）
+        // String searchStr = "Sum = ";
+        // 替换变量（第二次）
+        String searchStr = "BaseResponse";
 
         long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
         System.out.println(id);
