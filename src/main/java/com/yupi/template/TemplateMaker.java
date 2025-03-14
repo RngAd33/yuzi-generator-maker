@@ -61,7 +61,7 @@ public class TemplateMaker {
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
         modelInfoConfig2.setFieldName("username");
         modelInfoConfig2.setType("String");
-        modelInfoConfig2.setDefaultValue("RngAd33");
+        modelInfoConfig2.setDefaultValue("root");
         modelInfoConfig2.setReplaceText("root");
 
         // - 将模型信息写入组
@@ -149,6 +149,8 @@ public class TemplateMaker {
             }
             // - 获取过滤之后的文件列表（此处不会存在目录）
             List<File> fileList = FileFilter.doFilter(fileInputPath, fileInfoConfig.getFilterConfigList());
+            // 不处理已经生成的.ftl文件
+            fileList
             for (File file : fileList) {
                 Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
                 newFileInfoList.add(fileInfo);
