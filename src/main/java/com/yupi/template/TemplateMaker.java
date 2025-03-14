@@ -43,7 +43,7 @@ public class TemplateMaker {
         String fileInputPath1 = "src/main/java/com/yupi/project/common";
         String fileInputPath2 = "src/main/resources/application.yml";
 
-        // 模型参数配置
+        /* 模型参数配置 */
         TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
         // - 模型组配置
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
@@ -61,7 +61,7 @@ public class TemplateMaker {
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
         modelInfoConfig2.setFieldName("username");
         modelInfoConfig2.setType("String");
-        modelInfoConfig2.setDefaultValue("root");
+        modelInfoConfig2.setDefaultValue("RngAd33");
         modelInfoConfig2.setReplaceText("root");
 
         // - 将模型信息写入组
@@ -71,25 +71,27 @@ public class TemplateMaker {
         // 替换变量
         String searchStr = "BaseResponse";
 
-        // 文件过滤
+        /* 文件参数配置 */
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
         // - 文件配置
         // 1. common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
+        // 2. application.yml
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig2.setPath(fileInputPath2);
+        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
+
+        // - 文件过滤配置
         List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
         FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
-                // 此处目前过滤文件名带有"Base"的文件
                 .range(FileFilterRangeEnum.FILE_NAME.getValue())
                 .rule(FileFilterRuleEnum.CONTAINS.getValue())
                 .value("Base")
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
-        // 2. application.yml
-        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
-        fileInfoConfig2.setPath(fileInputPath2);
-        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
+
         // - 文件组配置
         TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
         fileGroupConfig.setGroupKey("key");
