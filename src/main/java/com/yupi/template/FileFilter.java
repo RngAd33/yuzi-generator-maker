@@ -17,8 +17,8 @@ public class FileFilter {
     /**
      * 对某个文件或目录进行过滤
      *
-     * @param filePath
-     * @param fileFilterConfigList
+     * @param filePath 文件 / 目录路径
+     * @param fileFilterConfigList 过滤规则
      * @return 文件列表
      */
     public static List<File> doFilter(String filePath, List<FileFilterConfig> fileFilterConfigList) {
