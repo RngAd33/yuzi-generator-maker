@@ -35,7 +35,7 @@ public class TemplateMaker {
         // 构造 meta 配置参数
         Meta meta = new Meta();
         meta.setName("Spring-Boot-generator");
-        meta.setDescription("SpringBoot 示例模板生成器");
+        meta.setDescription("SpringBoot示例模板生成器");
 
         // 指定原始项目路径
         String projectPath = System.getProperty("user.dir");
