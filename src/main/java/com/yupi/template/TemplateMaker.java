@@ -28,7 +28,7 @@ public class TemplateMaker {
     /**
      * 主函数，所有的配置方法均在此调用
      *
-     * @param args
+     * @param args 命令行
      */
     public static void main(String[] args) {
 
@@ -43,8 +43,52 @@ public class TemplateMaker {
         String fileInputPath1 = "src/main/java/com/yupi/project/common";
         String fileInputPath2 = "src/main/resources/application.yml";
 
-        /* 模型参数配置 */
+        // 配置模型参数
+        TemplateMakerModelConfig templateMakerModelConfig = getTemplateMakerModelConfig();
+
+        // 替换变量
+        // String searchStr = "BaseResponse";
+
+        /* 文件参数配置 */
+        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
+        // - 文件配置
+        // 1. common
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig1.setPath(fileInputPath1);
+        // 2. application.yml
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig2.setPath(fileInputPath2);
+        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
+
+        // - 文件过滤配置
+        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
+        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
+                .range(FileFilterRangeEnum.FILE_NAME.getValue())
+                .rule(FileFilterRuleEnum.CONTAINS.getValue())
+                .value("Base")   // 关键词过滤
+                .build();
+        fileFilterConfigList.add(fileFilterConfig);
+        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
+
+        // - 文件组配置
+        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
+        fileGroupConfig.setGroupKey("key");
+        fileGroupConfig.setGroupName("测试分组");
+        fileGroupConfig.setCondition("outputText");
+        templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
+
+        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
+        System.out.println(id);
+    }
+
+    /**
+     * /模型参数配置
+     *
+     * @return templateMakerModelConfig
+     */
+    private static TemplateMakerModelConfig getTemplateMakerModelConfig() {
         TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
+
         // - 模型组配置
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
         modelGroupConfig.setGroupKey("MySQL");
@@ -67,51 +111,18 @@ public class TemplateMaker {
         // - 将模型信息写入组
         List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
         templateMakerModelConfig.setModels(modelInfoConfigList);
-
-        // 替换变量
-        String searchStr = "BaseResponse";
-
-        /* 文件参数配置 */
-        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
-        // - 文件配置
-        // 1. common
-        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
-        fileInfoConfig1.setPath(fileInputPath1);
-        // 2. application.yml
-        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
-        fileInfoConfig2.setPath(fileInputPath2);
-        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
-
-        // - 文件过滤配置
-        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
-        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
-                .range(FileFilterRangeEnum.FILE_NAME.getValue())
-                .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("Base")
-                .build();
-        fileFilterConfigList.add(fileFilterConfig);
-        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
-
-        // - 文件组配置
-        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = new TemplateMakerFileConfig.FileGroupConfig();
-        fileGroupConfig.setGroupKey("key");
-        fileGroupConfig.setGroupName("测试分组");
-        fileGroupConfig.setCondition("outputText");
-        templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
-
-        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
-        System.out.println(id);
+        return templateMakerModelConfig;
     }
 
     /**
      * 模板制作
      *
-     * @param newMeta
-     * @param originProjectPath
-     * @param templateMakerFileConfig
-     * @param templateMakerModelConfig
-     * @param id
-     * @return
+     * @param newMeta 新元信息文件
+     * @param originProjectPath 项目源路径
+     * @param templateMakerFileConfig 文件配置
+     * @param templateMakerModelConfig 模型配置
+     * @param id 进程id
+     * @return id
      */
     public static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, Long id) {
 
@@ -252,9 +263,9 @@ public class TemplateMaker {
     /**
      * 制作文件模板
      *
-     * @param templateMakerModelConfig
-     * @param sourceRootPath
-     * @param inputFile
+     * @param templateMakerModelConfig 模型配置
+     * @param sourceRootPath 根路径
+     * @param inputFile 输入的文件
      * @return fileInfo
      */
     private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath, File inputFile) {
@@ -324,8 +335,8 @@ public class TemplateMaker {
     /**
      * 文件去重
      *
-     * @param fileInfoList
-     * @return
+     * @param fileInfoList 文件列表
+     * @return resultList
      */
     private static List<Meta.FileConfig.FileInfo> distinctFiles(List<Meta.FileConfig.FileInfo> fileInfoList) {
 
@@ -379,8 +390,8 @@ public class TemplateMaker {
     /**
      * 模型去重
      *
-     * @param modelInfoList
-     * @return
+     * @param modelInfoList 模型列表
+     * @return resultList
      */
     private static List<Meta.ModelConfig.ModelInfo> distinctModels(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
 

@@ -38,7 +38,6 @@ public class FileFilter {
     public static boolean doSingleFileFilter(List<FileFilterConfig> fileFilterConfigList, File file) {
         String fileName = file.getName();
         String fileContent = FileUtil.readUtf8String(file);
-
         boolean result = true;
 
         if (CollUtil.isEmpty(fileFilterConfigList)) {
