@@ -150,7 +150,10 @@ public class TemplateMaker {
             // - 获取过滤之后的文件列表（此处不会存在目录）
             List<File> fileList = FileFilter.doFilter(fileInputPath, fileInfoConfig.getFilterConfigList());
             // 不处理已经生成的.ftl文件
-            fileList
+            fileList = fileList.stream()
+                    .filter(file -> !file.getAbsolutePath().endsWith(".ftl"))
+                    .collect(Collectors.toList());
+
             for (File file : fileList) {
                 Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
                 newFileInfoList.add(fileInfo);
@@ -281,13 +284,12 @@ public class TemplateMaker {
         String replacement;
         for (TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig : templateMakerModelConfig.getModels()) {
             if (modelGroupConfig == null) {
-                // - 不是分组
+                // - 不是分组，挖一层坑
                 replacement = String.format("${%s}", modelInfoConfig.getFieldName());
             } else {
-                // - 是分组
+                // - 是分组，挖两层坑
                 String groupKey = modelGroupConfig.getGroupKey();
-                /* 请注意：挖坑要多一个层级 */
-                replacement = String.format("${%s.%s}", groupKey, modelInfoConfig.getFieldName());
+                replacement = String.format("${%s.%s}", groupKey, modelInfoConfig.getFieldName());   // 请注意：此处挖坑要多一个层级
             }
             // - 多次替换
             newFileContent = StrUtil.replace(newFileContent, modelInfoConfig.getReplaceText(), replacement);
