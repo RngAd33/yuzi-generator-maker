@@ -62,7 +62,7 @@ public class TemplateMaker {
         modelInfoConfig2.setFieldName("username");
         modelInfoConfig2.setType("String");
         modelInfoConfig2.setDefaultValue("root");
-        modelInfoConfig2.setReplaceText("RngAd33");
+        modelInfoConfig2.setReplaceText("root");
 
         // - 将模型信息写入组
         List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
@@ -123,8 +123,9 @@ public class TemplateMaker {
         String tempDirPath = projectPath + File.separator + ".temp";
         String templatePath = tempDirPath + File.separator + id;
 
-        /* 目录不存在，即首次制作，创建目录 */
+        // 是否为首次制作模板
         if (!FileUtil.exist(templatePath)) {
+            /* 目录不存在，即首次制作，创建目录 */
             FileUtil.mkdir(templatePath);
             FileUtil.copy(originProjectPath, templatePath, true);
         }
@@ -174,11 +175,10 @@ public class TemplateMaker {
         /* 处理模型信息 */
         List<TemplateMakerModelConfig.ModelInfoConfig> models = templateMakerModelConfig.getModels();
         // - 转化为可接受的 ModelInfo 对象
-        List<Meta.ModelConfig.ModelInfo> inputModelInfoList = models.stream()
-                .map(modelInfoConfig -> {
-                    Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
-                    BeanUtil.copyProperties(modelInfoConfig, modelInfo);
-                    return modelInfo;
+        List<Meta.ModelConfig.ModelInfo> inputModelInfoList = models.stream().map(modelInfoConfig -> {
+            Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
+            BeanUtil.copyProperties(modelInfoConfig, modelInfo);
+            return modelInfo;
         }).collect(Collectors.toList());
 
         // - 本次新增的模型配置列表
@@ -248,7 +248,7 @@ public class TemplateMaker {
      * @param templateMakerModelConfig
      * @param sourceRootPath
      * @param inputFile
-     * @return
+     * @return fileInfo
      */
     private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath, File inputFile) {
 
@@ -283,7 +283,7 @@ public class TemplateMaker {
                 // - 是分组
                 String groupKey = modelGroupConfig.getGroupKey();
                 /* 请注意：挖坑要多一个层级 */
-                replacement = String.format("${%s. %s}", groupKey, modelInfoConfig.getFieldName());
+                replacement = String.format("${%s.%s}", groupKey, modelInfoConfig.getFieldName());
             }
             // - 多次替换
             newFileContent = StrUtil.replace(newFileContent, modelInfoConfig.getReplaceText(), replacement);
@@ -357,8 +357,7 @@ public class TemplateMaker {
         );
 
         // 4. 将未分组的文件添加到结果列表
-        List<Meta.FileConfig.FileInfo> noGroupFileInfoList = fileInfoList
-                .stream()
+        List<Meta.FileConfig.FileInfo> noGroupFileInfoList = fileInfoList.stream()
                 .filter(fileInfo -> StrUtil.isBlank(fileInfo.getGroupKey()))
                 .collect(Collectors.toList()
                 );
@@ -393,12 +392,11 @@ public class TemplateMaker {
         Map<String, Meta.ModelConfig.ModelInfo> groupKeyMergeModelInfoMap = new HashMap<>();
         for (Map.Entry<String, List<Meta.ModelConfig.ModelInfo>> entry : groupKeyModelInfoListMap.entrySet()) {
             List<Meta.ModelConfig.ModelInfo> tempModelInfoList = entry.getValue();
-            List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>(
-                    tempModelInfoList.stream()
-                            .flatMap(modelInfo -> modelInfo.getModels().stream())
-                            .collect(
-                                    Collectors.toMap(Meta.ModelConfig.ModelInfo::getFieldName, o ->o, (e, r) -> r)
-                            ).values());   // (exist, replacement) -> replacement
+            List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>(tempModelInfoList.stream()
+                    .flatMap(modelInfo -> modelInfo.getModels().stream())
+                    .collect(
+                            Collectors.toMap(Meta.ModelConfig.ModelInfo::getFieldName, o ->o, (e, r) -> r)
+                    ).values());   // (exist, replacement) -> replacement
 
             // 使用新的 group 配置
             Meta.ModelConfig.ModelInfo newModelInfo = CollUtil.getLast(tempModelInfoList);
@@ -408,13 +406,10 @@ public class TemplateMaker {
         }
 
         // 3. 将文件分组添加到结果列表
-        List<Meta.ModelConfig.ModelInfo> resultList = new ArrayList<>(
-                groupKeyMergeModelInfoMap.values()
-        );
+        List<Meta.ModelConfig.ModelInfo> resultList = new ArrayList<>(groupKeyMergeModelInfoMap.values());
 
         // 4. 将未分组的文件添加到结果列表
-        List<Meta.ModelConfig.ModelInfo> noGroupModelInfoList = modelInfoList
-                .stream()
+        List<Meta.ModelConfig.ModelInfo> noGroupModelInfoList = modelInfoList.stream()
                 .filter(modelInfo -> StrUtil.isBlank(modelInfo.getGroupKey()))
                 .collect(Collectors.toList()
                 );
