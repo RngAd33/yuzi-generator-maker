@@ -39,11 +39,11 @@ public class TemplateMaker {
         String fileInputPath1 = "src/main/java/com/yupi/project/common";
         String fileInputPath2 = "src/main/resources/application.yml";
 
-        // 设置文件过滤参数
-        String filterStr = "Result";
-
         // 配置模型参数
         TemplateMakerModelConfig templateMakerModelConfig = getTemplateMakerModelConfig();
+
+        // 设置文件过滤参数（留空即不过滤）
+        String filterStr = "";
 
         // 配置文件参数
         TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2, filterStr);
