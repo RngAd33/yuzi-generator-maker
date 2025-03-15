@@ -165,17 +165,18 @@ public class TemplateMaker {
             FileUtil.copy(originProjectPath, templatePath, true);
         }
 
-        // 输入文件信息
-        // - 要挖坑的项目目录（绝对路径）
-        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
+        // 输入文件信息：要挖坑的项目目录（绝对路径）
         /* 请注意：在 Windows 系统下，需要对路径进行转义 */
+        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");
+
+        // 制作文件模板
         List<Meta.FileConfig.FileInfo> newFileInfoList = makeFileTemplate(templateMakerFileConfig, templateMakerModelConfig, sourceRootPath);
 
-        // 模型配置信息
+        // 获取模型配置信息
         List<Meta.ModelConfig.ModelInfo> newModelInfoList = makeModelTemplate(templateMakerModelConfig);
 
-        // 三、生成配置文件
+        // 生成配置文件
         String metaOutputPath = templatePath + File.separator + "meta.json";
         // - 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
         if (FileUtil.exist(metaOutputPath)) {
@@ -210,49 +211,10 @@ public class TemplateMaker {
             modelInfoList.addAll(newModelInfoList);
         }
 
-        // 四、输出元信息文件
+        // 输出元信息文件
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
 
         return id;
-    }
-
-    /**
-     * 获取模型配置
-     *
-     * @param templateMakerModelConfig
-     * @return
-     */
-    private static List<Meta.ModelConfig.ModelInfo> makeModelTemplate(TemplateMakerModelConfig templateMakerModelConfig) {
-
-        List<TemplateMakerModelConfig.ModelInfoConfig> models = templateMakerModelConfig.getModels();
-        // - 转化为可接受的 ModelInfo 对象
-        List<Meta.ModelConfig.ModelInfo> inputModelInfoList = models.stream().map(modelInfoConfig -> {
-            Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
-            BeanUtil.copyProperties(modelInfoConfig, modelInfo);
-            return modelInfo;
-        }).collect(Collectors.toList());
-
-        // - 本次新增的模型配置列表
-        List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>();
-
-        // - 如果是模型组
-        TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = templateMakerModelConfig.getModelGroupConfig();
-        if (modelGroupConfig != null) {
-            String condition = modelGroupConfig.getCondition();
-            String groupKey = modelGroupConfig.getGroupKey();
-            String groupName = modelGroupConfig.getGroupName();
-            Meta.ModelConfig.ModelInfo modelGroupInfo = new Meta.ModelConfig.ModelInfo();
-            modelGroupInfo.setCondition(condition);
-            modelGroupInfo.setGroupKey(groupKey);
-            modelGroupInfo.setGroupName(groupName);
-            // - 模型全部放到一个组内
-            modelGroupInfo.setModels(inputModelInfoList);
-            newModelInfoList.add(modelGroupInfo);
-        } else {
-            // - 不分组，添加所有模型信息到列表
-            newModelInfoList.addAll(inputModelInfoList);
-        }
-        return newModelInfoList;
     }
 
     /**
@@ -315,6 +277,53 @@ public class TemplateMaker {
             newFileInfoList.add(fileGroupInfo);
         }
         return newFileInfoList;
+    }
+
+    /**
+     * 获取模型配置
+     *
+     * @param templateMakerModelConfig
+     * @return
+     */
+    private static List<Meta.ModelConfig.ModelInfo> makeModelTemplate(TemplateMakerModelConfig templateMakerModelConfig) {
+        // - 本次新增的模型配置列表
+        List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>();
+
+        // 非空校验
+        if (templateMakerModelConfig == null) {
+            return newModelInfoList;
+        }
+        List<TemplateMakerModelConfig.ModelInfoConfig> models = templateMakerModelConfig.getModels();
+        if (CollUtil.isEmpty(models)) {
+            return newModelInfoList;
+        }
+
+        // 处理模型信息
+        // - 转化为可接受的 ModelInfo 对象
+        List<Meta.ModelConfig.ModelInfo> inputModelInfoList = models.stream().map(modelInfoConfig -> {
+            Meta.ModelConfig.ModelInfo modelInfo = new Meta.ModelConfig.ModelInfo();
+            BeanUtil.copyProperties(modelInfoConfig, modelInfo);
+            return modelInfo;
+        }).collect(Collectors.toList());
+
+        // - 如果是模型组
+        TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = templateMakerModelConfig.getModelGroupConfig();
+        if (modelGroupConfig != null) {
+            String condition = modelGroupConfig.getCondition();
+            String groupKey = modelGroupConfig.getGroupKey();
+            String groupName = modelGroupConfig.getGroupName();
+            Meta.ModelConfig.ModelInfo modelGroupInfo = new Meta.ModelConfig.ModelInfo();
+            modelGroupInfo.setCondition(condition);
+            modelGroupInfo.setGroupKey(groupKey);
+            modelGroupInfo.setGroupName(groupName);
+            // - 模型全部放到一个组内
+            modelGroupInfo.setModels(inputModelInfoList);
+            newModelInfoList.add(modelGroupInfo);
+        } else {
+            // - 不分组，添加所有模型信息到列表
+            newModelInfoList.addAll(inputModelInfoList);
+        }
+        return newModelInfoList;
     }
 
     /**
