@@ -47,8 +47,6 @@ public class TemplateMaker {
         // 配置文件参数
         TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2, filterStr);
 
-        // String searchStr = "BaseResponse";   // 替换变量
-
         long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
         System.out.println(id);
     }
@@ -145,7 +143,7 @@ public class TemplateMaker {
         String tempDirPath = projectPath + File.separator + ".temp";
         String templatePath = tempDirPath + File.separator + id;
 
-        // 是否为首次制作模板
+        // 判断是否为首次制作模板（目录是否存在）
         if (!FileUtil.exist(templatePath)) {
             /* 目录不存在，即首次制作，创建目录 */
             FileUtil.mkdir(templatePath);
