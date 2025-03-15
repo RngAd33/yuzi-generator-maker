@@ -65,7 +65,7 @@ public class TemplateMaker {
         FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
                 .range(FileFilterRangeEnum.FILE_NAME.getValue())
                 .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("Base")   // 关键词过滤
+                .value("")   // 关键词过滤
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
@@ -82,7 +82,7 @@ public class TemplateMaker {
     }
 
     /**
-     * /模型参数配置
+     * 模型参数配置
      *
      * @return templateMakerModelConfig
      */
@@ -328,7 +328,6 @@ public class TemplateMaker {
             // - 有模板文件，且增加了新坑，生成模板文件
             FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
         }
-
         return fileInfo;
     }
 
@@ -354,12 +353,11 @@ public class TemplateMaker {
         Map<String, Meta.FileConfig.FileInfo> groupKeyMergeFileInfoMap = new HashMap<>();
         for (Map.Entry<String, List<Meta.FileConfig.FileInfo>> entry : groupKeyFileInfoListMap.entrySet()) {
             List<Meta.FileConfig.FileInfo> tempFileInfoList = entry.getValue();
-            List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(
-                    tempFileInfoList.stream()
-                            .flatMap(fileInfo -> fileInfo.getFiles().stream())
-                            .collect(
-                                    Collectors.toMap(Meta.FileConfig.FileInfo::getInputPath, o ->o, (e, r) -> r)
-                            ).values());   // (exist, replacement) -> replacement
+            List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(tempFileInfoList.stream()
+                    .flatMap(fileInfo -> fileInfo.getFiles().stream())
+                    .collect(
+                            Collectors.toMap(Meta.FileConfig.FileInfo::getInputPath, o -> o, (e, r) -> r)
+                    ).values());                                            // (exist, replacement) -> replacement
 
             // 使用新的 group 配置
             Meta.FileConfig.FileInfo newFileInfo = CollUtil.getLast(tempFileInfoList);
