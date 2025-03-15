@@ -34,9 +34,12 @@ public class ScriptGenerator {
 
         // 添加可执行权限（Linux）
         try {
-            Set<PosixFilePermission> permissions =  PosixFilePermissions.fromString("rwxrwxrwx");
+            Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
             Files.setPosixFilePermissions(Paths.get(outputPath), permissions);
-        } catch (Exception e) {}   // 不对异常做任何处理，防止Windows环境下报错
+        } catch (Exception e) {
+            // 不对异常做任何处理，防止Windows环境下报错
+            System.out.println("——！添加可执行权限出现异常，已跳过！——");
+        }
     }
 
     public static void main(String[] args) {
