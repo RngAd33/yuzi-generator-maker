@@ -25,11 +25,6 @@ import java.util.stream.Collectors;
  */
 public class TemplateMaker {
 
-    /**
-     * 主函数，所有的配置方法均在此调用
-     *
-     * @param args 命令行
-     */
     public static void main(String[] args) {
 
         // 构造 meta 配置参数
@@ -46,16 +41,28 @@ public class TemplateMaker {
         // 配置模型参数
         TemplateMakerModelConfig templateMakerModelConfig = getTemplateMakerModelConfig();
 
-        // 替换变量
-        // String searchStr = "BaseResponse";
+        // 配置文件参数
+        TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2);
 
-        /* 文件参数配置 */
+        // String searchStr = "BaseResponse";   // 替换变量
+
+        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
+        System.out.println(id);
+    }
+
+    /**
+     * 文件参数配置
+     *
+     * @param fileInputPath1 common
+     * @param fileInputPath2 application.yml
+     * @return templateMakerFileConfig
+     */
+    private static TemplateMakerFileConfig getTemplateMakerFileConfig(String fileInputPath1, String fileInputPath2) {
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
-        // - 文件配置
-        // 1. /common
+        // - 文件配置：/common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
-        // 2. application.yml
+        // - 文件配置：application.yml
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig2.setPath(fileInputPath2);
 
@@ -66,7 +73,7 @@ public class TemplateMaker {
         FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
                 .range(FileFilterRangeEnum.FILE_NAME.getValue())
                 .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("")   // 关键词过滤
+                .value("Base")   // 关键词过滤
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
@@ -77,9 +84,7 @@ public class TemplateMaker {
         fileGroupConfig.setGroupName("测试分组");
         fileGroupConfig.setCondition("outputText");
         templateMakerFileConfig.setFileGroupConfig(fileGroupConfig);
-
-        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
-        System.out.println(id);
+        return templateMakerFileConfig;
     }
 
     /**
@@ -309,8 +314,8 @@ public class TemplateMaker {
 
         // 文件配置信息
         Meta.FileConfig.FileInfo fileInfo = new Meta.FileConfig.FileInfo();
-        fileInfo.setInputPath(fileInputPath);
-        fileInfo.setOutputPath(fileOutputPath);
+        fileInfo.setInputPath(fileOutputPath);
+        fileInfo.setOutputPath(fileInputPath);
         fileInfo.setType(FileTypeEnum.FILE.getValue());
         fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());   // 默认动态生成
 
@@ -319,7 +324,7 @@ public class TemplateMaker {
         if (!hasTemplateFile) {
             if (contentEquals) {
                 // 和原来一致，即没有挖坑，则静态生成
-                fileInfo.setOutputPath(fileInputPath);   // 输出路径 = 输入路径
+                fileInfo.setInputPath(fileInputPath);
                 fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
             } else {
                 // - 已挖坑，生成模板文件
