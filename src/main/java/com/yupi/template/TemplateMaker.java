@@ -38,11 +38,14 @@ public class TemplateMaker {
         String fileInputPath1 = "src/main/java/com/yupi/project/common";
         String fileInputPath2 = "src/main/resources/application.yml";
 
+        // 设置文件过滤参数
+        String filterStr = "Result";
+
         // 配置模型参数
         TemplateMakerModelConfig templateMakerModelConfig = getTemplateMakerModelConfig();
 
         // 配置文件参数
-        TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2);
+        TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2, filterStr);
 
         // String searchStr = "BaseResponse";   // 替换变量
 
@@ -57,7 +60,7 @@ public class TemplateMaker {
      * @param fileInputPath2 application.yml
      * @return templateMakerFileConfig
      */
-    private static TemplateMakerFileConfig getTemplateMakerFileConfig(String fileInputPath1, String fileInputPath2) {
+    private static TemplateMakerFileConfig getTemplateMakerFileConfig(String fileInputPath1, String fileInputPath2, String filterStr) {
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
         // - 文件配置：/common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
@@ -73,7 +76,7 @@ public class TemplateMaker {
         FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
                 .range(FileFilterRangeEnum.FILE_NAME.getValue())
                 .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("")   // 关键词过滤
+                .value(filterStr)
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
@@ -324,6 +327,7 @@ public class TemplateMaker {
         // 之前没有模板文件，并且和原来一致，即没有挖坑，则静态生成
         if (!hasTemplateFile) {
             if (contentEquals) {
+                // 输入路径没有.ftl后缀
                 fileInfo.setInputPath(fileInputPath);
                 fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
             } else {
@@ -358,8 +362,8 @@ public class TemplateMaker {
             List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(tempFileInfoList.stream()
                     .flatMap(fileInfo -> fileInfo.getFiles().stream())
                     .collect(
-                            Collectors.toMap(Meta.FileConfig.FileInfo::getInputPath, o -> o, (e, r) -> r)
-                    ).values());                                            // (exist, replacement) -> replacement
+                            Collectors.toMap(Meta.FileConfig.FileInfo::getOutputPath, o -> o, (e, r) -> r)
+                    ).values());                                             // (exist, replacement) -> replacement
 
             // 使用新的 group 配置
             Meta.FileConfig.FileInfo newFileInfo = CollUtil.getLast(tempFileInfoList);
