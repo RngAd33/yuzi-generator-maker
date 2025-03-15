@@ -121,7 +121,7 @@ public class TemplateMaker {
     }
 
     /**
-     * 模板制作（重载版）
+     * 模板制作（重载方法）
      *
      * @param templateMakerConfig 模板制作配置
      * @return id
@@ -165,52 +165,14 @@ public class TemplateMaker {
             FileUtil.copy(originProjectPath, templatePath, true);
         }
 
-        // 一、输入文件信息
+        // 输入文件信息
         // - 要挖坑的项目目录（绝对路径）
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
         /* 请注意：在 Windows 系统下，需要对路径进行转义 */
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");
-        List<TemplateMakerFileConfig.FileInfoConfig> fileConfigInfoList = templateMakerFileConfig.getFiles();
 
-        // 二、生成文件模板
-        List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
-        for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
-            String fileInputPath = fileInfoConfig.getPath();
-            // - 如果填的是相对路径，则转化为绝对路径后传入
-            if (!fileInputPath.startsWith(sourceRootPath)) {
-                fileInputPath = sourceRootPath + File.separator + fileInputPath;
-            }
-            // - 获取过滤之后的文件列表（此处不会存在目录）
-            List<File> fileList = FileFilter.doFilter(fileInputPath, fileInfoConfig.getFilterConfigList());
-            // 不处理已经生成的.ftl文件
-            fileList = fileList.stream()
-                    .filter(file -> !file.getAbsolutePath().endsWith(".ftl"))
-                    .collect(Collectors.toList());
-
-            for (File file : fileList) {
-                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
-                newFileInfoList.add(fileInfo);
-            }
-        }
-
-        /* 文件分组 */
-        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = templateMakerFileConfig.getFileGroupConfig();
-        // - 如果是文件组
-        if (fileGroupConfig != null) {
-            String groupKey = fileGroupConfig.getGroupKey();
-            String groupName = fileGroupConfig.getGroupName();
-            String condition = fileGroupConfig.getCondition();
-            // - 新增分组配置
-            Meta.FileConfig.FileInfo fileGroupInfo = new Meta.FileConfig.FileInfo();
-            fileGroupInfo.setType(FileTypeEnum.GROUP.getValue());
-            fileGroupInfo.setGroupKey(groupKey);
-            fileGroupInfo.setGroupName(groupName);
-            fileGroupInfo.setCondition(condition);
-            // - 文件全部放到一个组内
-            fileGroupInfo.setFiles(newFileInfoList);
-            newFileInfoList = new ArrayList<>();
-            newFileInfoList.add(fileGroupInfo);
-        }
+        // 处理文件
+        List<Meta.FileConfig.FileInfo> newFileInfoList = makeFileTemplate(templateMakerFileConfig, templateMakerModelConfig, sourceRootPath);
 
         /* 处理模型信息 */
         List<TemplateMakerModelConfig.ModelInfoConfig> models = templateMakerModelConfig.getModels();
@@ -281,6 +243,68 @@ public class TemplateMaker {
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
 
         return id;
+    }
+
+    /**
+     * 生成多个文件（重载方法）
+     *
+     * @param templateMakerFileConfig
+     * @param templateMakerModelConfig
+     * @param sourceRootPath
+     * @return
+     */
+    private static List<Meta.FileConfig.FileInfo> makeFileTemplate(TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath) {
+        // 生成文件模板
+        List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
+
+        // 非空校验
+        if (templateMakerFileConfig == null) {
+            return newFileInfoList;
+        }
+        List<TemplateMakerFileConfig.FileInfoConfig> fileConfigInfoList = templateMakerFileConfig.getFiles();
+        if (CollUtil.isEmpty(fileConfigInfoList)) {
+            return newFileInfoList;
+        }
+
+        // 遍历输入文件
+        for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileConfigInfoList) {
+            String fileInputPath = fileInfoConfig.getPath();
+            // - 如果填的是相对路径，则转化为绝对路径后传入
+            if (!fileInputPath.startsWith(sourceRootPath)) {
+                fileInputPath = sourceRootPath + File.separator + fileInputPath;
+            }
+            // - 获取过滤之后的文件列表（此处不会存在目录）
+            List<File> fileList = FileFilter.doFilter(fileInputPath, fileInfoConfig.getFilterConfigList());
+            // 不处理已经生成的.ftl文件
+            fileList = fileList.stream()
+                    .filter(file -> !file.getAbsolutePath().endsWith(".ftl"))
+                    .collect(Collectors.toList());
+
+            for (File file : fileList) {
+                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
+                newFileInfoList.add(fileInfo);
+            }
+        }
+
+        /* 文件分组 */
+        TemplateMakerFileConfig.FileGroupConfig fileGroupConfig = templateMakerFileConfig.getFileGroupConfig();
+        // - 如果是文件组
+        if (fileGroupConfig != null) {
+            String groupKey = fileGroupConfig.getGroupKey();
+            String groupName = fileGroupConfig.getGroupName();
+            String condition = fileGroupConfig.getCondition();
+            // - 新增分组配置
+            Meta.FileConfig.FileInfo fileGroupInfo = new Meta.FileConfig.FileInfo();
+            fileGroupInfo.setType(FileTypeEnum.GROUP.getValue());
+            fileGroupInfo.setGroupKey(groupKey);
+            fileGroupInfo.setGroupName(groupName);
+            fileGroupInfo.setCondition(condition);
+            // - 文件全部放到一个组内
+            fileGroupInfo.setFiles(newFileInfoList);
+            newFileInfoList = new ArrayList<>();
+            newFileInfoList.add(fileGroupInfo);
+        }
+        return newFileInfoList;
     }
 
     /**
