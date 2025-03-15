@@ -73,7 +73,7 @@ public class TemplateMaker {
         FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
                 .range(FileFilterRangeEnum.FILE_NAME.getValue())
                 .rule(FileFilterRuleEnum.CONTAINS.getValue())
-                .value("Base")   // 关键词过滤
+                .value("")   // 关键词过滤
                 .build();
         fileFilterConfigList.add(fileFilterConfig);
         fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
