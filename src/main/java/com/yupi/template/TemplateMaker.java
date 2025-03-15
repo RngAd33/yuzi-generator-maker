@@ -95,26 +95,26 @@ public class TemplateMaker {
     private static TemplateMakerModelConfig getTemplateMakerModelConfig() {
         TemplateMakerModelConfig templateMakerModelConfig = new TemplateMakerModelConfig();
 
-        // - 模型组配置
+        // 模型组配置
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = new TemplateMakerModelConfig.ModelGroupConfig();
         modelGroupConfig.setGroupKey("MySQL");
         modelGroupConfig.setGroupName("数据库配置");
         templateMakerModelConfig.setModelGroupConfig(modelGroupConfig);
-        // - 模型配置
-        // 1. url
+
+        // - 模型配置：url
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig1 = new TemplateMakerModelConfig.ModelInfoConfig();
         modelInfoConfig1.setFieldName("url");
         modelInfoConfig1.setType("String");
         modelInfoConfig1.setDefaultValue("jdbc:mysql://localhost:3309/yuzi-generator_db");
         modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3309/yuzi-generator_db");
-        // 2. username
+        // - 模型配置：username
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
         modelInfoConfig2.setFieldName("username");
         modelInfoConfig2.setType("String");
         modelInfoConfig2.setDefaultValue("root");
         modelInfoConfig2.setReplaceText("root");
 
-        // - 将模型信息写入组
+        // 将模型信息写入组
         List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
         templateMakerModelConfig.setModels(modelInfoConfigList);
         return templateMakerModelConfig;
@@ -344,8 +344,7 @@ public class TemplateMaker {
 
         // 策略：同分组内文件 merge. 不同分组保留
         // 1. 有分组的，以组为单位划分
-        Map<String, List<Meta.FileConfig.FileInfo>> groupKeyFileInfoListMap = fileInfoList
-                .stream()
+        Map<String, List<Meta.FileConfig.FileInfo>> groupKeyFileInfoListMap = fileInfoList.stream()
                 .filter(fileInfo -> StrUtil.isNotBlank(fileInfo.getGroupKey()))
                 .collect(
                         Collectors.groupingBy(Meta.FileConfig.FileInfo::getGroupKey)
