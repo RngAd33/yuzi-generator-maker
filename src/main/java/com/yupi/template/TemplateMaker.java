@@ -13,6 +13,7 @@ import com.yupi.meta.enums.FileTypeEnum;
 import com.yupi.template.enums.FileFilterRangeEnum;
 import com.yupi.template.enums.FileFilterRuleEnum;
 import com.yupi.template.model.FileFilterConfig;
+import com.yupi.template.model.TemplateMakerConfig;
 import com.yupi.template.model.TemplateMakerFileConfig;
 import com.yupi.template.model.TemplateMakerModelConfig;
 import java.io.File;
@@ -59,14 +60,12 @@ public class TemplateMaker {
      * @return templateMakerFileConfig
      */
     private static TemplateMakerFileConfig getTemplateMakerFileConfig(String fileInputPath1, String fileInputPath2, String filterStr) {
+        // 文件配置
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
-        // - 文件配置：/common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
-        // - 文件配置：application.yml
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig2.setPath(fileInputPath2);
-
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
 
         // - 文件过滤配置
@@ -119,6 +118,22 @@ public class TemplateMaker {
         List<TemplateMakerModelConfig.ModelInfoConfig> modelInfoConfigList = Arrays.asList(modelInfoConfig1, modelInfoConfig2);
         templateMakerModelConfig.setModels(modelInfoConfigList);
         return templateMakerModelConfig;
+    }
+
+    /**
+     * 模板制作（重载版）
+     *
+     * @param templateMakerConfig 模板制作配置
+     * @return id
+     */
+    public static long makeTemplate(TemplateMakerConfig templateMakerConfig) {
+        Long id = templateMakerConfig.getId();
+        Meta meta = templateMakerConfig.getMeta();
+        String originProjectPath = templateMakerConfig.getOriginProjectPath();
+        TemplateMakerFileConfig templateMakerFileConfig = templateMakerConfig.getTemplateMakerFileConfig();
+        TemplateMakerModelConfig templateMakerModelConfig = templateMakerConfig.getTemplateMakerModelConfig();
+
+        return makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, id);
     }
 
     /**
@@ -228,7 +243,7 @@ public class TemplateMaker {
         }
 
         // 三、生成配置文件
-        String metaOutputPath = sourceRootPath + File.separator + "meta.json";
+        String metaOutputPath = templatePath + File.separator + "meta.json";
         // - 若 meta 文件已存在，即不是第一次制作，则在原有 meta 的基础上覆盖、追加元信息
         if (FileUtil.exist(metaOutputPath)) {
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
@@ -264,6 +279,7 @@ public class TemplateMaker {
 
         // 四、输出元信息文件
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);
+
         return id;
     }
 
