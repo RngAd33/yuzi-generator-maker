@@ -52,12 +52,13 @@ public class TemplateMaker {
         /* 文件参数配置 */
         TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
         // - 文件配置
-        // 1. common
+        // 1. /common
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
         // 2. application.yml
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig2.setPath(fileInputPath2);
+
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
 
         // - 文件过滤配置
