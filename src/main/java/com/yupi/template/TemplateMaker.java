@@ -127,7 +127,7 @@ public class TemplateMaker {
      * @param originProjectPath 项目源路径
      * @param templateMakerFileConfig 文件配置
      * @param templateMakerModelConfig 模型配置
-     * @param id 进程id
+     * @param id 进程 id
      * @return id
      */
     public static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, Long id) {
@@ -321,18 +321,15 @@ public class TemplateMaker {
 
         // 判断文件内容是否改动
         boolean contentEquals = newFileContent.equals(fileContent);
+        // 之前没有模板文件，并且和原来一致，即没有挖坑，则静态生成
         if (!hasTemplateFile) {
             if (contentEquals) {
-                // 和原来一致，即没有挖坑，则静态生成
                 fileInfo.setInputPath(fileInputPath);
                 fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
             } else {
-                // - 已挖坑，生成模板文件
+                // - 没有模板文件内，但已挖新坑，则生成模板文件
                 FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
             }
-        } else if (!contentEquals) {
-            // - 有模板文件，且增加了新坑，生成模板文件
-            FileUtil.writeUtf8String(newFileContent, fileOutputAbsolutePath);
         }
         return fileInfo;
     }
