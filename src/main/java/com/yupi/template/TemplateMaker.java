@@ -166,14 +166,12 @@ public class TemplateMaker {
         }
 
         // 输入文件信息：要挖坑的项目目录（绝对路径）
-        String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
-        sourceRootPath = FileUtil.loopFiles(new File(templatePath), 1, null)
+        String sourceRootPath = FileUtil.loopFiles(new File(templatePath), 1, null)   // 根据 id 找路径
                 .stream()
                 .filter(File::isDirectory)
                 .findFirst()
                 .orElseThrow(RuntimeException::new)
                 .getAbsolutePath();
-
         /* 请注意：在 Windows 系统下，需要对路径进行转义 */
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");
 
@@ -227,10 +225,10 @@ public class TemplateMaker {
     /**
      * 生成多个文件（重载方法）
      *
-     * @param templateMakerFileConfig
-     * @param templateMakerModelConfig
-     * @param sourceRootPath
-     * @return
+     * @param templateMakerFileConfig 文件配置
+     * @param templateMakerModelConfig 模型配置
+     * @param sourceRootPath 项目根目录
+     * @return newFileInfoList
      */
     private static List<Meta.FileConfig.FileInfo> makeFileTemplate(TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath) {
         // 生成文件模板
@@ -289,8 +287,8 @@ public class TemplateMaker {
     /**
      * 获取模型配置
      *
-     * @param templateMakerModelConfig
-     * @return
+     * @param templateMakerModelConfig 模型配置
+     * @return newModelInfoList
      */
     private static List<Meta.ModelConfig.ModelInfo> makeModelTemplate(TemplateMakerModelConfig templateMakerModelConfig) {
         // - 本次新增的模型配置列表
