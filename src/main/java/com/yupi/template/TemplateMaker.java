@@ -17,7 +17,6 @@ import com.yupi.template.model.TemplateMakerConfig;
 import com.yupi.template.model.TemplateMakerFileConfig;
 import com.yupi.template.model.TemplateMakerModelConfig;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
