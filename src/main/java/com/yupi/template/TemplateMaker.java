@@ -166,8 +166,15 @@ public class TemplateMaker {
         }
 
         // 输入文件信息：要挖坑的项目目录（绝对路径）
-        /* 请注意：在 Windows 系统下，需要对路径进行转义 */
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originProjectPath)).toString();
+        sourceRootPath = FileUtil.loopFiles(new File(templatePath), 1, null)
+                .stream()
+                .filter(File::isDirectory)
+                .findFirst()
+                .orElseThrow(RuntimeException::new)
+                .getAbsolutePath();
+
+        /* 请注意：在 Windows 系统下，需要对路径进行转义 */
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");
 
         // 制作文件模板
