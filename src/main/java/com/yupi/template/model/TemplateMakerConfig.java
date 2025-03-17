@@ -4,7 +4,7 @@ import com.yupi.meta.Meta;
 import lombok.Data;
 
 /**
- * 模板配置
+ * 封装配置
  */
 @Data
 public class TemplateMakerConfig {
