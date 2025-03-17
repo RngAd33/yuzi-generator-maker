@@ -12,10 +12,8 @@ import com.yupi.meta.enums.FileGenerateTypeEnum;
 import com.yupi.meta.enums.FileTypeEnum;
 import com.yupi.template.enums.FileFilterRangeEnum;
 import com.yupi.template.enums.FileFilterRuleEnum;
-import com.yupi.template.model.FileFilterConfig;
-import com.yupi.template.model.TemplateMakerConfig;
-import com.yupi.template.model.TemplateMakerFileConfig;
-import com.yupi.template.model.TemplateMakerModelConfig;
+import com.yupi.template.model.*;
+
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -130,9 +128,10 @@ public class TemplateMaker {
         String originProjectPath = templateMakerConfig.getOriginProjectPath();
         TemplateMakerFileConfig templateMakerFileConfig = templateMakerConfig.getFileConfig();
         TemplateMakerModelConfig templateMakerModelConfig = templateMakerConfig.getModelConfig();
+        TemplateMakerOutputConfig templateMakerOutputConfig = templateMakerConfig.getOutputConfig();
         Long id = templateMakerConfig.getId();
 
-        return makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, id);
+        return makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, templateMakerOutputConfig, id);
     }
 
     /**
@@ -145,7 +144,7 @@ public class TemplateMaker {
      * @param id 进程 id
      * @return id
      */
-    public static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, Long id) {
+    public static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, TemplateMakerOutputConfig templateMakerOutputConfig, Long id) {
 
         // 没有id？生成一个！
         if (id == null) {
