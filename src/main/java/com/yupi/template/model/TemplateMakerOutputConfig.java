@@ -7,4 +7,5 @@ public class TemplateMakerOutputConfig {
 
     // 从未分组文件中移除组内的同名文件
     private boolean removeGroupFileFromRoot = true;
+
 }
