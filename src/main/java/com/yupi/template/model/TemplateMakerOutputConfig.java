@@ -2,6 +2,9 @@ package com.yupi.template.model;
 
 import lombok.Data;
 
+/**
+ * 输出配置
+ */
 @Data
 public class TemplateMakerOutputConfig {
 

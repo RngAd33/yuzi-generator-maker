@@ -4,6 +4,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.List;
 
+/**
+ * 模型配置
+ */
 @Data
 public class TemplateMakerModelConfig {
 
