@@ -32,7 +32,7 @@ public class TemplateMaker {
         meta.setName("Spring-Boot-generator");
         meta.setDescription("SpringBoot示例模板生成器");
 
-        // 指定原始项目路径
+        // 指定项目原始路径
         String projectPath = System.getProperty("user.dir");
         String originProjectPath = new File(projectPath).getParent() + File.separator + "yuzi-generator-demo-projects/springboot-init";
         String fileInputPath1 = "src/main/java/com/yupi/project/common";
