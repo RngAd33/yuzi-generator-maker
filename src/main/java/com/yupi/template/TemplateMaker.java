@@ -126,11 +126,11 @@ public class TemplateMaker {
      * @return id
      */
     public static long makeTemplate(TemplateMakerConfig templateMakerConfig) {
-        Long id = templateMakerConfig.getId();
         Meta meta = templateMakerConfig.getMeta();
         String originProjectPath = templateMakerConfig.getOriginProjectPath();
-        TemplateMakerFileConfig templateMakerFileConfig = templateMakerConfig.getTemplateMakerFileConfig();
-        TemplateMakerModelConfig templateMakerModelConfig = templateMakerConfig.getTemplateMakerModelConfig();
+        TemplateMakerFileConfig templateMakerFileConfig = templateMakerConfig.getFileConfig();
+        TemplateMakerModelConfig templateMakerModelConfig = templateMakerConfig.getModelConfig();
+        Long id = templateMakerConfig.getId();
 
         return makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, id);
     }
@@ -164,21 +164,21 @@ public class TemplateMaker {
             FileUtil.copy(originProjectPath, templatePath, true);
         }
 
-        // 输入文件信息：要挖坑的项目目录（绝对路径）
+        // 输入文件信息：要挖坑的项目目录的绝对路径（已作持久化处理）
         String sourceRootPath = FileUtil.loopFiles(new File(templatePath), 1, null)   // 根据 id 找路径
                 .stream()
                 .filter(File::isDirectory)
                 .findFirst()
                 .orElseThrow(RuntimeException::new)
                 .getAbsolutePath();
-        /* 请注意：在 Windows 系统下，需要对路径进行转义 */
+        /* 请注意：在Windows系统下，需要对路径进行转义 */
         sourceRootPath = sourceRootPath.replaceAll("\\\\", "/");
 
         // 制作文件模板
         List<Meta.FileConfig.FileInfo> newFileInfoList = makeFileTemplate(templateMakerFileConfig, templateMakerModelConfig, sourceRootPath);
 
-        // 获取模型配置信息
-        List<Meta.ModelConfig.ModelInfo> newModelInfoList = makeModelTemplate(templateMakerModelConfig);
+        // 处理模型信息
+        List<Meta.ModelConfig.ModelInfo> newModelInfoList = getModelInfoList(templateMakerModelConfig);
 
         // 生成配置文件
         String metaOutputPath = templatePath + File.separator + "meta.json";
@@ -255,7 +255,6 @@ public class TemplateMaker {
             fileList = fileList.stream()
                     .filter(file -> !file.getAbsolutePath().endsWith(".ftl"))
                     .collect(Collectors.toList());
-
             for (File file : fileList) {
                 Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
                 newFileInfoList.add(fileInfo);
@@ -269,6 +268,7 @@ public class TemplateMaker {
             String groupKey = fileGroupConfig.getGroupKey();
             String groupName = fileGroupConfig.getGroupName();
             String condition = fileGroupConfig.getCondition();
+
             // - 新增分组配置
             Meta.FileConfig.FileInfo fileGroupInfo = new Meta.FileConfig.FileInfo();
             fileGroupInfo.setType(FileTypeEnum.GROUP.getValue());
@@ -289,7 +289,7 @@ public class TemplateMaker {
      * @param templateMakerModelConfig 模型配置
      * @return newModelInfoList
      */
-    private static List<Meta.ModelConfig.ModelInfo> makeModelTemplate(TemplateMakerModelConfig templateMakerModelConfig) {
+    private static List<Meta.ModelConfig.ModelInfo> getModelInfoList(TemplateMakerModelConfig templateMakerModelConfig) {
         // - 本次新增的模型配置列表
         List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>();
 
