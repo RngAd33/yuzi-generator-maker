@@ -33,7 +33,7 @@ public class TemplateMakerUtils {
                 .map(Meta.FileConfig.FileInfo::getInputPath)
                 .collect(Collectors.toSet());
 
-        // 移除所有名称在 set 中的外层文件
+        // 移除所有名称在集合中的外层文件
         return fileInfoList.stream()
                 .filter(fileInfo -> !fileInputPathSet.contains(fileInfo.getInputPath()))
                 .collect(Collectors.toList());
