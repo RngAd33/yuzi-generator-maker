@@ -352,7 +352,7 @@ public class TemplateMaker {
      * @param templateMakerModelConfig 模型配置
      * @param sourceRootPath 根路径
      * @param inputFile 输入的文件
-     * @param fileInfoConfig
+     * @param fileInfoConfig 文件配置
      * @return fileInfo
      */
     private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig,
