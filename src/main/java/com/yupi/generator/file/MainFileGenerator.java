@@ -11,14 +11,13 @@ import java.io.IOException;
  */
 public class MainFileGenerator {
 
-    public static void doGenerate(Object model) throws IOException, TemplateException
-    {
+    public static void doGenerate(Object model) throws IOException, TemplateException {
         /* 复制静态文件 */
-        // 获取整个项目的根路径
+        // - 获取整个项目的根路径
         String projectPath = System.getProperty("user.dir");
         File parentFile = new File(projectPath).getParentFile();
 
-        // 输入路径：ACM 示例代码模板目录
+        // - 输入路径：ACM 示例代码模板目录
         String inputPath = new File(parentFile, "yuzi-generator-demo-projects/acm-template-pro").getAbsolutePath();
 
         // 复制，生成静态文件
