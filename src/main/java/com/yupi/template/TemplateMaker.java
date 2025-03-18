@@ -45,7 +45,7 @@ public class TemplateMaker {
         // 配置文件参数
         TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2, filterStr);
 
-        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, 1898351249921880064L);
+        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, null, 1898351249921880064L);
         System.out.println(id);
     }
 
@@ -141,6 +141,7 @@ public class TemplateMaker {
      * @param originProjectPath 项目源路径
      * @param templateMakerFileConfig 文件配置
      * @param templateMakerModelConfig 模型配置
+     * @param templateMakerOutputConfig 输出配置
      * @param id 进程 id
      * @return id
      */
@@ -164,7 +165,7 @@ public class TemplateMaker {
         }
 
         // 输入文件信息：要挖坑的项目目录的绝对路径（已作持久化处理）
-        String sourceRootPath = FileUtil.loopFiles(new File(templatePath), 1, null)   // 根据 id 找路径
+        String sourceRootPath = FileUtil.loopFiles(new File(templatePath), 1, null)
                 .stream()
                 .filter(File::isDirectory)
                 .findFirst()
@@ -212,6 +213,15 @@ public class TemplateMaker {
             List<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
             modelConfig.setModels(modelInfoList);
             modelInfoList.addAll(newModelInfoList);
+        }
+
+        // 额外的输出配置
+        if (templateMakerOutputConfig != null) {
+            // 文件外层和分组去重
+            if (templateMakerOutputConfig.isRemoveGroupFileFromRoot()) {
+                List<Meta.FileConfig.FileInfo> fileInfoList = newMeta.getFileConfig().getFiles();
+                newMeta.getFileConfig().setFiles(TemplateMakerUtils.removeGroupFileFromRoot(fileInfoList));
+            }
         }
 
         // 输出元信息文件
