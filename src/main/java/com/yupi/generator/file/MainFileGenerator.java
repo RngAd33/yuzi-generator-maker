@@ -21,15 +21,12 @@ public class MainFileGenerator {
         // 输入路径：ACM 示例代码模板目录
         String inputPath = new File(parentFile, "yuzi-generator-demo-projects/acm-template-pro").getAbsolutePath();
 
-        // 输出路径：直接输出到项目的根目录
-        String outputPath = projectPath;
-
         // 复制，生成静态文件
-        StaticFileGenerator.copyFilesByHutool(inputPath, outputPath);
+        /* 直接输出到项目的根目录 */
+        StaticFileGenerator.copyFilesByHutool(inputPath, projectPath);
 
-
-        /* 动态生成文件 */
-        // 此处路径已写死，需要通过设置元信息meta优化
+        // 动态生成文件
+        /* 此处路径已写死，需要通过设置元信息meta优化 */
         String dynamicInputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
         String dynamicOutputPath = projectPath + File.separator + "acm-template/src/com/yupi/acm/MainTemplate.java";
         DynamicFileGenerator.doGenerate(dynamicInputPath, dynamicOutputPath, model);
@@ -46,5 +43,4 @@ public class MainFileGenerator {
 
         doGenerate(dataModel);
     }
-
 }
