@@ -340,7 +340,7 @@ public class TemplateMaker {
     }
 
     /**
-     * 制作文件模板
+     * 制作文件模板 *.ftl
      *
      * @param templateMakerModelConfig 模型配置
      * @param sourceRootPath 根路径
