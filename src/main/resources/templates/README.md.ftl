@@ -28,8 +28,8 @@ ${modelInfo?index + 1}）${modelInfo.fieldName!"默认字段名"}
 
 描述：${modelInfo.description!"无描述"}
 
-默认值：${(modelInfo.defaultValue?string("true", "false"))!"无默认值"}
+默认值：${(modelInfo.defaultValue?string)!"无默认值"}
 
-缩写： -${modelInfo.abbr!"default"}
+缩写：-${modelInfo.abbr!"default"}
 
 </#list>
