@@ -145,7 +145,11 @@ public class TemplateMaker {
      * @param id 进程 id
      * @return id
      */
-    public static long makeTemplate(Meta newMeta, String originProjectPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, TemplateMakerOutputConfig templateMakerOutputConfig, Long id) {
+    public static long makeTemplate(Meta newMeta, String originProjectPath,
+                                    TemplateMakerFileConfig templateMakerFileConfig,
+                                    TemplateMakerModelConfig templateMakerModelConfig,
+                                    TemplateMakerOutputConfig templateMakerOutputConfig,
+                                    Long id) {
 
         // 没有id？生成一个！
         if (id == null) {
@@ -238,7 +242,9 @@ public class TemplateMaker {
      * @param sourceRootPath 项目根目录
      * @return newFileInfoList
      */
-    private static List<Meta.FileConfig.FileInfo> makeFileTemplate(TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath) {
+    private static List<Meta.FileConfig.FileInfo> makeFileTemplate(TemplateMakerFileConfig templateMakerFileConfig,
+                                                                   TemplateMakerModelConfig templateMakerModelConfig,
+                                                                   String sourceRootPath) {
         // 生成文件模板
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
 
@@ -265,7 +271,7 @@ public class TemplateMaker {
                     .filter(file -> !file.getAbsolutePath().endsWith(".ftl"))
                     .collect(Collectors.toList());
             for (File file : fileList) {
-                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file, );
+                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file, fileInfoConfig);
                 newFileInfoList.add(fileInfo);
             }
         }
@@ -284,6 +290,7 @@ public class TemplateMaker {
             fileGroupInfo.setGroupKey(groupKey);
             fileGroupInfo.setGroupName(groupName);
             fileGroupInfo.setCondition(condition);
+
             // - 文件全部放到一个组内
             fileGroupInfo.setFiles(newFileInfoList);
             newFileInfoList = new ArrayList<>();
@@ -345,9 +352,13 @@ public class TemplateMaker {
      * @param templateMakerModelConfig 模型配置
      * @param sourceRootPath 根路径
      * @param inputFile 输入的文件
+     * @param fileInfoConfig
      * @return fileInfo
      */
-    private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath, File inputFile, TemplateMakerFileConfig.FileInfoConfig fileInfoConfig) {
+    private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig,
+                                                             String sourceRootPath,
+                                                             File inputFile,
+                                                             TemplateMakerFileConfig.FileInfoConfig fileInfoConfig) {
 
         // 要挖坑的文件的绝对路径
         /* 请注意：在 Windows 系统下，需要对路径进行转义 */
