@@ -486,7 +486,7 @@ public class TemplateMaker {
             List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>(tempModelInfoList.stream()
                     .flatMap(modelInfo -> modelInfo.getModels().stream())
                     .collect(
-                            Collectors.toMap(Meta.ModelConfig.ModelInfo::getFieldName, o ->o, (e, r) -> r)
+                            Collectors.toMap(Meta.ModelConfig.ModelInfo::getFieldName, o -> o, (e, r) -> r)
                     ).values());   // (exist, replacement) -> replacement
 
             // 使用新的 group 配置
