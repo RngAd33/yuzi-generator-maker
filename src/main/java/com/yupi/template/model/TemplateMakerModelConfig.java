@@ -28,7 +28,7 @@ public class TemplateMakerModelConfig {
 
         private Object defaultValue;
 
-        private String replaceText;   // 用于替换哪些文本
+        private String replaceText;   // 要替换的目标文本
 
     }
 
@@ -40,6 +40,10 @@ public class TemplateMakerModelConfig {
         private String groupName;
 
         private String condition;
+
+        private String type;
+
+        private String description;
 
     }
 }
