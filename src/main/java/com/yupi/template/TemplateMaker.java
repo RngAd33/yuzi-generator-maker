@@ -40,7 +40,7 @@ public class TemplateMaker {
         TemplateMakerModelConfig templateMakerModelConfig = getTemplateMakerModelConfig();
 
         // 设置文件过滤参数（留空即不过滤）
-        String filterStr = "";
+        String filterStr = "Base";
 
         // 配置文件参数
         TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2, filterStr);

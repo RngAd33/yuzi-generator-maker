@@ -34,7 +34,8 @@ public class MetaManager {
      * @return newMeta
      */
     private static Meta initMeta() {
-        String metaJson = ResourceUtil.readUtf8Str("meta.json");
+        // String metaJson = ResourceUtil.readUtf8Str("meta.json");
+        String metaJson = ResourceUtil.readUtf8Str("springBoot-init-meta.json");
         Meta newMeta = JSONUtil.toBean(metaJson, Meta.class);
         MetaValidator.doValidAndFill(newMeta);   // 校验配置文件、处理默认值
         return newMeta;
