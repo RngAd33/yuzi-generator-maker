@@ -16,13 +16,23 @@ import java.util.stream.Collectors;
  * 尽可能避免硬编码和魔法值，使用常量枚举类可以更加灵活规范
  */
 public class MetaValidator {
+
+    /**
+     * 校验
+     *
+     * @param meta
+     */
     public static void doValidAndFill(Meta meta) {
         validAndFillMetaRoot(meta);
         validAndFillFileConfig(meta);
         validAndFillModelConfig(meta);
     }
 
-    /* fileConfig 校验 */
+    /**
+     * fileConfig 校验
+     *
+     * @param meta
+     */
     private static void validAndFillFileConfig(Meta meta) {
         Meta.FileConfig fileConfig = meta.getFileConfig();
         if (fileConfig == null) {
@@ -102,7 +112,11 @@ public class MetaValidator {
         }
     }
 
-    /* modelConfig 校验 */
+    /**
+     * modelConfig 校验
+     *
+     * @param meta
+     */
     private static void validAndFillModelConfig(Meta meta) {
         Meta.ModelConfig modelConfig = meta.getModelConfig();
         if (modelConfig == null) {
@@ -140,7 +154,11 @@ public class MetaValidator {
         }
     }
 
-    /* 基础信息校验 */
+    /**
+     * 基础信息校验
+     *
+     * @param meta
+     */
     private static void validAndFillMetaRoot(Meta meta) {
         String name = StrUtil.blankToDefault(meta.getName(), "acm-template-pro-generator");
         String description = StrUtil.emptyToDefault(meta.getDescription(), "ACM 示例模板生成器");
