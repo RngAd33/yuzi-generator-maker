@@ -81,7 +81,7 @@ public class DynamicFileGenerator {
         DataModel dataModel = new DataModel();
         dataModel.setLoop(false);
         dataModel.mainTemplate.setAuthor("RngAd33");
-        dataModel.mainTemplate.setOutputText("输出结果");
+        dataModel.mainTemplate.setOutputText("输出结果：");
         doGenerate(inputPath, outputPath, dataModel);
     }
 }
