@@ -9,6 +9,9 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
 
+/**
+ * 运行脚本生成
+ */
 public class ScriptGenerator {
 
     /**

@@ -37,15 +37,14 @@ public class MainFileGenerator {
         DynamicFileGenerator.doGenerate(dynamicInputPath, dynamicOutputPath, model);
     }
 
+    // 已废弃
     public static void main(String[] args) throws TemplateException, IOException {
-
         // 生成数据模型
         DataModel dataModel = new DataModel();
         MainTemplate mainTemplate = new MainTemplate();
         dataModel.setLoop(false);
         mainTemplate.setAuthor("RngAd33");
         mainTemplate.setOutputText("输出结果");
-
         doGenerate(dataModel);
     }
 }
