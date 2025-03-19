@@ -15,42 +15,19 @@ import java.io.Writer;
  */
 public class DynamicFileGenerator {
 
-    public static void main(String[] args) throws IOException, TemplateException {
-        String projectPath = System.getProperty("user.dir");
-        String inputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
-        String outputPath = projectPath + File.separator + "MainTemplate.java";
-        DataModel dataModel = new DataModel();
-        dataModel.setLoop(false);
-        dataModel.mainTemplate.setAuthor("RngAd33");
-        dataModel.mainTemplate.setOutputText("输出结果");
-        doGenerate(inputPath, outputPath, dataModel);
-    }
-
     /**
      * 方法封装：生成文件
      *
      * @param inputPath 模板文件输入路径
-     * @param outputPath 输出路径
+     * @param outputPath 模板文件输出路径
      * @param model 数据模型
      * @throws IOException
      * @throws TemplateException
      */
     public static void doGenerate(String inputPath, String outputPath, Object model) throws IOException, TemplateException {
 
-        // Configuration 对象，参数为 FreeMarker 版本号
-        Configuration configuration = new Configuration(Configuration.VERSION_2_3_32);
-
-        // 指定模板文件所在的路径
-        File templateDir = new File(inputPath).getParentFile();
-        configuration.setDirectoryForTemplateLoading(templateDir);
-
-        // 设置模板文件使用的字符集
-        configuration.setDefaultEncoding("utf-8");
-        configuration.setNumberFormat("0.#######");
-
-        // 创建模板对象，加载指定模板
-        String templateName = new File(inputPath).getName();
-        Template template = configuration.getTemplate(templateName);
+        // 创建 FreeMarker 的 Configuration 对象，参数为 FreeMarker 版本号
+        Template template = getTemplate(inputPath);
 
         // 文件不存在则创建文件和父目录
         if (!FileUtil.exist(outputPath)) {
@@ -62,7 +39,7 @@ public class DynamicFileGenerator {
 
         // 生成文件
         try {
-            template.process(model, out);  // 关键步骤
+            template.process(model, out);
         } catch (TemplateException e) {
             System.err.println("模板异常");
             e.printStackTrace();
@@ -70,8 +47,41 @@ public class DynamicFileGenerator {
             System.err.println("IO异常");
             e.printStackTrace();
         }
+        out.close();   // 生成文件后别忘了关闭哦
+    }
 
-        // 生成文件后别忘了关闭哦
-        out.close();
+    /**
+     * 创建 FreeMarker 模板对象
+     *
+     * @param inputPath 模板文件输入路径
+     * @throws IOException
+     * @return
+     */
+    private static Template getTemplate(String inputPath) throws IOException {
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_32);
+        // - 设置模板文件使用的字符集
+        configuration.setDefaultEncoding("UTF-8");
+        configuration.setOutputEncoding("UTF-8");
+        configuration.setNumberFormat("0.#######");
+
+        // 指定模板文件所在的路径
+        File templateDir = new File(inputPath).getParentFile();
+        configuration.setDirectoryForTemplateLoading(templateDir);
+
+        // 创建模板对象，加载指定模板
+        String templateName = new File(inputPath).getName();
+        return configuration.getTemplate(templateName);
+    }
+
+    // 已废弃
+    public static void main(String[] args) throws IOException, TemplateException {
+        String projectPath = System.getProperty("user.dir");
+        String inputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
+        String outputPath = projectPath + File.separator + "MainTemplate.java";
+        DataModel dataModel = new DataModel();
+        dataModel.setLoop(false);
+        dataModel.mainTemplate.setAuthor("RngAd33");
+        dataModel.mainTemplate.setOutputText("输出结果");
+        doGenerate(inputPath, outputPath, dataModel);
     }
 }

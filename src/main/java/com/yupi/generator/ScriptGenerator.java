@@ -1,7 +1,6 @@
 package com.yupi.generator;
 
 import cn.hutool.core.io.FileUtil;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
