@@ -33,6 +33,7 @@ public class JarGenerator {
         }
     }
 
+    // 已废弃
     public static void main(String[] args) throws IOException, InterruptedException {
         doGenerate("E:/document/资料/计算机/A小金库/Java/yuzi-generator/yuzi-generator-maker/generated");
     }

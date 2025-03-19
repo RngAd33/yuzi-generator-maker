@@ -11,8 +11,14 @@ import java.io.IOException;
  */
 public class MainFileGenerator {
 
+    /**
+     * 生成文件
+     *
+     * @param model 模型文件
+     * @throws IOException
+     * @throws TemplateException
+     */
     public static void doGenerate(Object model) throws IOException, TemplateException {
-        /* 复制静态文件 */
         // - 获取整个项目的根路径
         String projectPath = System.getProperty("user.dir");
         File parentFile = new File(projectPath).getParentFile();
