@@ -23,32 +23,6 @@ import java.util.stream.Collectors;
  */
 public class TemplateMaker {
 
-    public static void main(String[] args) {
-
-        // 构造 meta 配置参数
-        Meta meta = new Meta();
-        meta.setName("Spring-Boot-generator");
-        meta.setDescription("SpringBoot示例模板生成器");
-
-        // 指定项目原始路径
-        String projectPath = System.getProperty("user.dir");
-        String originProjectPath = new File(projectPath).getParent() + File.separator + "yuzi-generator-demo-projects/springboot-init";
-        String fileInputPath1 = "src/main/java/com/yupi/project/common";
-        String fileInputPath2 = "src/main/resources/application.yml";
-
-        // 配置模型参数
-        TemplateMakerModelConfig templateMakerModelConfig = getTemplateMakerModelConfig();
-
-        // 设置文件过滤参数（留空即不过滤）
-        String filterStr = "Base";
-
-        // 配置文件参数
-        TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2, filterStr);
-
-        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, null, 1898351249921880064L);
-        System.out.println(id);
-    }
-
     /**
      * 文件参数配置
      *
@@ -521,5 +495,32 @@ public class TemplateMaker {
                         ).values()));
 
         return resultList;
+    }
+
+    // 已废弃
+    public static void main(String[] args) {
+
+        // 构造 meta 配置参数
+        Meta meta = new Meta();
+        meta.setName("Spring-Boot-generator");
+        meta.setDescription("SpringBoot示例模板生成器");
+
+        // 指定项目原始路径
+        String projectPath = System.getProperty("user.dir");
+        String originProjectPath = new File(projectPath).getParent() + File.separator + "yuzi-generator-demo-projects/springboot-init";
+        String fileInputPath1 = "src/main/java/com/yupi/project/common";
+        String fileInputPath2 = "src/main/resources/application.yml";
+
+        // 配置模型参数
+        TemplateMakerModelConfig templateMakerModelConfig = getTemplateMakerModelConfig();
+
+        // 设置文件过滤参数（留空即不过滤）
+        String filterStr = "Base";
+
+        // 配置文件参数
+        TemplateMakerFileConfig templateMakerFileConfig = getTemplateMakerFileConfig(fileInputPath1, fileInputPath2, filterStr);
+
+        long id = makeTemplate(meta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, null, 1898351249921880064L);
+        System.out.println(id);
     }
 }
