@@ -9,6 +9,14 @@ import java.lang.InterruptedException;
  */
 public class MainGenerator extends GenerateTemplate {
 
+    /**
+     * 生成精简版程序
+     *
+     * @param outputPath
+     * @param jarPath
+     * @param shellOutputFilePath
+     * @param sourceCopyDestPath
+     */
     @Override
     protected void buildDist(String outputPath, String jarPath, String shellOutputFilePath, String sourceCopyDestPath) {
         System.out.println("——精简版程序不再包含dist部分——");
