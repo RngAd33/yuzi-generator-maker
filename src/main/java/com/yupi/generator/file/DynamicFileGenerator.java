@@ -26,7 +26,6 @@ public class DynamicFileGenerator {
      */
     public static void doGenerate(String inputPath, String outputPath, Object model) throws IOException, TemplateException {
 
-        // 创建 FreeMarker 的 Configuration 对象，参数为 FreeMarker 版本号
         Template template = getTemplate(inputPath);
 
         // 文件不存在则创建文件和父目录
@@ -58,6 +57,7 @@ public class DynamicFileGenerator {
      * @return
      */
     private static Template getTemplate(String inputPath) throws IOException {
+        // 创建 FreeMarker 的 Configuration 对象，参数为 FreeMarker 版本号
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_32);
         // - 设置模板文件使用的字符集
         configuration.setDefaultEncoding("UTF-8");
