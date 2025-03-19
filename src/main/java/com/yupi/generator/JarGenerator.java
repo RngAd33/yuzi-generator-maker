@@ -2,8 +2,18 @@ package com.yupi.generator;
 
 import java.io.*;
 
+/**
+ * Jar生成
+ */
 public class JarGenerator {
 
+    /**
+     * 打包
+     *
+     * @param projectDir
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static void doGenerate(String projectDir) throws IOException, InterruptedException {
 
         System.out.println("正在打包……");
