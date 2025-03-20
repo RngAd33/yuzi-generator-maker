@@ -19,8 +19,8 @@
         "fieldName": "url",
         "type": "String",
         "description": "地址",
-        "defaultValue": "jdbc:mysql://localhost:3309/yuzi-generator_db",
-        "replaceText": "jdbc:mysql://localhost:3309/yuzi-generator_db"
+        "defaultValue": "jdbc:mysql://localhost:3306/yuzi_generator_db",
+        "replaceText": "jdbc:mysql://localhost:3306/yuzi_generator_db"
       },
       {
         "fieldName": "username",

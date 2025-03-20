@@ -76,8 +76,8 @@ public class TemplateMaker {
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig1 = new TemplateMakerModelConfig.ModelInfoConfig();
         modelInfoConfig1.setFieldName("url");
         modelInfoConfig1.setType("String");
-        modelInfoConfig1.setDefaultValue("jdbc:mysql://localhost:3309/yuzi-generator_db");
-        modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3309/yuzi-generator_db");
+        modelInfoConfig1.setDefaultValue("jdbc:mysql://localhost:3306/yuzi_generator_db");
+        modelInfoConfig1.setReplaceText("jdbc:mysql://localhost:3306/yuzi_generator_db");
         // - 模型配置：username
         TemplateMakerModelConfig.ModelInfoConfig modelInfoConfig2 = new TemplateMakerModelConfig.ModelInfoConfig();
         modelInfoConfig2.setFieldName("username");
