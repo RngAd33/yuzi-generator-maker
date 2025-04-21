@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class MetaValidator {
 
     /**
-     * 校验
+     * 校验入口
      *
      * @param meta
      */
