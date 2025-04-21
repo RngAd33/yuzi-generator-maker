@@ -14,7 +14,7 @@ public class DataModel {
     public boolean loop;
 
     /**
-     * 是否生成 .gitignore 文件
+     * 是否生成 .gitignore
      */
     public boolean needGit = true;
 

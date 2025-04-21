@@ -4,6 +4,9 @@ import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 元数据成员变量
+ */
 @NoArgsConstructor
 @Data
 public class Meta {
