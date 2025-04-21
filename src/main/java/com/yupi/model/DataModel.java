@@ -24,7 +24,7 @@ public class DataModel {
     public MainTemplate mainTemplate = new MainTemplate();
 
     /**
-     * 生成核心模板文件
+     * 核心模板文件
      */
     @Data
     public static class MainTemplate {
