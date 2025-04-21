@@ -74,7 +74,13 @@ public class DynamicFileGenerator {
         return configuration.getTemplate(templateName);
     }
 
-    // 已废弃
+    /**
+     * 测试方法
+     *
+     * @param args
+     * @throws IOException
+     * @throws TemplateException
+     */
     public static void main(String[] args) throws IOException, TemplateException {
         String projectPath = System.getProperty("user.dir");
         String inputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
