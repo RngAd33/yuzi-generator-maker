@@ -15,14 +15,17 @@ public class MetaManager {
     // private final static Meta meta = initMeta();   // 饿汉式单例模式（本项目暂不采用）
 
     /**
-     * 获取meta
+     * 获取meta（双检锁机制，确保在多线程环境下只初始化一次Meta对象）
      * @return meta
      */
     public static Meta getMetaObject() {
-        // 双检锁机制
+        // 一检
         if (meta == null) {
+            // 加锁
             synchronized (MetaManager.class) {
+                // 二检
                 if (meta == null) {
+                    // 初始化meta（一次只有一个线程可以操作）
                     meta = initMeta();
                 }
             }

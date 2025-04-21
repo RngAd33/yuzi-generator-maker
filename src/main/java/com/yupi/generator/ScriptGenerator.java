@@ -10,7 +10,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
 
 /**
- * 运行脚本生成
+ * 生成运行脚本
  */
 public class ScriptGenerator {
 
@@ -61,7 +61,11 @@ public class ScriptGenerator {
         FileUtil.writeBytes(stringBuilder.toString().getBytes(StandardCharsets.UTF_8), outputPath);
     }
 
-    // 已废弃
+    /**
+     * 测试方法
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         String outputPath = System.getProperty("user.dir") + File.separator + "generator";
         doGenerate(outputPath, "");

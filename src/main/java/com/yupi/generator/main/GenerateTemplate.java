@@ -77,8 +77,7 @@ public abstract class GenerateTemplate {
     protected String buildJar(Meta meta, String outputPath) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
-        String jarPath = "target" + File.separator + jarName;
-        return jarPath;
+        return "target" + File.separator + jarName;
     }
 
     /**
