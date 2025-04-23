@@ -22,6 +22,14 @@ public class MainGenerator extends GenerateTemplate {
         System.out.println("——精简版程序不再包含dist部分——");
     }
 
+    /**
+     * 测试方法
+     *
+     * @param args
+     * @throws IOException
+     * @throws TemplateException
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws IOException, TemplateException, InterruptedException {
         MainGenerator mainGenerator = new MainGenerator();
         mainGenerator.doGenerate();   // 继承了GenerateTemplate.doGenerate()方法

@@ -3,7 +3,7 @@ package com.yupi.model;
 import lombok.Data;
 
 /**
- * 数据模型
+ * 数据模型（测试用）
  */
 @Data
 public class DataModel {

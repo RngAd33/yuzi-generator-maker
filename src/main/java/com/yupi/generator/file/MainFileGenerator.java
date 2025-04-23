@@ -37,7 +37,13 @@ public class MainFileGenerator {
         DynamicFileGenerator.doGenerate(dynamicInputPath, dynamicOutputPath, model);
     }
 
-    // 已废弃
+    /**
+     * 测试方法
+     * 
+     * @param args
+     * @throws TemplateException
+     * @throws IOException
+     */
     public static void main(String[] args) throws TemplateException, IOException {
         // 生成数据模型
         DataModel dataModel = new DataModel();
