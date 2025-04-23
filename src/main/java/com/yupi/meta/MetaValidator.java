@@ -29,7 +29,7 @@ public class MetaValidator {
     }
 
     /**
-     * fileConfig 校验
+     * FileConfig 校验
      *
      * @param meta
      */
@@ -40,8 +40,7 @@ public class MetaValidator {
         }
         // sourceRootPath（必填）
         String sourceRootPath = fileConfig.getSourceRootPath();
-        if (StrUtil.isBlank(sourceRootPath))
-        {
+        if (StrUtil.isBlank(sourceRootPath)) {
             throw new MetaException("——！未填写 sourceRootPath！——");
         }
 
